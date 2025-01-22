@@ -66,6 +66,116 @@ export async function getData(): Promise<Payment[]> {
         img:'place'
 
       },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
+        img:'place'
+
+      },
       // ...
     ]
   // Fetch data from your API here.
