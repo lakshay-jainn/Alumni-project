@@ -7,7 +7,7 @@ import {
   import { Menu, User } from "lucide-react";
   import { Card } from "@/components/ui/card";
   import { Button } from "@/components/ui/button";
-  import { NavLink } from "react-router-dom";
+  import { NavLink,Link } from "react-router-dom";
 
 
   const Navbar = () => {
@@ -40,10 +40,13 @@ import {
         </ul>
   
         <div className="flex items-center">
-          
+        <Link to='/profile'>
           <Button className=" flex justify-center items-center ml-2 mr-2 rounded-full aspect-square p-0 bg-[#95323d]   text-center ">
+            
             <User className="scale-125 text-center " />
+           
             </Button>
+            </Link>
   
           <div className="flex md:hidden mr-2 items-center gap-2">
             
