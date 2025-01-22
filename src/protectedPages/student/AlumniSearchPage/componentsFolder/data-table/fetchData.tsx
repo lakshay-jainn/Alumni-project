@@ -9,7 +9,8 @@ export async function getData(): Promise<Payment[]> {
         jobtitle: 'software engineer',
         company: 'google',
         course: 'BSC H CS',
-        batch: '2023-24'
+        batch: '2023-24',
+        img:'place'
 
       },
       {
@@ -18,7 +19,8 @@ export async function getData(): Promise<Payment[]> {
         jobtitle: 'software engineer',
         company: 'google',
         course: 'BSC H CS',
-        batch: '2023-24'
+        batch: '2023-24',
+        img:'place'
 
       },
       {
@@ -27,7 +29,8 @@ export async function getData(): Promise<Payment[]> {
         jobtitle: 'software engineerr',
         company: 'google',
         course: 'BSC H CSc',
-        batch: '2023-24'
+        batch: '2023-24',
+        img:'place'
 
       },
       {
@@ -36,7 +39,8 @@ export async function getData(): Promise<Payment[]> {
         jobtitle: 'software engineerrr',
         company: 'google',
         course: 'BSC H CS',
-        batch: '2023-24'
+        batch: '2023-24',
+        img:'place'
 
       },
       // ...

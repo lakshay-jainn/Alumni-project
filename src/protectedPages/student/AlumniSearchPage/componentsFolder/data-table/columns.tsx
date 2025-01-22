@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table"
- 
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
@@ -9,37 +9,47 @@ export type Payment = {
   company: string
   course: string
   batch: string
+  img:string
   
 }
-const filterFunction=(row, columnId, filterValue) => {
-  if (filterValue.length ===0) return true;
-  return filterValue.some((value) =>row.getValue(columnId).toLowerCase().includes(value.toLowerCase()))
-}
+
 export const columns: ColumnDef<Payment>[] = [
+  {
+    accessorKey: "img",
+    header: "",
+    cell: ({ row } : any) => (
+      <img src='/img_avatar.png'
+        className="w-[60px] aspect-square rounded-full inline-block"
+      />
+        
+      )
+
+  },
   {
     accessorKey: "name",
     header: "Name",
-    filterFn: filterFunction
+
   },
   {
     accessorKey: "jobtitle",
     header: "Job Title",
-    filterFn: filterFunction
+    className: "hidden xs:table-cell",
   },
   {
     accessorKey: "company",
     header: "Company",
-    filterFn: filterFunction
+    className: "hidden xs:table-cell",
+
   },
   {
     accessorKey: "course",
     header: "Course",
-    filterFn: filterFunction
+
   },
   {
     accessorKey: "batch",
     header: "Batch",
-    filterFn: filterFunction  
+
   },
   {
     accessorKey: "connect",
@@ -47,7 +57,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row } : any) => (
       <button
       onClick={()=>handleConnect(row.original)}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="px-4 py-2 hidden md:block bg-[#95323d]  w-full text-white rounded hover:bg-red-600  flex-wrap"
       >
         Connect
       </button>)
