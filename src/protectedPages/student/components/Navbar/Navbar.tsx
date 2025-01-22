@@ -57,28 +57,28 @@ import {
               </DropdownMenuTrigger>
   
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/'>
+              <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/'>
+                <DropdownMenuItem className="cursor-pointer">
                     Home
-                </NavLink>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                </NavLink>
                 <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/alumni-search'>
+                <DropdownMenuItem className="cursor-pointer">
                     Alumnis
-                </NavLink>
-                  
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                </NavLink>
                 <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/pricing'>
+                <DropdownMenuItem className="cursor-pointer">
                     Pricing
-                </NavLink>
-                  
+                
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                </NavLink>
                 <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/faq'>
+                <DropdownMenuItem className="cursor-pointer">
                     FAQ
-                </NavLink>
+                
                 </DropdownMenuItem>
+                </NavLink>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
