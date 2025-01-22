@@ -26,7 +26,7 @@ function AlumniSearch(){
     const filteredData = 
          data.filter((alumnus) => {
             const matchesBatch =
-                selectedBatches.length === 0 || selectedBatches.filter((batche) => batche===alumnus.batch);
+                selectedBatches.length === 0 || selectedBatches.includes(alumnus.batch);
             const matchesCourse =
               selectedCourses.length === 0 || selectedCourses.includes(alumnus.course);
             const matchesInterest =

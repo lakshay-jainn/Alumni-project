@@ -2,6 +2,9 @@ import { Payment } from "./columns.tsx"
 
  
 export async function getData(): Promise<Payment[]> {
+
+
+
     return [
       {
         id: '12',
@@ -40,6 +43,26 @@ export async function getData(): Promise<Payment[]> {
         company: 'google',
         course: 'BSC H CS',
         batch: '2023-24',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaasdhay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CSss',
+        batch: '2023-243',
+        img:'place'
+
+      },
+      {
+        id: '12',
+        name: 'aaashay',
+        jobtitle: 'software engineerrr',
+        company: 'google',
+        course: 'BSC H CS',
+        batch: '2023-244',
         img:'place'
 
       },
