@@ -65,7 +65,7 @@ const defaultValues: Partial<ProfileFormValues> = {
   ],
 };
 
-export default function EducationalDetails() {
+export default function ExperienceDetails() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,

@@ -27,7 +27,9 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 
 const profileFormSchema = z.object({
-  name:z.string(),
+  name:z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
   username: z
     .string()
     .min(2, {
@@ -65,7 +67,7 @@ const defaultValues: Partial<ProfileFormValues> = {
   ],
 };
 
-export default function EducationalDetails() {
+export default function SkillsDetails() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,

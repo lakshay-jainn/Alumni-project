@@ -17,7 +17,7 @@ function ProfilePage(){
             <div className='text-center grid grid-cols-3 gap-5 items-center justify-center '>
 
                 <ProfileCard 
-                href={'./personal-details'}
+                href={'./personal-details/'}
                 className={'col-span-3 md:col-span-1'} 
                 Icon={User} 
                 heading={'Personal Details'} 
@@ -31,7 +31,7 @@ function ProfilePage(){
                 text={'Add or modify your personal information such as your name, profile photo, address, email, password etc.'} />
 
                 <ProfileCard 
-                 href={'/experience-details/'}
+                 href={'./experience-details/'}
                 className={'col-span-3 md:col-span-1'} 
                 Icon={BriefcaseBusiness} 
                 heading={'Experience Details'} 
@@ -42,13 +42,13 @@ function ProfilePage(){
                 <div></div>
 
                 <ProfileCard 
-                 href={'/skills-details/'}
+                 href={'./skills-details/'}
                 className={'md:col-span-2 col-span-6'} 
                 Icon={Cpu} heading={'Skill Details'} 
                 text={'Add or modify your personal information such as your name, profile photo, address, email, password etc.'} />
        
                 <ProfileCard 
-                 href={'/employment-details/'}
+                 href={'./employment-details/'}
                 className={'md:col-span-2 col-span-6'} 
                 Icon={Newspaper} 
                 heading={'Employment Details'} 
