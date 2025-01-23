@@ -1,5 +1,5 @@
 import './ProfilePage.module.css'
-import {User,GraduationCap,BaggageClaim,BriefcaseBusiness,Newspaper,Cpu} from 'lucide-react'
+import {User,GraduationCap,BriefcaseBusiness,Newspaper,Cpu} from 'lucide-react'
 import ProfileCard from './components/ProfileCard';
 function ProfilePage(){
     return(
@@ -17,21 +17,21 @@ function ProfilePage(){
             <div className='text-center grid grid-cols-3 gap-5 items-center justify-center '>
 
                 <ProfileCard 
-                href={'/profile/'}
+                href={'./personal-details'}
                 className={'col-span-3 md:col-span-1'} 
                 Icon={User} 
                 heading={'Personal Details'} 
                 text={'Add or modify your personal information such as your name, profile photo, address, email, password etc.'} />
                
                 <ProfileCard 
-                 href={'/profile/'}
+                 href={'./educational-details/'}
                 className={'col-span-3 md:col-span-1'} 
                 Icon={GraduationCap} 
                 heading={'Educational Details'} 
                 text={'Add or modify your personal information such as your name, profile photo, address, email, password etc.'} />
 
                 <ProfileCard 
-                 href={'/profile/'}
+                 href={'/experience-details/'}
                 className={'col-span-3 md:col-span-1'} 
                 Icon={BriefcaseBusiness} 
                 heading={'Experience Details'} 
@@ -42,13 +42,13 @@ function ProfilePage(){
                 <div></div>
 
                 <ProfileCard 
-                 href={'/profile/'}
+                 href={'/skills-details/'}
                 className={'md:col-span-2 col-span-6'} 
                 Icon={Cpu} heading={'Skill Details'} 
                 text={'Add or modify your personal information such as your name, profile photo, address, email, password etc.'} />
        
                 <ProfileCard 
-                 href={'/profile/'}
+                 href={'/employment-details/'}
                 className={'md:col-span-2 col-span-6'} 
                 Icon={Newspaper} 
                 heading={'Employment Details'} 
@@ -58,6 +58,7 @@ function ProfilePage(){
                 <div></div>
             </div>
             </div>
+            
         </div>
     );
     
