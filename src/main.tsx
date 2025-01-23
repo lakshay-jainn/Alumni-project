@@ -13,7 +13,7 @@ import Register from './pages/registerpage/Register.tsx';
 const router= createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path='/login' element={<Login />} />
+      <Route path='/login' element= {<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/' element={<StudentPage />} >
         <Route path='' element={<HomePage />} />

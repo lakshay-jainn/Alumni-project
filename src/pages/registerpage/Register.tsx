@@ -1,12 +1,14 @@
 
-import {Link} from "react-router-dom";
+import {Link , useNavigate} from "react-router-dom";
 import {useState} from 'react';
+import axios from "axios";
 
 import { FormEvent } from 'react';
 import styles from '../loginregister.module.css';
 
 function Register() {
 	const [isAlumni, setIsAlumni] = useState(true);
+  const navigation = useNavigate()
 	const handleToggle = (isAlumniSelected: boolean) => {
 		setIsAlumni(isAlumniSelected);
 	  };
@@ -14,14 +16,34 @@ function Register() {
       event.preventDefault();
    
       const formData = new FormData(event.currentTarget);
+      const username =formData.get('username');
       const email=formData.get('email');
       const password=formData.get('password');
       const confirmPassword=formData.get('confirmPassword');
-      console.table([email,password,confirmPassword,isAlumni]);
-      // const response = await fetch('/api/submit', {
-      //   method: 'POST',
-      //   body: formData,
-      // })
+
+      // if (password === confirmPassword){
+      //   console.table([email,password,confirmPassword,isAlumni]);
+      // }
+      // assuming all fields are checked lakshay do it buddy
+
+
+
+
+      // Write all logic before proceding to this try .... like username validation , email , pass and con pass
+      try {
+        await axios.post("http://localhost:8080/api/v1/user/signup" , {
+          username,
+          email,
+          password
+        }).then(()=>{
+          navigation("/")
+        })
+ 
+        
+      }
+      catch(e){
+        console.log("Error occured on hitting api ",e)
+      }
     };
       
       
@@ -66,6 +88,9 @@ function Register() {
           </div>
           <div className={styles["form-inner"]}>
           <form onSubmit={onSubmit} className={styles["signup"]}>
+              <div className={styles["field"]}>
+                <input type="text" name='username' placeholder="Username" required />
+              </div>
               <div className={styles["field"]}>
                 <input type="text" name='email' placeholder="Email Address" required />
               </div>
