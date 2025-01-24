@@ -2,13 +2,14 @@
 import {Link , useNavigate} from "react-router-dom";
 import {useState} from 'react';
 import axios from "axios";
-
 import { FormEvent } from 'react';
 import styles from '../loginregister.module.css';
-
+import { AuthContext } from "@/AuthContext";
+import { useContext } from "react";
 function Register() {
+  const {setIsLoggedIn,setToken} = useContext(AuthContext)!;
 	const [isAlumni, setIsAlumni] = useState(true);
-  const navigation = useNavigate()
+  const navigate = useNavigate()
 	const handleToggle = (isAlumniSelected: boolean) => {
 		setIsAlumni(isAlumniSelected);
 	  };
@@ -31,15 +32,25 @@ function Register() {
 
       // Write all logic before proceding to this try .... like username validation , email , pass and con pass
       try {
-        await axios.post("http://localhost:8080/api/v1/user/signup" , {
+        const response= await axios.post("http://localhost:8080/api/v1/user/signup" , {
+          withCredentials:true,
           username,
           email,
           password
-        }).then(()=>{
-          navigation("/")
         })
- 
-        
+
+        const data=response.data;
+
+        if (response.status === 200){
+          const token = data.token;
+          localStorage.setItem("token",token)
+          setIsLoggedIn(true)
+          setToken(token)
+          navigate("/")
+        }
+        else{
+        console.log(data.message)
+        }
       }
       catch(e){
         console.log("Error occured on hitting api ",e)
@@ -110,7 +121,7 @@ function Register() {
                 <input type="submit" value="Signup" />
               </div>
               <div className={styles["signup-link"]}>
-                Already registered? <Link to='/login'>Login here!</Link>
+                Already registered? <Link to='/auth/login'>Login here!</Link>
               </div>
             </form>
 

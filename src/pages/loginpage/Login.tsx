@@ -4,10 +4,16 @@ import { useState } from "react";
 import { FormEvent } from "react";
 import styles from "../loginregister.module.css";
 import axios from "axios";
+import { useContext } from "react";
+import {AuthContext} from "@/AuthContext";
 
 function Login() {
+  const {setIsLoggedIn , setToken} = useContext(AuthContext)!;
+
   const navigate = useNavigate()
   const BACKEND_URL = "http://localhost:8080/api/v1/user/signin";
+
+
   const [isAlumni, setIsAlumni] = useState(true);
   const handleToggle = (isAlumniSelected: boolean) => {
     setIsAlumni(isAlumniSelected);
@@ -23,11 +29,24 @@ function Login() {
     console.table([email, password, isAlumni]);
 
     try {
-      await axios.post(BACKEND_URL, {
+      const response= await axios.post(BACKEND_URL, {
+        withCredentials: true,
         email,
         password,
       });
-      navigate("/")
+      const data=response.data;
+
+      if (response.status === 200){
+        const token = data.token;
+        localStorage.setItem("token",token)
+        console.log(token)
+        setIsLoggedIn(true)
+        setToken(token)
+        navigate("/")
+      }else{
+        console.log(data.message)
+      }
+      
     } catch (e) {
       throw new Error("Login failed. Please try again")
     }
@@ -101,7 +120,7 @@ function Login() {
                 <input type="submit" value="Login" />
               </div>
               <div className={styles["signup-link"]}>
-                Not a member? <Link to="/register">Signup now</Link>
+                Not a member? <Link to="/auth/register">Signup now</Link>
               </div>
             </form>
           </div>

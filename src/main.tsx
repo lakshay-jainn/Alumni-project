@@ -14,26 +14,34 @@ import SkillsDetails from './protectedPages/student/ProfilePage/details-update/E
 import EmploymentDetails from './protectedPages/student/ProfilePage/details-update/EditForms/EmploymentDetails.tsx';
 import Login from './pages/loginpage/Login.tsx';
 import Register from './pages/registerpage/Register.tsx';
+import AuthProvider from './AuthContext.tsx';
+import ProtectedRoute from './protectedPages/ProtectedRoute.tsx';
+import UnprotectedRoute from './pages/UnprotectedRoute.tsx';
 
 const router= createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path='/login' element= {<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/' element={<StudentPage />} >
-        <Route path='' element={<HomePage />} />
-        <Route path='alumni-search' element={<AlumniSearchPage />} />
-        <Route path='profile' element={<ProfilePage />} />
-        <Route path='profile' element={<EditPage />}>
-          <Route path='personal-details' element={<PersonalDetails />} />
-          <Route path='educational-details' element={<EducationalDetails />} />
-          <Route path='experience-details' element={<ExperienceDetails />} />
-          <Route path='skills-details' element={<SkillsDetails />} />
-          <Route path='employment-details' element={<EmploymentDetails />} />
+      <Route path='/auth' element={<UnprotectedRoute />}>
+        <Route path='login' element= {<Login />} />
+        <Route path='register' element={<Register />} />
+      </Route>
+
+      <Route path='/' element={<ProtectedRoute />}>
+        <Route path='/' element={<StudentPage />} >
+          <Route path='/' element={<HomePage />} />
+          <Route path='alumni-search' element={<AlumniSearchPage />} />
+          <Route path='profile' element={<ProfilePage />} />
+          <Route path='profile' element={<EditPage />}>
+            <Route path='personal-details' element={<PersonalDetails />} />
+            <Route path='educational-details' element={<EducationalDetails />} />
+            <Route path='experience-details' element={<ExperienceDetails />} />
+            <Route path='skills-details' element={<SkillsDetails />} />
+            <Route path='employment-details' element={<EmploymentDetails />} />
+          </Route>
         </Route>
-        
 
       </Route>
+
     </Route>
   )
 )
@@ -41,6 +49,8 @@ const router= createBrowserRouter(
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
