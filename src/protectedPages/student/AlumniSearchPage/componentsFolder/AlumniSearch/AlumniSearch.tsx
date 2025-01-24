@@ -4,7 +4,10 @@ import {getData} from '../data-table/fetchData.tsx'
 import { DataTable } from "../data-table/DataTable.tsx"
 import { useEffect, useState } from 'react';
 import { Combobox } from '@/components/ui/combobox.tsx';
+import { useContext } from "react";
+import { AuthContext } from "@/AuthContext.tsx";
 function AlumniSearch(){
+    const {token} =useContext(AuthContext)!;
     const [data,setData]=useState<Payment[]>([]);
     const [selectedBatches, setSelectedBatches] = useState<Array<any>>([]);
     const [selectedCourses, setSelectedCourses] = useState<Array<any>>([]);
@@ -12,14 +15,14 @@ function AlumniSearch(){
     
     
     useEffect(() => {
-        const fetchData = async () => {
-            const response : Payment[] = await getData();
+        const fetchData = async (token : (string | boolean | null)) => {
+            const response : Payment[] = await getData(token);
             setData(response); 
     
   
     };
         
-        fetchData();
+        fetchData(token);
 
     }, []);
 

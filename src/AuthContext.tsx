@@ -28,6 +28,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (storedToken) {
             setToken(storedToken);
             setIsLoggedIn(true);
+      
           }
           else {
             setToken(false)
@@ -40,6 +41,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       setIsLoggedIn(false)
     }
   if (token !== null){
+
   return (
     <AuthContext.Provider value={{ token, setToken, isLoggedIn, setIsLoggedIn ,Logout}}>
       {children}
