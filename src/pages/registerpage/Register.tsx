@@ -1,19 +1,18 @@
 
 import {Link , useNavigate} from "react-router-dom";
 import {useState} from 'react';
-import axios from "axios";
 import { FormEvent } from 'react';
 import styles from '../loginregister.module.css';
-import { AuthContext } from "@/AuthContext";
-import { useContext } from "react";
+import useGlobalAuth from "@/Auth/useGlobalAuth";
 function Register() {
-  const {setIsLoggedIn,setToken} = useContext(AuthContext)!;
+  const {Login} = useGlobalAuth();
 	const [isAlumni, setIsAlumni] = useState(true);
   const navigate = useNavigate()
 	const handleToggle = (isAlumniSelected: boolean) => {
 		setIsAlumni(isAlumniSelected);
 	  };
-    async function onSubmit(event: FormEvent<HTMLFormElement>) {
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
       event.preventDefault();
    
       const formData = new FormData(event.currentTarget);
@@ -31,29 +30,40 @@ function Register() {
 
 
       // Write all logic before proceding to this try .... like username validation , email , pass and con pass
+
       try {
-        const response= await axios.post("http://localhost:8080/api/v1/user/signup" , {
-          withCredentials:true,
-          username,
-          email,
-          password
+        const response= await fetch("http://localhost:8080/api/v1/user/signup" , {
+          method:"POST",
+          headers: {
+            "Content-Type": "application/json", 
+          },
+          body:JSON.stringify({
+            username:username,
+            email:email,
+            password:password,
+            isAlumni:isAlumni,
+
+          })
+          
         })
 
-        const data=response.data;
-
-        if (response.status === 200){
+        const data=await response.json();
+        console.log(data)
+        if (response.ok){
           const token = data.token;
-          localStorage.setItem("token",token)
-          setIsLoggedIn(true)
-          setToken(token)
+          Login(token)
           navigate("/")
         }
         else{
-        console.log(data.message)
+          throw new Error(data.message)
         }
       }
       catch(e){
-        console.log("Error occured on hitting api ",e)
+        if (e instanceof Error){
+          console.log(e.message)
+        }else{
+         console.log("Error occured on hitting api ",e)}
+       
       }
     };
       

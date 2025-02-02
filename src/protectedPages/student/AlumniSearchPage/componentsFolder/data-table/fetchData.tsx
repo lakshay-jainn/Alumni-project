@@ -5,7 +5,6 @@ import axios from "axios";
 export async function getData(token:  (string | boolean | null) ): Promise<Payment[]> {
 
   const BACKEND_URL = "http://localhost:8080/api/v1/alumni-student/showallalumni";
-  console.log(token)
     try {
       const res= await axios.get(BACKEND_URL, {
         headers: {
@@ -29,17 +28,7 @@ export async function getData(token:  (string | boolean | null) ): Promise<Payme
     } catch (e) {
       // throw new Error(". Please try again")
     }
-
-    return [{
-      id:'',
-      name:'',
-      jobtitle:'',
-      company:'',
-      batch:'',
-      course:'',
-      img:'',
-    }];
-  
+    return Promise.reject('Data not found')
 }
 
  

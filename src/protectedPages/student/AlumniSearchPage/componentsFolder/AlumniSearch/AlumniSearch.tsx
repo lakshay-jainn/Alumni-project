@@ -5,7 +5,7 @@ import { DataTable } from "../data-table/DataTable.tsx"
 import { useEffect, useState } from 'react';
 import { Combobox } from '@/components/ui/combobox.tsx';
 import { useContext } from "react";
-import { AuthContext } from "@/AuthContext.tsx";
+import { AuthContext } from "@/Auth/AuthContext.tsx";
 function AlumniSearch(){
     const {token} =useContext(AuthContext)!;
     const [data,setData]=useState<Payment[]>([]);

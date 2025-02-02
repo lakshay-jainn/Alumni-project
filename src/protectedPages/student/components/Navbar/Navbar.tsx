@@ -9,7 +9,7 @@ import {
   import { Button } from "@/components/ui/button";
   import { NavLink,Link } from "react-router-dom";
 
-import { AuthContext } from "@/AuthContext";
+import { AuthContext } from "@/Auth/AuthContext";
 import { useContext } from "react";
 import {useNavigate} from 'react-router-dom'
 

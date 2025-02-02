@@ -4,11 +4,10 @@ import { useState } from "react";
 import { FormEvent } from "react";
 import styles from "../loginregister.module.css";
 import axios from "axios";
-import { useContext } from "react";
-import {AuthContext} from "@/AuthContext";
+import useGlobalAuth from "@/Auth/useGlobalAuth";
 
 function Login() {
-  const {setIsLoggedIn , setToken} = useContext(AuthContext)!;
+  const {Login} = useGlobalAuth()!;
 
   const navigate = useNavigate()
   const BACKEND_URL = "http://localhost:8080/api/v1/user/signin";
@@ -29,26 +28,35 @@ function Login() {
     console.table([email, password, isAlumni]);
 
     try {
-      const response= await axios.post(BACKEND_URL, {
-        withCredentials: true,
-        email,
-        password,
-      });
-      const data=response.data;
+      const response= await fetch(BACKEND_URL, {
+        method:"POST",
+        headers:{
+          "Content-Type": "application/json", 
+        },
+        body:JSON.stringify({
 
-      if (response.status === 200){
+          email:email,
+          password:password,
+          isAlumni:isAlumni,
+
+        })});
+      const data=await response.json();
+
+      if (response.ok){
         const token = data.token;
-        localStorage.setItem("token",token)
-        console.log(token)
-        setIsLoggedIn(true)
-        setToken(token)
-        navigate("/")
+        Login(token);
+        navigate("/");
       }else{
-        console.log(data.message)
+        throw new Error(data.message);
       }
       
     } catch (e) {
-      throw new Error("Login failed. Please try again")
+      if (e  instanceof Error){
+        console.log(e.message)
+      }
+      else{
+        console.log(e);
+      }
     }
     
   }

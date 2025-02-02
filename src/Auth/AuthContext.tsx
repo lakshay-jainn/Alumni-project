@@ -1,11 +1,10 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-
+import { setLogout } from "@/api/axios/AuthBridge"
 // Define the type for the context value
 type AuthContextType = {
   token: string | null | boolean;
-  setToken: (token: string | null | boolean) => void;
   isLoggedIn: boolean;
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
+  Login : (token : string )=> void;
   Logout: ()=>void;
 };
 
@@ -25,28 +24,46 @@ function AuthProvider({ children }: AuthProviderProps) {
   // Check for token in localStorage on component mount
   useEffect(() => {
     const storedToken= localStorage.getItem("token");
+
     if (storedToken) {
             setToken(storedToken);
+            GlobalStorage.setToken(storedToken);
             setIsLoggedIn(true);
-      
+
           }
           else {
             setToken(false)
           }
     
+    setLogout(Logout);
     }, []);
+
+
   const Logout=()=>{
       localStorage.removeItem("token")
       setToken(false)
       setIsLoggedIn(false)
     }
+  const Login = (token : string) => {
+      localStorage.setItem("token",token)
+      setIsLoggedIn(true)
+      setToken(token)
+    }
+
   if (token !== null){
 
   return (
-    <AuthContext.Provider value={{ token, setToken, isLoggedIn, setIsLoggedIn ,Logout}}>
+    <AuthContext.Provider value={{ token, isLoggedIn , Login, Logout}}>
       {children}
     </AuthContext.Provider>
   );
 }}
 
 export default AuthProvider;
+
+
+let token : (string |  null) = null;
+export const GlobalStorage = {
+  setToken: (argtoken :string ) => { token = argtoken; },
+  getToken: () => token,
+};

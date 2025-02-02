@@ -1,11 +1,8 @@
-
-import {Link} from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form"
+import {  useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { cn } from "@/lib/utils"
-import { toast } from "@/hooks/use-toast"
+import { useState,useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -16,20 +13,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { profileDetailsPayload } from "@/api/types/profileDetailsTypes"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 
-const profileFormSchema = z.object({
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { useDropzone } from "react-dropzone";
+import { useEffect } from "react"
+import useFetchProfile from "@/api/hooks/useFetchProfile"
+import { updateProfileDetails } from "@/api/services/profileService"
+import { uploadImg } from '@/api/services/imageService'
+import { ImagePlus } from "lucide-react";
+import { toast,Toaster } from "sonner";
+
+import useGlobalAuth from "@/Auth/useGlobalAuth";
+
+//basically using zod for form validation. here i am defining how my form data should be . 
+const profileFormSchema = z.object({  
+  image: z
+      //Rest of validations done via react dropzone
+      .instanceof(File)
+      // .refine((file) => file.size !== 0, "Please upload an image")
+      .optional(),
+
   name:z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+
+
   username: z
     .string()
     .min(2, {
@@ -38,82 +53,202 @@ const profileFormSchema = z.object({
     .max(30, {
       message: "Username must not be longer than 30 characters.",
     }),
+
+
+  DOB: z
+  .string()
+  .length(8, {message: "Date of birth must be exactly 8 digits (DDMMYYYY)"})
+  .regex(/^\d{8}$/, {message: "Date of birth must be 8 digits"})
+  .refine((val) => {
+    const day = parseInt(val.slice(0, 2), 10);
+    const month = parseInt(val.slice(2, 4), 10);
+    const year = parseInt(val.slice(4, 8), 10);
+    return (
+      day >= 1 && day <= 31 &&
+      month >= 1 && month <= 12 &&
+      year >= 1900 && year <= 2099
+    );
+  }, {message:"Invalid date of birth"}),
+
+
   email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
+    .string()
     .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
-      })
-    )
-    .optional(),
+
 })
 
+//now i am assigning the defined restrictions above to a type
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  name: "",
-  username: "",
-  email: "",
-  bio: "I own a computer.",
-  urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
-  ],
-};
+
+
+
 
 export default function PersonalDetails() {
+  const {token}=useGlobalAuth();
+  //this is the image preview url :- which will be visible on the image upload
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
+  //inital fetch
+  const [personalDetails,loading,error]=useFetchProfile();
+  
+
+  //useing the useform hook with type i defined above,also giving the initial default values before values fetch from api
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
-  })
+    defaultValues: {
+      name: "",
+      username: "",
+      DOB: "",
+      email: "",
+      image: new File([""], "filename"),
+    },
+    mode: "onBlur",
+  });
 
-  const { fields, append } = useFieldArray({
-    name: "urls",
-    control: form.control,
-  })
 
-  function onSubmit(data: ProfileFormValues) {
-    {console.log(JSON.stringify(data, null, 2))}
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  //upload functionality :- makes sure that uploaded image is shown to the user
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const reader = new FileReader();
+      try {
+        reader.onload = () => setPreview(reader.result);
+        reader.readAsDataURL(acceptedFiles[0]);
+        form.setValue("image", acceptedFiles[0]);
+        form.clearErrors("image");
+      } catch (error) {
+        setPreview(null);
+        form.resetField("image");
+      }
+    },
+    [form],
+  );
+
+  // some properties of upload functionality
+  const { getRootProps, getInputProps, isDragActive, fileRejections } =
+    useDropzone({
+      onDrop,
+      maxFiles: 1,
+      maxSize: 1000000,
+      accept: { "image/png": [], "image/jpg": [], "image/jpeg": [] },
+    });
+
+
+  //after initial fetch
+  useEffect(() => {
+    if (personalDetails) {
+     
+      const DOB=personalDetails.profile.DOB;
+      const day = DOB.slice(0, 2);
+      const month = DOB.slice(3, 5);
+      const year = DOB.slice(6, 10);
+      const formattedDOB = day+month+year;
+      
+      // here i am hydarating the form with the default values came from backend. if a user already have a name. it will show in that feild
+      form.reset({
+        name: personalDetails.profile.name,
+        username: personalDetails.profile.username,
+        DOB: formattedDOB,
+        email: personalDetails.profile.email,
+        image:new File([""], "filename"),
+      });
+      setPreview(personalDetails.profile.image)
+    }
+  }, [personalDetails, form]);
+
+    
+  
+
+  //this ensures the dob is converted in the appropriate format and all the values are submitted to backend via update function
+  async function onSubmit(data : ProfileFormValues) {
+    const formattedDOB = `${data.DOB.slice(0, 2)}-${data.DOB.slice(2, 4)}-${data.DOB.slice(4, 8)}`;
+    
+    // Original fetched details for comparison
+    const originalDetails = {
+      name: personalDetails!.profile.name,
+      username: personalDetails!.profile.username,
+      DOB: personalDetails!.profile.DOB,
+      email: personalDetails!.profile.email,
+    };
+    
+    // Compare and find the changed fields
+    const updatedFields: profileDetailsPayload = {};
+    
+    if (data.name !== originalDetails.name) {
+      updatedFields.name = data.name;
+    }
+    if (data.username !== originalDetails.username) {
+      updatedFields.username = data.username;
+    }
+    if (formattedDOB !== originalDetails.DOB) {
+      if (originalDetails.DOB===""){
+        updatedFields.DOB = formattedDOB;
+      } else{
+        toast.error("You can only update your date of birth once.")
+        return
+      }
+    }
+    if (data.email !== originalDetails.email) {
+      updatedFields.email = data.email;
+    }
+ 
+    if (data.image && data.image.size !== 0){
+      let profileImageUrl;
+      try{
+        const profileImage=await uploadImg('profileImg',data.image);
+        profileImageUrl=profileImage;
+      }catch(e){
+        if (e instanceof Error){
+          toast.error(e.message)
+          return;
+        }
+        toast.error(`${e}`)
+        return;
+      }
+      
+      updatedFields.image = profileImageUrl;
+    }
+    console.log(updatedFields)
+    // If no fields were updated, avoid making an API call
+    if (Object.keys(updatedFields).length === 0) {
+      toast.info("No changes were made to the profile.");
+      return;
+    }
+  
+    // Send the updated fields to the backend
+    try {
+      await updateProfileDetails(updatedFields);
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      if (error instanceof Error){
+        console.log(error.message);
+      }
+      toast.error("An error occurred while updating the profile");
+
+      
+    }
   }
 
+    
+
+
+  // during the api fetch
+  if (loading) { return (<div>Loading</div>)};
+  //if error in fetching
+  if (!loading && error){return (<div>{error.toString()}</div>)};
+  //successfully fetched
+  if (!loading && !error){
+    
+    
   return (
   
       
     <Form {...form}>
+
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+
+        {/*Name field*/}
+
+      <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
@@ -124,94 +259,156 @@ export default function PersonalDetails() {
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                pseudonym.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {/*username field*/}
+
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your username which you used during signup. <span className="text-red-600">You can only change this once every 30 days.</span>
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/*Email field*/}
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link to="/examples/forms">email settings</Link>.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />
+                <Input placeholder="shaddcn" {...field} />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                This is your public display name. It can be your real name or a
+                pseudonym.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: "" })}
-          >
-            Add URL
-          </Button>
-        </div>
-        <Button type="submit">Update profile</Button>
+
+        {/*Date of birth field. i have used shadcn's inputOTP component because it looks neat*/}
+
+        <FormField
+          control={form.control}
+          name="DOB"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date of Birth</FormLabel>
+              <FormControl >
+              <InputOTP    containerClassName={cn("flex-wrap")} maxLength={8} {...field} onChange={(value) => field.onChange(value)}
+          onBlur={() => form.trigger("DOB")} >
+              
+                    <InputOTPGroup>
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={0} />
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={1} />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={2} />
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={3} />
+                    
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={4} />
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={5} />
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={6} />
+                      <InputOTPSlot className="max-w-8 max-h-8 xs:max-w-full xs:max-h-full" index={7} />
+                    </InputOTPGroup>
+                </InputOTP>
+                
+              </FormControl>
+              <FormDescription>
+                This is your Date of Birth. <span className="text-red-600">You cannot edit this field after updation</span>
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+         <FormField
+          control={form.control}
+          name="image"
+          render={() => (
+            <FormItem className="md:w-max">
+              <FormLabel
+                className={`${
+                  fileRejections.length !== 0 && "text-destructive"
+                }`}
+              >
+                <h2 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Upload your image
+                  <span
+                    className={
+                      form.formState.errors.image || fileRejections.length !== 0
+                        ? "text-destructive"
+                        : "text-muted-foreground"
+                    }
+                  ></span>
+                </h2>
+              </FormLabel>
+              <FormControl>
+                <div
+                  {...getRootProps()}
+                  className="mx-auto flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-lg border border-foreground p-8 shadow-sm shadow-foreground"
+                >
+                  {preview && (
+                    <img
+                      src={preview as string}
+                      alt="Uploaded image"
+                      className="max-h-[300px] rounded-lg"
+                    />
+                  )}
+                  <ImagePlus
+                    className={`size-40 ${preview ? "hidden" : "block"}`}
+                  />
+                  <Input {...getInputProps()} type="file" />
+                  {isDragActive ? (
+                    <p>Drop the image!</p>
+                  ) : (
+                    <p>Click here or drag an image to upload it</p>
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage>
+                {fileRejections.length !== 0 && (
+                  <p>
+                    Image must be less than 1MB and of type png, jpg, or jpeg
+                  </p>
+                )}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        
+
+        <Toaster />
+        <Button disabled={form.formState.isSubmitting} type="submit">Update profile</Button>
       </form>
     </Form>
    
   )
 }
+}
+
+
+
