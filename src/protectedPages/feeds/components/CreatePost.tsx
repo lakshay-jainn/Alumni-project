@@ -102,11 +102,11 @@ export default function CreatePost(){
     return(
         
 
-        <section className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-[1095px] mx-auto px-5 py-3">
+        <section className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-2xl mx-auto px-5 py-3">
             <div className="flex gap-5 font-bold">    
                 <Link to='..' relative='path'>
                 <ChevronLeft />
-                </Link>
+                </Link> 
                 Create a Post
             </div>
             <Form {...form}>

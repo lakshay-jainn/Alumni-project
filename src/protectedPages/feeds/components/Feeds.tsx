@@ -4,7 +4,7 @@ import { InitialCommentsResponse,InitialFeedsResponse } from "@/api/types/FeedsT
 import { PostProps } from "@/protectedPages/feeds/components/post";
 import {SquarePlus} from 'lucide-react';
 import { Link } from "react-router-dom";
-
+import { SamplePost } from "@/pages/samplepage";
 
 export default function Feeds() {
   const [feeds,loading,error]=useFetchFeeds();
@@ -17,13 +17,13 @@ export default function Feeds() {
   return (
     <>
     <Link to='./create'>
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-[1095px] mx-auto px-5 py-3 flex justify-between font-bold ">
+            <div className="relative rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-2xl mx-auto px-5 py-3 flex justify-between font-bold ">
                 Create a new Post
                 <SquarePlus />
             </div>
       </Link>
 
-    <section className="container mx-auto py-2   ">
+    <section className="container mx-auto py-2  space-y-8 relative">
 
 
 
@@ -56,7 +56,7 @@ export default function Feeds() {
   
         }       
 
-        return( <Post key={post.id} {...post} />)
+        return( <SamplePost key={post.id} {...post} />)
   })}
     </section>
     </>
