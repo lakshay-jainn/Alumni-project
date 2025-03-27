@@ -5,10 +5,11 @@ import AlumniSearchPage from '../protectedPages/student/AlumniSearchPage/AlumniS
 import ProtectedRoute from '../components/routes/ProtectedRoute';
 import { FeedsRoutes } from './feedsRoutes';
 import { studentProfileRoutes } from './studentProfileRoutes';
+import  DashBoard  from '@/protectedPages/dashboard/DashBoard'
 export const StudentRoutes = (
   <Route path="/" element={<ProtectedRoute />}>
     <Route element={<StudentPage />}>
-      <Route index element={<HomePage />} />
+      <Route index element={<DashBoard />} />
       {FeedsRoutes}
       {studentProfileRoutes}
       <Route path="alumni-search" element={<AlumniSearchPage />} />
