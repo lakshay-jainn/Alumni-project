@@ -7,6 +7,12 @@ export interface InitialFeedsResponse{
     isLiked:boolean,
     comments:any,
     createdAt:string,
+    commentCount:number,
+
+}
+
+export interface InitialWhisperCommentsResponse{
+    
 
 }
 export interface InitialCommentsResponse {
@@ -16,4 +22,17 @@ export interface InitialCommentsResponse {
     user:any;
     likesCount:number,
     isLiked:boolean,
+    createdAt: Date
+}
+export interface InitialCommunitiesResponse{
+    id:string,
+    name:string,
+    description:string,
+    // post: Partial<InitialFeedsResponse>[]
+
+}
+export interface InitialUserDetailsResponse{
+    id:string,
+    username:string,
+    profileImage:string,
 }

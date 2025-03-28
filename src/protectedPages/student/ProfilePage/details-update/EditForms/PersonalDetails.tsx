@@ -194,7 +194,7 @@ export default function PersonalDetails() {
     if (data.image && data.image.size !== 0){
       let profileImageUrl;
       try{
-        const profileImage=await uploadImg('profileImg',data.image);
+        const profileImage=await uploadImg('profileImg',data.image,"/handle-media/profile-generate-upload-signature");
         profileImageUrl=profileImage;
       }catch(e){
         if (e instanceof Error){
