@@ -1,9 +1,9 @@
 import axios from "axios";
 import axiosClient from "../axios/axiosClient";
-export async function uploadImg(ToFolder:string ,image:any){
+export async function uploadImg(ToFolder:string ,image:any,api:string){
     // 1. Get upload signature from backend
     const { publicId,signature, timestamp, folder, cloudName, apiKey } = await axiosClient.post(
-      "/generate-upload-signature",
+      api,
       {
         folder: ToFolder,
        
@@ -18,7 +18,6 @@ export async function uploadImg(ToFolder:string ,image:any){
     formData.append("signature", signature);
     formData.append("folder", folder);
     formData.append("public_id", publicId);
-    formData.append("moderation", "webpurify");
 
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,

@@ -125,7 +125,8 @@ export function SinglePost({
     <>
     {/*max-w-[1095px]*/}
     {/* onDoubleClick={handleDoubleClick} onTouchEnd={handleTouchEnd} */}
-    <Card  className="w-full mx-auto rounded-[2rem] gradient-border">
+    {/* w-full mx-auto */}
+    <Card  className="max-h-max rounded-[2rem] gradient-border">
       <CardHeader className="flex flex-row items-center gap-4 border-b pb-4 space-y-0">
       
         <Avatar>
@@ -148,7 +149,8 @@ export function SinglePost({
         )} */}
         </div>
       </CardHeader>
-      <div className={`flex flex-col h-full lg:flex-col `}>
+      {/* h-full */}
+      <div className={`flex flex-col lg:flex-col `}>
         <div className="cursor-pointer" onClick={PostClick} >
         <div className="p-4">
             <p className="text-xl mb-4">{caption}</p>
@@ -160,8 +162,9 @@ export function SinglePost({
             alt="Post image"
             width={600}
             height={600}
-            className="w-full h-auto object-cover"
+            className="h-auto object-cover"
           />
+          {/* w-full */}
         </div>
         ) }
         </div>

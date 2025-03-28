@@ -17,7 +17,7 @@ export default function useFetchSingleFeed({postId} : {postId : (string | undefi
             try{
                 let response;
 
-                    response=await axiosClient.get(`/post/${postId}`)
+                    response=await axiosClient.get(`/posts/${postId}`)
 
                 const data=response.data;
                 setSingleFeed(data);

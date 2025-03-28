@@ -43,7 +43,6 @@ const profileFormSchema = z
 
   
 export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} : {setCreatePostModal?:(value:boolean)=>void,setFetchAgain:(value: (newValue : boolean)=>boolean )=>void}){
-    const {isLoggedIn} = useGlobalAuth();
     const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
     const inputFileRef = useRef<HTMLInputElement | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -116,24 +115,24 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
 
             const updatedFields: postUploadPayload = {};
             if (data.image && data.image.size !== 0){
-              try{
-                console.log(data.image)
-                const response=await checkImageToxicity(acceptedFiles[0]);
-                // toast.success(response)
-                console.log(response)
-                if(response.label ==='QUESTIONABLE' || response.label === 'UNSAFE' || (response.label === 'SAFE' && response.confidence < 90)){
-                  toast.error(`Image is offensive or inappropriate. \n\n    Label: ${response.label} Confidence Level: ${Math.floor(response.confidence)}%`)
-                  return
-                }
-              } catch (error){
-                const errorMessage=handleApiError(error)
-                toast.error(errorMessage.message)
-                return;
-              }
+              // try{
+              //   console.log(data.image)
+              //   const response=await checkImageToxicity(acceptedFiles[0]);
+              //   // toast.success(response)
+              //   console.log(response)
+              //   if(response.label ==='QUESTIONABLE' || response.label === 'UNSAFE' || (response.label === 'SAFE' && response.confidence < 90)){
+              //     toast.error(`Image is offensive or inappropriate. \n\n    Label: ${response.label} Confidence Level: ${Math.floor(response.confidence)}%`)
+              //     return
+              //   }
+              // } catch (error){
+              //   const errorMessage=handleApiError(error)
+              //   toast.error(errorMessage.message)
+              //   return;
+              // }
 
               let profileImageUrl;
               try{
-                const profileImage=await uploadImg('posts',data.image);
+                const profileImage=await uploadImg('posts',data.image,"/handle-media/feeds-generate-upload-signature");
                 profileImageUrl=profileImage;
               }catch(e){
                 if (e instanceof Error){
@@ -170,7 +169,7 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
     return(
         
 
-        <section className="rounded-2xl w-full mx-auto px-5 py-3 mb-5 gradient-border">
+        <section className="rounded-2xl w-full mx-auto px-5 py-3 mb-5 border-2">
 
             <Form {...form}>
 
