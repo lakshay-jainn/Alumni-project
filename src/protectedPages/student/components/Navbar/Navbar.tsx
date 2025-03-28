@@ -25,7 +25,7 @@ import {useNavigate} from 'react-router-dom'
         <p className="font-bold">Alumni | Connect</p>
         
         <ul className="hidden md:flex items-center gap-10 text-card-foreground">
-        <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/'>
+        <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/dashboard'>
           <li className="text-primary">
             Home
           </li>
@@ -35,14 +35,9 @@ import {useNavigate} from 'react-router-dom'
             Alumnis
           </li>
           </NavLink>
-          <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/pricing'>
+          <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/feeds'>
           <li className="text-primary">
-            Pricing
-          </li>
-          </NavLink>
-          <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/faq'>
-          <li className="text-primary">
-            FAQs
+            Feeds
           </li>
           </NavLink>
         </ul>
@@ -74,7 +69,7 @@ import {useNavigate} from 'react-router-dom'
               </DropdownMenuTrigger>
   
               <DropdownMenuContent align="end">
-              <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/'>
+              <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/dashboard'>
                 <DropdownMenuItem className="cursor-pointer">
                     Home
                 </DropdownMenuItem>
@@ -84,21 +79,14 @@ import {useNavigate} from 'react-router-dom'
                     Alumnis
                 </DropdownMenuItem>
                 </NavLink>
-                <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/pricing'>
+                <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/feeds'>
                 <DropdownMenuItem className="cursor-pointer">
-                    Pricing
-                
-                </DropdownMenuItem>
-                </NavLink>
-                <NavLink  className={({ isActive }: { isActive: boolean }) => isActive ? "font-medium" : "" } to='/faq'>
-                <DropdownMenuItem className="cursor-pointer">
-                    FAQ
-                
+                    Feeds
                 </DropdownMenuItem>
                 </NavLink>
                 <DropdownMenuItem className="cursor-pointer">
                 <Button onClick={()=>{Logout();navigate('/auth/login')}}  className=" md:hidden w-full  rounded-lg p-2 bg-[#95323d] text-center ">
-                  Logout
+                    Logout
                 </Button>
                 
                 </DropdownMenuItem>

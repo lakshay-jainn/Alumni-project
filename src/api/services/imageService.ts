@@ -1,10 +1,9 @@
 import axios from "axios";
 import axiosClient from "../axios/axiosClient";
-
-export async function uploadImg(ToFolder:string ,image:any){
+export async function uploadImg(ToFolder:string ,image:any,api:string){
     // 1. Get upload signature from backend
-    const { userId,signature, timestamp, folder, cloudName, apiKey } = await axiosClient.post(
-      "/handle-media/generate-upload-signature",
+    const { publicId,signature, timestamp, folder, cloudName, apiKey } = await axiosClient.post(
+      api,
       {
         folder: ToFolder,
        
@@ -18,8 +17,7 @@ export async function uploadImg(ToFolder:string ,image:any){
     formData.append("timestamp", timestamp.toString());
     formData.append("signature", signature);
     formData.append("folder", folder);
-    formData.append("public_id", userId);
-    
+    formData.append("public_id", publicId);
 
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
@@ -38,3 +36,13 @@ export async function uploadImg(ToFolder:string ,image:any){
 
 }
 
+export async function checkImageToxicity(file:File){
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await axios.post("http://127.0.0.1:5000/api/v1/img_toxicity", formData,{
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
+});
+  return response.data;
+}

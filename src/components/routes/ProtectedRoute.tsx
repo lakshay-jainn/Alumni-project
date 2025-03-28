@@ -9,7 +9,7 @@ function ProtectedRoute(){
         return (<Outlet />)
 
     }else{
-        return(<Navigate to='/auth/login' replace />)
+        return(<Navigate to='/' replace />)
     }
 }
 export default ProtectedRoute

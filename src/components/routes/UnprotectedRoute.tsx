@@ -9,7 +9,7 @@ function UnprotectedRoute(){
 
     }else{
         
-        return(<Navigate to='/' replace />)
+        return(<Navigate to='/dashboard' replace />)
     }
 }
 export default UnprotectedRoute;
