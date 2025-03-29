@@ -12,70 +12,83 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-12">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gradient-to-b from-gray-600 to-gray-700 text-white py-16">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* About Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">About Us</h3>
-            <p className="text-gray-300 text-sm">
-            Hansraj College, University of Delhi  
-Established in 1948, Hansraj College is one of the most prestigious institutions in India, known for its academic excellence, vibrant campus life, and holistic development. With a legacy of producing global leaders and innovators, the college continues to inspire generations through its commitment to education and social responsibility.
+          <div className="transform hover:translate-y-[-5px] transition-transform duration-300">
+            <h3 className="text-xl font-bold mb-5 border-b border-gray-500 pb-2 inline-block">About Us</h3>
+            <p className="text-gray-200 text-sm leading-relaxed">
+              Established in 1948, Hansraj College, University of Delhi, is one of India's most prestigious institutions, known for its academic excellence, vibrant campus life, and commitment to holistic development. It has a legacy of producing global leaders and innovators while inspiring generations through education and social responsibility.
             </p>
           </div>
 
           {/* Quick Links Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="hover:text-purple-300 flex items-center">Home</a></li>
-              <li><a href="#" className="hover:text-purple-300 flex items-center">About</a></li>
-              <li><a href="#" className="hover:text-purple-300 flex items-center">Events</a></li>
-              <li><a href="#" className="hover:text-purple-300 flex items-center">Contact</a></li>
+          <div className="transform hover:translate-y-[-5px] transition-transform duration-300">
+            <h3 className="text-xl font-bold mb-5 border-b border-gray-500 pb-2 inline-block">Quick Links</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="hover:text-gray-300 flex items-center transition-colors duration-200 group">
+                  <span className="w-0 h-0.5 bg-gray-300 group-hover:w-2 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="https://www.hansrajcollege.ac.in/events" className="hover:text-gray-300 flex items-center transition-colors duration-200 group">
+                  <span className="w-0 h-0.5 bg-gray-300 group-hover:w-2 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  Events
+                </a>
+              </li>
             </ul>
           </div>
 
           {/* Contact Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Contact Info</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center">
-                <Mail className="mr-2 h-5 w-5 text-purple-400" />
-                <span>Hansraj@gmail.com</span>
+          <div className="transform hover:translate-y-[-5px] transition-transform duration-300">
+            <h3 className="text-xl font-bold mb-5 border-b border-gray-500 pb-2 inline-block">Contact Info</h3>
+            <ul className="space-y-4">
+              <li className="flex items-center hover:translate-x-1 transition-transform duration-300">
+                <div className="bg-gray-600 p-2 rounded-lg shadow-md mr-3">
+                  <Mail className="h-5 w-5 text-white" />
+                </div>
+                <span>principal_hrc@yahoo.com</span>
               </li>
-              <li className="flex items-center">
-                <Phone className="mr-2 h-5 w-5 text-purple-400" />
-                <span>+91 987654xxxx</span>
+              <li className="flex items-center hover:translate-x-1 transition-transform duration-300">
+                <div className="bg-gray-600 p-2 rounded-lg shadow-md mr-3">
+                  <Phone className="h-5 w-5 text-white" />
+                </div>
+                <span>+91-11-27667747, +91-11-27667458</span>
               </li>
-              <li className="flex items-center">
-                <MapPin className="mr-2 h-5 w-5 text-purple-400" />
+              <li className="flex items-center hover:translate-x-1 transition-transform duration-300">
+                <div className="bg-gray-600 p-2 rounded-lg shadow-md mr-3">
+                  <MapPin className="h-5 w-5 text-white" />
+                </div>
                 <span>New Delhi</span>
               </li>
             </ul>
           </div>
 
           {/* Social Links Column */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Connect With Us</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-purple-300">
-                <Facebook className="h-6 w-6" />
+          <div className="transform hover:translate-y-[-5px] transition-transform duration-300">
+            <h3 className="text-xl font-bold mb-5 border-b border-gray-500 pb-2 inline-block">Connect With Us</h3>
+            <div className="flex space-x-5">
+              <a href="https://www.facebook.com/hrcduofficial" className="bg-gray-600 p-3 rounded-lg hover:bg-gray-500 transition-colors duration-300 shadow-lg">
+                <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-purple-300">
-                <Twitter className="h-6 w-6" />
+              <a href="https://x.com/hrcduofficial" className="bg-gray-600 p-3 rounded-lg hover:bg-gray-500 transition-colors duration-300 shadow-lg">
+                <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-purple-300">
-                <Linkedin className="h-6 w-6" />
+              <a href="https://www.linkedin.com/school/hansraj-college/" className="bg-gray-600 p-3 rounded-lg hover:bg-gray-500 transition-colors duration-300 shadow-lg">
+                <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-purple-300">
-                <Instagram className="h-6 w-6" />
+              <a href="https://www.instagram.com/hrcduofficial" className="bg-gray-600 p-3 rounded-lg hover:bg-gray-500 transition-colors duration-300 shadow-lg">
+                <Instagram className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-700 mt-8 pt-6 text-center">
+        <div className="border-t border-gray-500 mt-12 pt-8 text-center">
           <p className="flex justify-center items-center">
             <Copyright className="mr-2 h-4 w-4" />
             2025 University of Delhi Hansraj college, All Rights Reserved.
