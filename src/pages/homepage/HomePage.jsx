@@ -1,5 +1,6 @@
 import NavBar from "./components/Navbar";
-import { useEffect, useState } from "react";
+import CarouselPage from "./components/Crousel";
+import Footer from "./components/Footer";
 import React from "react";
 
 
@@ -19,15 +20,17 @@ function HomePage() {
                 </div>
             </div>
             <div className="mt-10 ">
-            <div className="m-2 flex flex-col items-center text-center border border-slate-300 rounded-lg  hover:text-black  py-2 px-3 hover:bg-gray-200 hover:shadow-xl hover:border-[4px] transition-colors">
+            <div className="m-2 flex flex-col items-center text-center border border-slate-300 rounded-lg  hover:text-black  py-2 px-3 hover:bg-gray-200 hover:shadow-xl hover:border-[2px] transition-colors">
                 <span className="text-5xl md:text-8xl font-extrabold text-gray-800 t-10 ">Overview</span>
                 <div className="m-5 text-base md:text-2xl max-w-6xl">
                     <p className="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem aliquid dolorem delectus consequatur, culpa atque in. Voluptatum doloribus sequi laborum magnam explicabo magni voluptatem reprehenderit ratione enim fugit! Ut, blanditiis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, vel eveniet autem ad quia quae fuga, earum libero quis necessitatibus dolore dolorum. Quo natus eveniet vero! Dolore obcaecati beatae quasi.</p>
                 </div>
             </div>
             </div>
-            
+            <CarouselPage />
+            <Footer />
         </div >
+    
     );
 }
 export default HomePage
