@@ -1,20 +1,7 @@
 import NavBar from "./components/Navbar";
-import AutoCarousel from "./components/AutoCarousel";
 import { useEffect, useState } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
-// const AutoCarousel = () => {
-//     const allSlides = 5;
-//     const [currentIndex, setCurrentIndex] = useState(0);
-//     useEffect (() => {
-//         const interval = setInterval(() => {
-//             setCurrentIndex((prevIndex) => (prevIndex+1)%allSlides);
-//         },4000);
-    
-//     return () => clearInterval(interval);  },
-// ),[]};
 
 function HomePage() {
     return (
@@ -31,24 +18,15 @@ function HomePage() {
                     </p>
                 </div>
             </div>
-            <AutoCarousel/>
-            {/* <Carousel className="w-full max-w-xs m-5">
-                <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                        <CarouselItem key={index}>
-                            <div className="p-1">
-                                <Card>
-                                    <CardContent className="flex aspect-square items-center justify-center p-6">
-                                        <span className="text-4xl font-semibold">{index + 1}</span>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel> */}
+            <div className="mt-10 ">
+            <div className="m-2 flex flex-col items-center text-center border border-slate-300 rounded-lg  hover:text-black  py-2 px-3 hover:bg-gray-200 hover:shadow-xl hover:border-[4px] transition-colors">
+                <span className="text-5xl md:text-8xl font-extrabold text-gray-800 t-10 ">Overview</span>
+                <div className="m-5 text-base md:text-2xl max-w-6xl">
+                    <p className="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem aliquid dolorem delectus consequatur, culpa atque in. Voluptatum doloribus sequi laborum magnam explicabo magni voluptatem reprehenderit ratione enim fugit! Ut, blanditiis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, vel eveniet autem ad quia quae fuga, earum libero quis necessitatibus dolore dolorum. Quo natus eveniet vero! Dolore obcaecati beatae quasi.</p>
+                </div>
+            </div>
+            </div>
+            
         </div >
     );
 }
