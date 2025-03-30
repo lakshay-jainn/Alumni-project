@@ -17,12 +17,12 @@ type Event = {
 };
 
 const CarouselPage = () => {
-  // Updated alumni data
+  // Updated alumni data with timestamp to prevent caching issues
   const alumniData: AlumniMember[] = [
     {
       id: 1,
       name: "Shah Rukh Khan",
-      image: "/images/shashrukh_khan.jpg",
+      image: `/images/shashrukh_khan.jpg?t=${new Date().getTime()}`,
       position: "Actor",
       graduationYear: "1988",
       achievement: "Bollywood superstar and global icon, graduated from Hansraj College."
@@ -30,7 +30,7 @@ const CarouselPage = () => {
     {
       id: 2,
       name: "D.K. Joshi",
-      image: "/images/D.K. Joshi.jpg",
+      image: `/images/D.K. Joshi.jpg?t=${new Date().getTime()}`,
       position: "Admiral",
       graduationYear: "1972",
       achievement: "Former Chief of Naval Staff of India."
@@ -38,7 +38,7 @@ const CarouselPage = () => {
     {
       id: 3,
       name: "Kushal Tandon",
-      image: "/images/kaushal_tandon.jpg",
+      image: `/images/kaushal_tandon.jpg?t=${new Date().getTime()}`,
       position: "Actor & Model",
       graduationYear: "2005",
       achievement: "Indian television actor known for various TV shows."
