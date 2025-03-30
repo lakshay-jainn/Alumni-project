@@ -111,9 +111,9 @@ const CarouselPage = () => {
           </div>
         </div>
 
-        {/* Carousel Section */}
+        {/* Carousel Section - Updated to be lengthier */}
         <div 
-          className="w-full h-80 relative rounded-lg shadow-md overflow-hidden"
+          className="w-full h-96 relative rounded-lg shadow-md overflow-hidden"
         >
           <div 
             className="flex h-full transition-transform duration-500 ease-in-out"
@@ -122,25 +122,28 @@ const CarouselPage = () => {
             {alumniData.map((alumni, index) => (
               <div key={alumni.id} className="min-w-full h-full flex flex-col items-center justify-center bg-gray-600 p-3">
                 <div className="flex flex-col bg-gray-700 rounded-lg w-full h-full border border-gray-500 overflow-hidden">
-                  {/* Image Section */}
-                  <div className="h-1/2 w-full relative">
+                  {/* Image Section - Made taller */}
+                  <div className="h-3/5 w-full relative flex items-center justify-center">
                     {!imageLoaded[index] && (
                       <div className="absolute h-full w-full bg-gray-500 animate-pulse flex items-center justify-center">
                         <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     )}
                     <img
-                      src={alumni.image}
-                      alt={alumni.name}
-                      className={`absolute h-full w-full object-cover transition-opacity ${imageLoaded[index] ? 'opacity-100' : 'opacity-0'}`}
-                      onLoad={() => handleImageLoad(index)}
-                      onError={() => handleImageLoad(index)}
-                    />
+                     src={alumni.image}
+                     alt={alumni.name}
+                     className={`absolute h-full w-full object-cover transition-opacity ${
+                       imageLoaded[index] ? 'opacity-100' : 'opacity-0'
+                     }`}
+                     style={{ objectPosition: 'center 25%' }} 
+                     onLoad={() => handleImageLoad(index)}
+                     onError={() => handleImageLoad(index)}
+                   /> 
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-700 to-transparent"></div>
                   </div>
                   
                   {/* Text Section */}
-                  <div className="h-1/2 p-3 overflow-y-auto">
+                  <div className="h-2/5 p-4 overflow-y-auto">
                     <h3 className="text-lg font-bold text-white mb-1">{alumni.name}</h3>
                     <div className="flex items-center mb-2 gap-2">
                       <span className="bg-white text-gray-800 px-2 py-1 rounded text-xs font-medium">
