@@ -17,7 +17,7 @@ type Event = {
 };
 
 const CarouselPage = () => {
-  // Updated alumni data
+  // Updated alumni data with timestamp to prevent caching issues
   const alumniData: AlumniMember[] = [
     {
       id: 1,
