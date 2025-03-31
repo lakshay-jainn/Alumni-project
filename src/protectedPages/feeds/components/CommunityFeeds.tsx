@@ -1,8 +1,8 @@
 import useFetchCommunityFeeds from "@/api/hooks/useFetchCommunityFeeds";
 import { InitialFeedsResponse } from "@/api/types/FeedsTypes";
 import { useState,useEffect , useCallback} from "react";
-import { PostProps } from "@/pages/feeds/components/SinglePost";
-import { SinglePost } from "@/pages/feeds/components/SinglePost";
+import { PostProps } from "./SinglePost";
+import { SinglePost } from "./SinglePost";
 import { FetchCommunityFeeds } from "@/api/services/feedsService";
 import useGlobalAuth from "@/Auth/useGlobalAuth";
 import { debounce } from 'lodash'

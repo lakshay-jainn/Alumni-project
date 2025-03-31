@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
-import {memo,useState,useMemo} from 'react'
+import {memo,useState,useMemo, useCallback} from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Comment } from "@/protectedPages/feeds/components/SinglePost";
 import { Button } from "@/components/ui/button"
@@ -51,13 +51,7 @@ const CommentItem = memo(({ comment, onLike }: { comment: Comment; onLike: (id: 
         </div>
       </div>
     );
-  }, (prevProps, nextProps) => {
-    // only redender this. when these props change
-    return prevProps.comment.id === nextProps.comment.id &&
-      prevProps.comment.likes === nextProps.comment.likes &&
-      prevProps.comment.isLiked === nextProps.comment.isLiked &&
-      prevProps.comment.content === nextProps.comment.content;
-  });
+  } )
   
   
   
@@ -65,6 +59,7 @@ const CommentItem = memo(({ comment, onLike }: { comment: Comment; onLike: (id: 
 const CommentsList = memo(({ sortedComments, toggleCommentLike  }: 
     { sortedComments: Comment[] ,
       toggleCommentLike: (id: string) => void }) => {
+        
     
       return (
         <div className="space-y-4">
@@ -97,7 +92,7 @@ const CommentsList = memo(({ sortedComments, toggleCommentLike  }:
           const [skipWhisperComments, setSkipWhisperComments] = useState(0);
           const [whisperSortBy, setWhisperSortBy] = useState<"recent" | "likes">("recent")
           const [isWhisperCommentsExpanded, setIsWhisperCommentsExpanded] = useState(false)
-
+          console.log(comments)
 
           const form = useForm<AddMessageValues>({
                 resolver: zodResolver(messageSchema),
@@ -182,16 +177,15 @@ const CommentsList = memo(({ sortedComments, toggleCommentLike  }:
                     ),
                   )
                 }
-
             const toggleCommentLike = (commentId: string) => {
-                    setComments(
-                      comments.map((comment) =>
-                        comment.id === commentId
-                          ? { ...comment, likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1, isLiked: !comment.isLiked }
-                          : comment,
-                      ),
-                    )
-                  }
+                  setComments(
+                    comments.map((comment : any) =>
+                      comment.id === commentId
+                        ? { ...comment, likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1, isLiked: !comment.isLiked }
+                        : comment,
+                    ),
+                  )
+                }
                 
             const sortedWhisperComments = useMemo(() => {
                     return [...whisperComments].sort((a, b) => 
@@ -201,13 +195,15 @@ const CommentsList = memo(({ sortedComments, toggleCommentLike  }:
                     );
                   }, [whisperComments, whisperSortBy]); 
 
-            const sortedComments = useMemo(() => {
-                    return [...comments].sort((a, b) => 
-                      sortBy === "likes" 
-                        ? b.likes - a.likes 
-                        : new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-                    );
-                  }, [comments, sortBy]); 
+            const sortedComments =  
+            useMemo(() => {
+              return [...comments].sort((a, b) => 
+                sortBy === "likes" 
+                  ? b.likes - a.likes 
+                  : new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+              );
+            }, [comments, sortBy]); 
+                  
 
           
             const handleAddComment = async (data:any,clickButton : string) => {

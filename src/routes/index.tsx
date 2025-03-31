@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { AuthRoutes } from './authRoutes';
 import { StudentRoutes } from './studentRoutes';
 import { homeRoutes } from './homeRoutes';
+import { adminRoutes } from './adminRoutes';
 
 
 export const router = createBrowserRouter(
@@ -10,6 +11,7 @@ export const router = createBrowserRouter(
       {homeRoutes}
       {AuthRoutes}
       {StudentRoutes}
+      {adminRoutes}
     </>
   )
 );

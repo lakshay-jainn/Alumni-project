@@ -6,7 +6,7 @@ import SingleFeed from "./components/SingleFeed";
 function SingleFeedPage(){
     const { postId } = useParams();
     return (
-        <div className=" flex-1 pt-5 px-5 flex overflow-hidden">
+        <div className="w-full flex-1 pt-5 px-5 flex overflow-hidden">
             <SingleFeed postId={postId} />
         </div>
         

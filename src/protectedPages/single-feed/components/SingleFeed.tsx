@@ -3,11 +3,11 @@ import { SinglePost } from "@/protectedPages/feeds/components/SinglePost";
 import { InitialCommentsResponse } from "@/api/types/FeedsTypes";
 import Comments from "./Comments"
 import SkeletonCard from "@/components/ui/SkeletonCard";
+import { useState } from "react";
 
 function SingleFeed({postId} : {postId : (string | undefined)}){
     const [singleFeed,loading,error]=useFetchSingleFeed({postId});
-    
-    
+
 
     if(loading){
         return(<div className="container mx-auto py-2 space-y-8 relative">
@@ -55,9 +55,9 @@ function SingleFeed({postId} : {postId : (string | undefined)}){
           
           
           return( 
-            <div className="p-5 flex flex-col md:flex-row gap-5 justify-center">
+            <div className="p-5 flex flex-col md:flex-row gap-5 justify-center w-full">
           <SinglePost key={post.id} {...post} />
-          <Comments initialWhisperComments={post.whisperComments} initialComments={post.comments} post={post} />
+          <Comments initialWhisperComments={post.whisperComments} initialComments={post.comments} post={post}/>
           </div>
           )
 

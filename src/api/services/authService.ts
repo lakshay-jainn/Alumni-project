@@ -9,7 +9,7 @@ export async function SigninAPI(data:any){
 
 export async function SignupAPI(data:any){
 
-    const response = await axios.post('/user/signup',data)
+    const response = await axios.post('http://localhost:8080/api/v1/user/signup',data)
     
     return response.data
 }
