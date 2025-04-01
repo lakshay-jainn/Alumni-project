@@ -1,15 +1,17 @@
 import { AuthContext } from "@/Auth/AuthContext";
 import { useContext} from "react";
 import { Outlet,Navigate } from "react-router-dom";
-function UnprotectedRoute(){
+function UnprotectedRoute({redirectPath}:{redirectPath:string}) {
     
     const {isLoggedIn}=useContext(AuthContext)!;
     if (!isLoggedIn){
-        return (<Outlet />)
+        return (
+        <Outlet />
+    )
 
     }else{
         
-        return(<Navigate to='/dashboard' replace />)
+        return(<Navigate to={redirectPath} replace />)
     }
 }
 export default UnprotectedRoute;

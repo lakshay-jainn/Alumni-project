@@ -1,11 +1,11 @@
 import { Route } from 'react-router-dom';
-import ProfilePage from '../protectedPages/student/ProfilePage/ProfilePage';
-import EditPage from '../protectedPages/student/ProfilePage/details-update/EditPage';
-import PersonalDetails from '../protectedPages/student/ProfilePage/details-update/EditForms/PersonalDetails';
-import EducationalDetails from '../protectedPages/student/ProfilePage/details-update/EditForms/EducationalDetails';
-import ExperienceDetails from '../protectedPages/student/ProfilePage/details-update/EditForms/ExperienceDetails';
-import SkillsDetails from '../protectedPages/student/ProfilePage/details-update/EditForms/SkillsDetails';
-import EmploymentDetails from '../protectedPages/student/ProfilePage/details-update/EditForms/EmploymentDetails';
+import ProfilePage from '../protectedPages/student/profile-page/page';
+import EditPage from '../protectedPages/student/update-details-page/page';
+import PersonalDetails from '../protectedPages/student/update-details-page/.components/PersonalDetails';
+import EducationalDetails from '../protectedPages/student/update-details-page/.components/EducationalDetails';
+import ExperienceDetails from '../protectedPages/student/update-details-page/.components/ExperienceDetails';
+import SkillsDetails from '../protectedPages/student/update-details-page/.components/SkillsDetails';
+import EmploymentDetails from '../protectedPages/student/update-details-page/.components/EmploymentDetails';
 
 export const studentProfileRoutes = (
   <Route path="profile">
