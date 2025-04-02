@@ -5,7 +5,7 @@ import AlumniSearchPage from '@/protectedPages/alumni-student/alumni-search-page
 import ProtectedRoute from '../components/routes/ProtectedRoute';
 import { FeedsRoutes } from './feedsRoutes';
 import { studentProfileRoutes } from './studentProfileRoutes';
-import  AlumniProfilePage from '@/protectedPages/alumni-student/alumni-profile-page/page';
+import  AlumniProfilePage from '@/protectedPages/alumni-student/alumni-page/page';
 export const StudentRoutes = (
   <Route path="/" element={<ProtectedRoute redirectPath='/' restrictedTo={["ALUMNI","STUDENT"]} />}>
     <Route element={<StudentPage />}>
