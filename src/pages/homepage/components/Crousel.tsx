@@ -135,7 +135,7 @@ const handleImageLoad = (index: number) => {
                     <img
                       src={alumni.image}
                       alt={alumni.name}
-                      className={`absolute h-full w-full object-cover transition-opacity ${imageLoaded[index] ? 'opacity-100' : 'opacity-0'}`}
+                      className={`absolute h-full w-full object-contain transition-opacity ${imageLoaded[index] ? 'opacity-100' : 'opacity-0'}`}
                       onLoad={() => handleImageLoad(index)}
                       onError={() => handleImageLoad(index)}
                     />
