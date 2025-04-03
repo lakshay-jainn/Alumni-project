@@ -20,7 +20,7 @@ export default function SkeletonCard({ hasImage = false }: SkeletonCardProps) {
         {/* Content */}
         <div className="space-y-4">
           <Skeleton className="h-6 w-20" />
-          {hasImage && <Skeleton className="w-full aspect-[16/9] rounded-lg" />}
+          {hasImage && <Skeleton className="w-full aspect-16/9 rounded-lg" />}
         </div>
 
         {/* Footer */}
