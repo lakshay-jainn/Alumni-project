@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import  { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 
 type AlumniMember = {
