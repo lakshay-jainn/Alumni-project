@@ -36,7 +36,7 @@ function AlumniSearch(){
                selectedInterests.length === 0 || selectedInterests.includes(alumnus.jobtitle);
            
             return matchesBatch && matchesInterest && matchesCourse;
-            })
+      });
             
       
       

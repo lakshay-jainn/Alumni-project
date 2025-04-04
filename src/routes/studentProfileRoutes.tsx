@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import ProfilePage from '../protectedPages/student/profile-page/page';
+import ProfilePage from '../protectedPages/alumni-student/profile-page/page';
 import EditPage from '../protectedPages/student/update-details-page/page';
 import PersonalDetails from '../protectedPages/student/update-details-page/.components/PersonalDetails';
 import EducationalDetails from '../protectedPages/student/update-details-page/.components/EducationalDetails';
