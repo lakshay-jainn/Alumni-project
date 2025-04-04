@@ -23,7 +23,7 @@ const CarouselPage = () => {
     {
       id: 1,
       name: "Shah Rukh Khan",
-      image: "2.jpg",
+      image: `1.jpg?t=${new Date().getTime()}`,
       position: "Actor",
       graduationYear: "1988",
       achievement: "Bollywood superstar and global icon, graduated from Hansraj College."
@@ -31,7 +31,7 @@ const CarouselPage = () => {
     {
       id: 2,
       name: "D.K. Joshi",
-      image: "2.jpg",
+      image: `2.jpg?t=${new Date().getTime()}`,
       position: "Admiral",
       graduationYear: "1972",
       achievement: "Former Chief of Naval Staff of India."
@@ -39,7 +39,7 @@ const CarouselPage = () => {
     {
       id: 3,
       name: "Kushal Tandon",
-      image: "3.jpg",
+      image: `3.jpg?t=${new Date().getTime()}`,
       position: "Actor & Model",
       graduationYear: "2005",
       achievement: "Indian television actor known for various TV shows."
