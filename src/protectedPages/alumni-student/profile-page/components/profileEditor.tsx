@@ -352,8 +352,8 @@ function BasicDetailsContent() {
       }catch(error){
         
         const errorResponse = handleApiError(error);
-        console.error("Error:", errorResponse.message);
-        toast.error(errorResponse.message)
+        console.error("Error:", errorResponse.errors);
+        toast.error(errorResponse.message || "An error occurred", {id: toastId});
       }
   
     }
@@ -740,7 +740,7 @@ function AboutContent(){
         
         const errorResponse = handleApiError(error);
         console.error("Error:", errorResponse.message);
-        toast.error(errorResponse.message)
+        toast.error(errorResponse.message || "An error occurred", {id: toastId});
       }
   
     }
@@ -1335,6 +1335,7 @@ function WorkExperienceContent(){
   
 }
 import {Dialog,DialogContent} from "@/components/ui/dialog";
+import { profile } from "console";
 function DiscardProgressModal({open,setOpen,setEditForm}:{open:any,setOpen:any,setEditForm:any}){
   
   return (
@@ -1401,7 +1402,7 @@ function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValue
     }
     const toastId = toast.loading('Loading...');
     try{
-      if (!currentExperience) {
+      if (!profileDetails?.workExperience) {
           const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
           await updateProfileDetails({...newData,profileCompletionPercentage});
           toast.success("Profile updated successfully!", {id: toastId});
