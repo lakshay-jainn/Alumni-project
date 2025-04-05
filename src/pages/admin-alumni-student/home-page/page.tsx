@@ -15,15 +15,15 @@ function HomePage() {
                 />
                 <div className="absolute inset-0 bg-black opacity-[0.5]"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-white to-gray-300">Welcome to Hansraj College's</h1>
+                    <h1 className="text-4xl md:text-6xl font-extrabold p-4 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-white to-gray-300">Welcome to Hansraj College's</h1>
                     <h3 className="text-4xl md:text-5xl font-extrabold p-4 mb-2 text-transparent bg-clip-text bg-linear-to-r from-gray-300 to-white">Alumni-Connect</h3>
                     <p className="text-lg md:text-2xl mt-4 max-w-2xl font-light tracking-wide">
                         The legacy continues<span className="text-gray-300">...</span>
                     </p>
                     <div className="mt-8">
                         <Link to="/auth/register">
-                            <button className="px-6 py-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full text-black font-semibold transition-all duration-300 backdrop-blur-xs border border-white border-opacity-20">
-                                Join the Network
+                            <button className="px-6 py-3 bg-white bg-opacity-70 hover:opacity-60 rounded-full text-black font-semibold transition-all duration-300 backdrop-blur-xs border border-white border-opacity-100">
+                                <span className="text-black ">Join the Network</span>
                             </button>
                         </Link>
                     </div>

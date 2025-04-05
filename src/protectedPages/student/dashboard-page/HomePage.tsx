@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function HomePage() {
   const navigate = useNavigate();
   const goToEvents = () => navigate('/events');
+  const goToInbox = () => navigate('/inbox')
   const user = "Ben10";
   
   return (
@@ -20,16 +21,11 @@ function HomePage() {
               <p className="text-gray-500">Here's what's going on in your alumni network</p>
             </div>
             <div className="mt-4 flex justify-center gap-2 md:mt-0">
-              <button 
-                className="flex items-center bg-[#95323d] text-white hover:bg-[#c04757] font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02]"
-              >
+              <button onClick={goToInbox} className="flex items-center bg-[#95323d] text-white hover:bg-[#c04757] font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02]">
                 <Mail className="mr-2 h-4 w-4" />
                 Inbox
               </button>
-              <button 
-                onClick={goToEvents} 
-                className="flex items-center bg-[#95323d] text-white hover:bg-[#c04757] font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02]"
-              >
+              <button onClick={goToEvents} className="flex items-center bg-[#95323d] text-white hover:bg-[#c04757] font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 hover:scale-[1.02]">
                 <Calendar className="mr-2 h-4 w-4" />
                 Events
               </button>
