@@ -8,10 +8,10 @@ function HomePage() {
         <div className="flex flex-col max-w-screen min-h-screen bg-linear-to-b from-gray-50 to-gray-100">
             <NavBar />
             <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
-                <img 
-                    src="https://www.hansrajcollege.ac.in/uploads/infrastructure/campus/13.jpeg" 
-                    alt="College Campus" 
-                    className="absolute inset-0 w-full h-full object-cover blur-[2px] transform scale-105 transition-transform duration-1000" 
+                <img
+                    src="https://www.hansrajcollege.ac.in/uploads/infrastructure/campus/13.jpeg"
+                    alt="College Campus"
+                    className="absolute inset-0 w-full h-full object-cover blur-[2px] transform scale-105 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-black opacity-[0.5]"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
@@ -29,7 +29,7 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-            
+
             <div className="container mx-auto px-4 md:px-6 py-16">
                 <div className="mb-12 flex flex-col items-center text-center border-none rounded-xl py-8 px-6 bg-white shadow-lg hover:shadow-xl transition-all duration-300">
                     <span className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-gray-600 to-gray-700 mb-8">Overview</span>
@@ -37,15 +37,15 @@ function HomePage() {
                         <p className="text-gray-700 leading-relaxed">Welcome to Hansraj College, University of Delhi!  
 Established in 1948 by the D.A.V. College Managing Committee in memory of Mahatma Hansraj, the college is among the top 10 institutions in India for Science, Commerce, and Arts. Known for academic excellence, sports, and extracurricular achievements, Hansraj nurtures holistic development while upholding traditional Indian values.  
 
-The college boasts a modern infrastructure, including a well-stocked library, six computer labs, 18 science labs, a vast playground, an indoor sports complex, and Delhi University's only electronic shooting range. Facilities include an air-conditioned auditorium, seminar room, and a boys' hostel with solar geysers and 24-hour power backup.  
+                            The college boasts a modern infrastructure, including a well-stocked library, six computer labs, 18 science labs, a vast playground, an indoor sports complex, and Delhi University's only electronic shooting range. Facilities include an air-conditioned auditorium, seminar room, and a boys' hostel with solar geysers and 24-hour power backup.
 
-Hansraj also offers scholarships, banking facilities, and a placement cell that connects students with top organizations. Join us to explore endless possibilities and shape a brighter future!.</p>
+                            Hansraj also offers scholarships, banking facilities, and a placement cell that connects students with top organizations. Join us to explore endless possibilities and shape a brighter future!.</p>
                     </div>
                 </div>
-                
+
                 <CarouselPage />
             </div>
-            
+
             <div className="mt-auto">
                 <Footer />
             </div>
