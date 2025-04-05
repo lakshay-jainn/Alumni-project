@@ -7,7 +7,7 @@ function MobileCommunitiesModal(){
     return(
     <Dialog open={communitiesModal} onOpenChange={setCommunitiesModal}>
         <DialogTrigger asChild>
-            <button onClick={()=>setCommunitiesModal(true)} className="bg-gradient-to-r from-red-400 to-orange-400 h-fit rounded-full p-3">
+            <button onClick={()=>setCommunitiesModal(true)} className="bg-red-800 hover:bg-[#7c2a32] h-fit rounded-full p-3">
                 <ListFilter className="w-6 h-6 text-white" />
             </button>
         </DialogTrigger>

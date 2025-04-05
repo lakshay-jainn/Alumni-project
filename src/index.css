@@ -180,3 +180,13 @@
 .animate-slideOutLeft {
   animation: slideOutLeft 0.3s ease-in;
 }
+button{
+  @apply cursor-pointer;
+}
+
+.main-background-red-color{
+  background-color: #95323d;
+}
+.main-text-red-color{
+  color: #95323d;
+}

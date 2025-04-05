@@ -20,7 +20,7 @@ function FeedsPage(){
             </div>
             <div className="p-10 md:p-0"></div>
 
-            <footer className="md:hidden fixed bottom-0 w-full z-50 bg-white ">
+            <footer className="md:hidden fixed bottom-0 w-full z-50 bg-white left-0 ">
                 <div className="justify-center w-full flex items-center border-t-2 py-2">
                 <Dialog open={createPostModal} onOpenChange={setCreatePostModal}>
                         <DialogTrigger asChild>

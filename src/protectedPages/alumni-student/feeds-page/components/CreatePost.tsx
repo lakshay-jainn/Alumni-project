@@ -240,7 +240,7 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
                             </FormItem>
                             )}
                     />
-                    <Button disabled={form.formState.isSubmitting} className="bg-gradient-to-r from-red-400 to-orange-400 rounded-full" type="submit">Post</Button>
+                    <Button disabled={form.formState.isSubmitting} className="bg-red-800 hover:bg-[#7c2a32] rounded-full" type="submit">Post</Button>
                     </div>
                     
                     </div>

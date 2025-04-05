@@ -20,7 +20,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           <p className="text-xs text-gray-600 mb-3">
           Tell others about yourself and what makes you unique. This is your chance to shine!
           </p>
-          <Button onClick={()=>(setActiveSection('about'),setEditProfileModal(true))} variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+          <Button onClick={()=>(setActiveSection('about'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
           Add About
           </Button>
           </>
@@ -34,9 +34,9 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
       {/* Resume Section */}
       <div className="border-b py-4">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="text-lg font-medium text-blue-600">Resume</h2>
+          <h2 className="text-lg font-medium text-[#95323d]">Resume</h2>
         </div>
-        <div className="bg-blue-50 p-4 rounded-md flex items-start">
+        <div className="bg-red-50 p-4 rounded-md flex items-start">
           <div className="flex-1">
             <p className="text-sm font-medium mb-1">Add your Resume & get your profile filled in a click!</p>
             <p className="text-xs text-gray-600 mb-2">
@@ -46,7 +46,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
                 onClick={()=>(setActiveSection('resume'),setEditProfileModal(true))}
               size="sm"
               variant="outline"
-              className="text-blue-600 text-xs flex items-center gap-1 border-blue-600"
+              className="text-[#95323d] text-xs flex items-center gap-1 border-[#95323d]"
             >
               <Upload size={14} />
               Upload Resume
@@ -78,7 +78,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             <p className="text-xs text-gray-600 mb-3">
               Showcase your skills and let the world know what you can do!
             </p>
-            <Button onClick={()=>(setActiveSection('skills'),setEditProfileModal(true))} variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+            <Button onClick={()=>(setActiveSection('skills'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
               Add Skills
             </Button>
             </>
@@ -109,7 +109,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
         <p className="text-xs text-gray-600 mb-3">
           Narrate your professional journey and fast-track your way to new career heights!
         </p>
-        <Button onClick={()=>(setActiveSection('work'),setEditProfileModal(true))} variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+        <Button onClick={()=>(setActiveSection('work'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
           Add Work Experience
         </Button>
         <div className="flex justify-end mt-2">
@@ -173,7 +173,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
         <p className="text-xs text-gray-600 mb-3">
           Highlight the responsibilities you've mastered to demonstrate your leadership and expertise!
         </p>
-        <Button variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+        <Button variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
           Add Responsibility
         </Button>
         <div className="flex justify-end mt-2">
@@ -229,7 +229,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
         <p className="text-xs text-gray-600 mb-3">
           Unveil your projects to the world and pave your path to professional greatness!
         </p>
-        <Button variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+        <Button variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
           Add Project
         </Button>
         <div className="flex justify-end mt-2">
@@ -254,7 +254,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
         <p className="text-xs text-gray-600 mb-3">
           Showcase your triumphs and make a remarkable impression on industry leaders!
         </p>
-        <Button variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+        <Button variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
           Add Achievement
         </Button>
         <div className="flex justify-end mt-2">

@@ -6,7 +6,7 @@ export function ChartComponent({percentage}: { percentage: (string | null | unde
   const percentageValue = percentage ? parseInt(percentage.replace("%", "")) : 0;
   const chartData = [
     { browser: "chrome", visitors: 100 - percentageValue, fill: "#DCEEFC" },
-    { browser: "safari", visitors:percentageValue, fill: "#0072E5" },
+    { browser: "safari", visitors:percentageValue, fill: "#95323d" },
   ]
   return (
   

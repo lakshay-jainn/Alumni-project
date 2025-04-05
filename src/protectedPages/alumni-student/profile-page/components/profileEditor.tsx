@@ -79,8 +79,8 @@ export default function ProfileEditor({
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Header */}
       <header className="flex items-center h-16 px-4 border-b bg-white">
-        <button onClick={()=>setEditProfileModal(false)} className="flex cursor-pointer items-center justify-center w-8 h-8 rounded-full bg-blue-100 mr-2">
-          <ArrowLeft className="w-4 h-4 text-blue-600" />
+        <button onClick={()=>setEditProfileModal(false)} className="flex cursor-pointer items-center justify-center w-8 h-8 rounded-full bg-red-100 mr-2">
+          <ArrowLeft className="w-4 h-4 text-[#95323d]" />
         </button>
         <h1 className="text-lg font-medium text-gray-700">Edit Profile</h1>
       </header>
@@ -108,7 +108,7 @@ export default function ProfileEditor({
           </div> */}
 
           {/* Progress */}
-          <div className="px-4 py-5 bg-blue-50 mx-4 rounded-md mb-4 mt-4 pb-8">
+          <div className="px-4 py-5 bg-red-50 mx-4 rounded-md mb-4 mt-4 pb-8">
             <h2 className="text-lg font-medium text-gray-800">
               Complete your profile
             </h2>
@@ -134,8 +134,8 @@ export default function ProfileEditor({
               <NavItem
                 icon={
                   activeSection === "basic" ? (
-                    <div className="w-5 h-5 rounded-full border-2 border-blue-600 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                    <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
                     </div>
                   ) : (
                     <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
@@ -248,8 +248,8 @@ function NavItem({
     <li>
       <button
         className={`w-full flex items-center gap-3 px-3 py-3 rounded-md text-left ${
-          active && highlight ? "border-r-4 border-blue-500 bg-blue-50" : ""
-        } ${active ? "font-medium text-blue-600" : "text-gray-700"}`}
+          active && highlight ? "border-r-4 border-[#95323d] bg-red-50" : ""
+        } ${active ? "font-medium text-[#95323d]" : "text-gray-700"}`}
         onClick={onClick}
       >
         {icon}
@@ -384,8 +384,8 @@ function BasicDetailsContent() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded-full border-2 border-blue-600 flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+          <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
           </div>
           <h2 className="text-lg font-medium">Basic Details</h2>
         </div>
@@ -412,7 +412,7 @@ function BasicDetailsContent() {
           <button
             type="button"
             onClick={() => setImgUpdateOpen(true)}
-            className="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center border-2 border-white"
+            className="absolute bottom-0 right-0 w-8 h-8 bg-[#95323d] rounded-full flex items-center justify-center border-2 border-white"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -449,7 +449,7 @@ function BasicDetailsContent() {
                   className="max-h-[300px] rounded-lg"
                 />
               ) : (
-                <ImagePlus className="size-40 text-blue-200" />
+                <ImagePlus className="size-40 text-red-200" />
               )}
               <input {...getInputProps()} type="file" />
               {isDragActive ? (
@@ -514,7 +514,7 @@ function BasicDetailsContent() {
               readOnly
               {...register("email")}
             />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-700 text-sm font-medium">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#95323d] text-sm font-medium">
               <button type="button" className="flex items-center cursor-pointer">
                 Update Email
               </button>
@@ -566,7 +566,7 @@ function BasicDetailsContent() {
               type="button"
               className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
                 watch("gender") === "male"
-                  ? "border-blue-600 text-blue-600"
+                  ? "border-[#95323d] text-[#95323d]"
                   : "border-gray-300 text-gray-600"
               }`}
               onClick={() => setValue("gender", "male")}
@@ -578,7 +578,7 @@ function BasicDetailsContent() {
               type="button"
               className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
                 watch("gender") === "female"
-                  ? "border-blue-600 text-blue-600"
+                  ? "border-[#95323d] text-[#95323d]"
                   : "border-gray-300 text-gray-600"
               }`}
               onClick={() => setValue("gender", "female")}
@@ -590,7 +590,7 @@ function BasicDetailsContent() {
               type="button"
               className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
                 watch("gender") === "other"
-                  ? "border-blue-600 text-blue-600"
+                  ? "border-[#95323d] text-[#95323d]"
                   : "border-gray-300 text-gray-600"
               }`}
               onClick={() => setValue("gender", "other")}
@@ -612,7 +612,7 @@ function BasicDetailsContent() {
               type="button"
               className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
                 watch("userType") === "STUDENT"
-                  ? "border-blue-600 text-blue-600"
+                  ? "border-[#95323d] text-[#95323d]"
                   : "border-gray-300 text-gray-600"
               }`}
               disabled
@@ -625,7 +625,7 @@ function BasicDetailsContent() {
               type="button"
               className={`flex items-center gap-2 px-4 py-2 border rounded-full ${
                 watch("userType") === "ALUMNI"
-                  ? "border-blue-600 text-blue-600"
+                  ? "border-[#95323d] text-[#95323d]"
                   : "border-gray-300 text-gray-600"
               }`}
               disabled
@@ -692,7 +692,7 @@ function BasicDetailsContent() {
 
       {/* Save Button */}
       <div className="mt-8 flex justify-end">
-        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-full flex items-center gap-2">
+        <button type="submit" className="px-6 py-2 bg-[#95323d] text-white rounded-full flex items-center gap-2">
           <Check className="w-5 h-5" />
           Save
         </button>
@@ -778,7 +778,7 @@ function AboutContent(){
       </FormField>
 
       <div className="mt-8 flex justify-end">
-        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-full flex items-center gap-2">
+        <button type="submit" className="px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-full flex items-center gap-2">
           <Check className="w-5 h-5" />
           Save
         </button>
@@ -844,7 +844,7 @@ function SkillsContent(){
       <div className="flex flex-wrap gap-2">
         {skills.length > 0 && skills.map((skill, index) => (
           <div key={index} className="flex items-center gap-2 mb-2">
-            <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">{skill}</span>
+            <span className="bg-red-100 text-[#95323d] px-3 py-1 rounded-full text-sm">{skill}</span>
           </div>
           ))}
       </div>
@@ -855,12 +855,12 @@ function SkillsContent(){
             placeholder="Type your skills here"
             className={`text-[14px] w-full p-3 border rounded-md`}
         />
-        <button onClick={()=>addSkill()} className="min-w-max px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center gap-2">
+        <button onClick={()=>addSkill()} className="min-w-max px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-md flex items-center gap-2">
           Add Skills
         </button>
       </div>
       <div className="mt-8 flex justify-end">
-        <button onClick={()=>onSubmit()} type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-full flex items-center gap-2">
+        <button onClick={()=>onSubmit()} type="submit" className="px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-full flex items-center gap-2">
           <Check className="w-5 h-5" />
           Save
         </button>
@@ -1076,7 +1076,7 @@ function EducationContent() {
         </div>
 
         <div className="mt-8 flex justify-end">
-        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-full flex items-center gap-2">
+        <button type="submit" className="px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-full flex items-center gap-2">
           <Check className="w-5 h-5" />
           Save
         </button>
@@ -1171,7 +1171,7 @@ function WorkExperienceContent(){
       <div className="mb-6">
         <div className="flex items-center gap-2 text-gray-600">
           <DiscardProgressModal open={openDiscardProgress} setOpen={setOpenDiscardProgress} setEditForm={setShowEditExperience} />
-          <span className="hover:text-blue-500 cursor-pointer" onClick={()=>setOpenDiscardProgress(true)}>Work Experience</span>
+          <span className="hover:text-[#95323d] cursor-pointer" onClick={()=>setOpenDiscardProgress(true)}>Work Experience</span>
           {
             showEditExperience && (
                 <>
@@ -1187,7 +1187,7 @@ function WorkExperienceContent(){
         {workExperience.map((experience, index) => (
           <div key={index} className="p-4 border rounded-md shadow-sm flex gap-5">
             <div className="">
-              <Avatar className="rounded-md font-bold text-blue-400 border-1">
+              <Avatar className="rounded-md font-bold text-[#95323d] border-1">
               <AvatarFallback className="rounded-none bg-white" >{experience.companyName.slice(0,2).toUpperCase()}</AvatarFallback>
               </Avatar>
             </div>
@@ -1197,7 +1197,7 @@ function WorkExperienceContent(){
                  <div className="relative cursor-pointer">
                  <input id="dotcheckbox" type="checkbox" className="absolute inset-0 peer opacity-0 " />
                  <EllipsisVertical className="peer-checked:hidden" />
-                 <X className="hidden peer-checked:block peer-checked:border-1 peer-checked:rounded-full peer-checked:bg-blue-100 peer-checked:text-blue-600" />
+                 <X className="hidden peer-checked:block peer-checked:border-1 peer-checked:rounded-full peer-checked:bg-red-100 peer-checked:text-[#95323d]" />
                   <div id="editbox" className="peer-checked:flex-col text-start px-2 py-2 border-8 w-[160px] hidden peer-checked:absolute peer-checked:-translate-x-[90%] peer-checked:top-8 peer-checked:left-0 peer-checked:bg-white peer-checked:border peer-checked:border-gray-300 peer-checked:rounded-md peer-checked:flex peer-checked:items-center peer-checked:justify-center">
                     <button onClick={()=>(setShowEditExperience(true),setCurrentExperience(experience))} className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
                     <Pencil className="w-4" /> Edit 

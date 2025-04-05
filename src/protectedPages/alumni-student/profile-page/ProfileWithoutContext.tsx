@@ -20,7 +20,7 @@ function ProfilePageWithoutContext(){
     if (error) return <div className='flex justify-center items-center h-screen'>{error.message}</div>
     const percentageValue = profileDetails?.profileCompletionPercentage ? profileDetails?.profileCompletionPercentage : "0%";
     return(
-        <div className='w-full flex flex-col gap-5 py-10 max-w-(--breakpoint-lg)'>
+        <div className='w-full flex flex-col gap-5  shadow-lg'>
             <EditProfileModal activeSelection={activeSelection} editProfileModal={editProfileModal} setEditProfileModal={setEditProfileModal}/>
             <div className='bg-white rounded-xl relative overflow-clip'>
                 <img style={{aspectRatio:"1180/209"}} src={profileDetails?.banner} alt="" className='w-full object-cover ' />
@@ -32,7 +32,7 @@ function ProfilePageWithoutContext(){
                     <div className='relative'>
                         <ChartComponent percentage={profileDetails?.profileCompletionPercentage} />
                         <img className="absolute inset-0 rounded-full aspect-square object-center p-6   " src={profileDetails?.profileImage} alt="" /> 
-                        <div className='border-1 bottom-0 absolute -translate-[50%] left-[50%] text-blue-600 border-blue-500 px-1 text-[12px] bg-white p-0 z-50'>{percentageValue}</div>
+                        <div className='border-1 bottom-0 absolute -translate-[50%] left-[50%] main-text-red-color border-[#95323d] px-1 text-[12px] bg-white p-0 z-50'>{percentageValue}</div>
                     </div>
                     <div className='flex flex-col justify-center '>
                         <h1 className='font-bold text-xl'>{profileDetails?.basic.firstName + " " + profileDetails?.basic.lastName}</h1>
@@ -40,7 +40,7 @@ function ProfilePageWithoutContext(){
                     </div>
                  </div>
                  <div>
-                    <button onClick={()=>setEditProfileModal(true)} className='p-3 max-h-max text-white bg-blue-500  mr-5 rounded-xl'> <span>Edit Profile<Pencil className='ml-5 inline' /></span></button>
+                    <button onClick={()=>setEditProfileModal(true)} className='p-3 max-h-max text-white bg-[#95323d]  mr-5 rounded-xl'> <span>Edit Profile<Pencil className='ml-5 inline' /></span></button>
                  </div>
                 </div>
             </div>
