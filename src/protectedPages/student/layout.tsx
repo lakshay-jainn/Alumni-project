@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./.components/Navbar/Navbar";
-import Sidebar from "./.components/Navbar/Sidebar";
-import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "@/Auth/AuthContext";
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/Navbar/Sidebar";
+import {  useState, useEffect } from "react";
+import useGlobalAuth from "@/Auth/useGlobalAuth";
 import { useNavigate } from "react-router-dom";
 
 function StudentPage() {
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const {Logout} = useGlobalAuth();
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
   
   useEffect(() => {
@@ -20,10 +20,10 @@ function StudentPage() {
   }, []);
   
   const handleLogout = () => {
-    if (authContext && authContext.Logout) {
-      authContext.Logout();
-      navigate('/auth/login');
-    }
+    
+      Logout();
+      navigate('/', { replace: true });
+    
   };
 
   return (
@@ -58,7 +58,7 @@ function StudentPage() {
         <main className="flex-1">
           <div className="h-[calc(100vh-4.5rem)] overflow-y-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex justify-center">
                 <Outlet />
               </div>
             </div>

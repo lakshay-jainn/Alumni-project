@@ -1,0 +1,3 @@
+#dotcheckbox:checked ~ #editbox{
+    display: none;
+}

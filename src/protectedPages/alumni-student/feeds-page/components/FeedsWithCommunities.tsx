@@ -14,9 +14,9 @@ export default function FeedsWithCommunities({fetchAgain,setFetchAgain}:{fetchAg
             <div className="hidden md:block">
                 <CreatePost setFetchAgain={setFetchAgain} />
             </div>
-            <div className="sticky w-full top-0 z-10 flex border-b-2 bg-white justify-between items-center px-5 py-2 rounded-2xl">
+            <div className="sticky w-full top-0 z-10 flex border-2 bg-white justify-between items-center px-5 py-2 rounded-2xl">
                 Filter Posts by Communities
-                <MobileCommunitiesModal></MobileCommunitiesModal>
+                <MobileCommunitiesModal />
             </div>
             
             <Feeds fetchAgain={fetchAgain} />

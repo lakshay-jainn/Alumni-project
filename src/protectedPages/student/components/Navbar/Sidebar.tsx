@@ -71,7 +71,7 @@ const Sidebar = () => {
   ];
   
   const Icon = ({ name, isActive }: { name: string, isActive: boolean }) => {
-    const iconProps = {
+    const iconProps: React.SVGProps<SVGSVGElement> = {
       xmlns: "http://www.w3.org/2000/svg",
       width: "18",
       height: "18",

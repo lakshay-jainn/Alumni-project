@@ -30,5 +30,5 @@
       ]
     }
   },
-  "include": ["src", "src/protectedPages/admin/.components", "src/protectedPages/alumni-student/alumni-search-page/.components", "src/protectedPages/student/.components", "src/protectedPages/alumni-student/feeds-page/.components", "src/protectedPages/alumni-student/profile-page/components", "src/protectedPages/student/update-details-page/.components", "src/pages/admin/login-page/.components", "src/pages/admin-alumni-student/home-page/.components"]
+  "include": ["src", "src/protectedPages/admin/components", "src/protectedPages/alumni-student/alumni-search-page/.components", "src/protectedPages/student/components", "src/protectedPages/alumni-student/feeds-page/components", "src/protectedPages/alumni-student/profile-page/components", "src/protectedPages/student/update-details-page/components", "src/pages/admin/login-page/components", "src/pages/admin-alumni-student/home-page/.components"]
 }

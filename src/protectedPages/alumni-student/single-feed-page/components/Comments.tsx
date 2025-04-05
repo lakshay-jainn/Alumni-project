@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import {memo,useState,useMemo, useCallback} from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Comment } from "@/protectedPages/alumni-student/feeds-page/.components/SinglePost";
+import { Comment } from "@/protectedPages/alumni-student/feeds-page/components/SinglePost";
 import { Button } from "@/components/ui/button"
 import AddCommentElement from "./CommentBtn";
 import {  ThumbsUp } from "lucide-react"

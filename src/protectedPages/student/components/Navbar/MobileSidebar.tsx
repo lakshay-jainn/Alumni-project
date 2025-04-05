@@ -60,8 +60,8 @@ const MobileSidebar = ({ isOpen, onClose, onLogout }: MobileSidebarProps) => {
       fill: "none",
       stroke: "currentColor",
       strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
+      strokeLinecap: 'round' as 'round',
+      strokeLinejoin: 'round' as 'round'
     };
 
     switch (name) {

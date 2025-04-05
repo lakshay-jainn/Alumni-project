@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tabs": "^1.1.2",
     "@radix-ui/react-toast": "^1.2.4",
+    "@tanstack/react-query": "^5.71.5",
     "@tanstack/react-table": "^8.20.6",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
@@ -44,6 +45,7 @@
     "string-similarity": "^4.0.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

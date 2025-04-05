@@ -126,8 +126,8 @@ export function SinglePost({
     {/*max-w-[1095px]*/}
     {/* onDoubleClick={handleDoubleClick} onTouchEnd={handleTouchEnd} */}
     {/* w-full mx-auto */}
-    <Card  className={` max-h-max flex flex-col rounded-[2rem] gradient-border`}>
-      <CardHeader className="flex flex-row items-center gap-4 border-b pb-4 space-y-0">
+    <Card  className={` max-h-max flex flex-col rounded-[2rem] border-2`}>
+      <CardHeader className="flex flex-row items-center gap-4 border-b-2 pb-4 space-y-0">
       
         <Avatar>
           <AvatarImage src={author.avatar} alt={author.name} />
@@ -173,7 +173,7 @@ export function SinglePost({
           
         
         
-        <div className="p-4 border-t">
+        <div className="p-4 border-t-2">
                 <div className="flex items-center justify-between w-full ">
                   <div className="flex items-center gap-5">
 
