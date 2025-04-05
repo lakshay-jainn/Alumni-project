@@ -1,4 +1,4 @@
-import { useState,useRef } from "react";
+import { useState,useRef, useEffect } from "react";
 import {
   ArrowLeft,
   Check,
@@ -20,7 +20,7 @@ import { profileDetailsResponse } from "@/api/types/profileDetailsTypes";
 import { updateProfileDetails } from "@/api/services/profileService";
 import { useProfile } from "@/protectedPages/alumni-student/profile-page/ProfileContext";
 import { handleApiError } from "@/api/utils/apiUtils";
-
+import {v4 as uuidv4} from "uuid";
 export default function ProfileEditor({
   setEditProfileModal,
   activeSelection,
@@ -786,6 +786,7 @@ function AboutContent(){
     </form>
   )
 }
+import { isEqual } from "lodash";
 function SkillsContent(){
   const { profileDetails, loading, error,setRefetch } = useProfile();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -806,8 +807,8 @@ function SkillsContent(){
       }catch(error){
         
         const errorResponse = handleApiError(error);
-        console.error("Error:", errorResponse.message);
-        toast.error(errorResponse.message)
+        console.error("Error:", errorResponse.errors);
+        toast.error(errorResponse.message,{id: toastId})
       }
   
     }
@@ -869,6 +870,7 @@ function SkillsContent(){
   )
 }
 const EducationSchema = z.object({
+  id: z.string(),
   qualification: z.string().nonempty("Qualification is required"),
   course: z.string().nonempty("Course is required"),
   specialization: z.string().nonempty("Specialization is required"),
@@ -880,9 +882,130 @@ const EducationSchema = z.object({
   cgpa: z.string(),
   rollNumber: z.string(),
 });
-type EducationFormData = z.infer<typeof EducationSchema>;
+export type EducationFormData = z.infer<typeof EducationSchema>;
+
+/* ------------------------- EducationContent Component ------------------------- */
 function EducationContent() {
-  const { profileDetails, loading, error,setRefetch } = useProfile();
+  const { profileDetails } = useProfile();
+  const [showEditEducation, setShowEditEducation] = useState(false);
+  const [currentEducation, setCurrentEducation] = useState<any | null>(null);
+  const [openDiscardProgress, setOpenDiscardProgress] = useState(false);
+
+  useEffect(() => {
+    if (!profileDetails?.education) {
+      setShowEditEducation(true);
+    }
+  }, [profileDetails]);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <Check className="w-6 h-6 text-green-500" />
+          <h2 className="text-lg font-medium">Education</h2>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => (setCurrentEducation(null), setShowEditEducation(true))}
+            className="text-gray-500"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+          <button type="button" className="text-gray-500">
+            <Eye className="w-5 h-5" />
+          </button>
+          <button type="button" className="text-gray-500">
+            <HelpCircle className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+      <div className="mb-6">
+        <div className="flex items-center gap-2 text-gray-600">
+          <DiscardProgressModal
+            open={openDiscardProgress}
+            setOpen={setOpenDiscardProgress}
+            setEditForm={setShowEditEducation}
+          />
+          <span className="hover:text-[#95323d] cursor-pointer" onClick={() => setOpenDiscardProgress(true)}>
+            Education
+          </span>
+          {showEditEducation && (
+            <>
+              <span>{">"}</span>
+              <span>{currentEducation? "Edit" : "New"} Education</span>
+            </>
+          )}
+        </div>
+      </div>
+      {!showEditEducation ? (
+        profileDetails?.education ? Object.entries(profileDetails?.education).map(([id,data]) => (
+          <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
+            <div>
+              <Avatar className="rounded-md font-bold text-[#95323d] border-1">
+                <AvatarFallback className="rounded-none bg-white">
+                  {data.college.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="flex flex-col gap-1 w-full">
+              <div className="flex w-full items-center gap-1 justify-between">
+                <h3 className="text-lg font-medium">{data.qualification}</h3>
+                <div className="relative cursor-pointer">
+                  <input id="dotcheckbox" type="checkbox" className="absolute inset-0 peer opacity-0" />
+                  <EllipsisVertical className="peer-checked:hidden" />
+                  <X className="hidden peer-checked:block peer-checked:border-1 peer-checked:rounded-full peer-checked:bg-red-100 peer-checked:text-[#95323d]" />
+                  <div
+                    id="editbox"
+                    className="peer-checked:flex-col text-start px-2 py-2 border-8 w-[160px] hidden peer-checked:absolute peer-checked:-translate-x-[90%] peer-checked:top-8 peer-checked:left-0 peer-checked:bg-white peer-checked:border peer-checked:border-gray-300 peer-checked:rounded-md peer-checked:flex peer-checked:items-center peer-checked:justify-center"
+                  >
+                    <button
+                      onClick={() => (setShowEditEducation(true), setCurrentEducation({id:id,...data}))}
+                      className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]"
+                    >
+                      <Pencil className="w-4" /> Edit
+                    </button>
+                    <button className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
+                      <Trash2 className="w-4 text-red-500" /> Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="font-medium">Course:</span>
+                <p className="text-gray-600">{data.course}</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="font-medium">Specialization:</span>
+                <p className="text-gray-600">{data.specialization}</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="font-medium">College:</span>
+                <p className="text-gray-600">{data.college}</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="font-medium">Duration:</span>
+                <p className="text-gray-600">
+                  {data.duration.startYear} - {data.duration.endYear}
+                </p>
+              </div>
+            </div>
+          </div>
+        )) : (
+          <div className="flex items-center justify-center text-gray-500 h-32">
+            <p>No education added yet.</p>
+          </div>
+        )
+      ) : (
+        <EducationForm currentEducation={currentEducation} />
+      )}
+    </div>
+  );
+}
+
+/* ------------------------- EducationForm Component ------------------------- */
+function EducationForm({ currentEducation }: { currentEducation: any | null }) {
+  const { profileDetails, setRefetch } = useProfile();
   const {
     register,
     handleSubmit,
@@ -890,201 +1013,212 @@ function EducationContent() {
   } = useForm<EducationFormData>({
     resolver: zodResolver(EducationSchema),
     defaultValues: {
-      qualification: profileDetails?.education?.qualification || "",
-      course: profileDetails?.education?.course || "",
-      specialization: profileDetails?.education?.specialization || "",
-      college: profileDetails?.education?.college || "",
-      startYear: profileDetails?.education?.duration.startYear || "",
-      endYear: profileDetails?.education?.duration.endYear || "",
-      courseType: profileDetails?.education?.courseType || "",
-      percentage: profileDetails?.education?.percentage || "",
-      cgpa: profileDetails?.education?.cgpa || "",
-      rollNumber: profileDetails?.education?.rollNumber || "",
-    }});
-  const onSubmit = async(data: EducationFormData) => {
-    let newData: any={}
-    const {startYear,endYear,...dataWithoutYears}=data;
-    newData={...dataWithoutYears,duration:{startYear,endYear}};
-    if (data.qualification.length > 0 && profileDetails?.education?.qualification != data.qualification) {
-      const toastId = toast.loading('Loading...');
-      try{
-        if (!profileDetails?.education) {
-          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
-          await updateProfileDetails({education:newData,profileCompletionPercentage});
-        }else{
-          await updateProfileDetails({education:newData});
-        }
-        
-        setRefetch((prev) => !prev);
-        toast.success("Profile updated successfully!", {id: toastId});
-      }catch(error){
-        
-        const errorResponse = handleApiError(error);
-        console.error("Error:", errorResponse.message);
-        toast.error(errorResponse.message)
-      }
-  
+      qualification: currentEducation?.qualification || "",
+      course: currentEducation?.course || "",
+      specialization: currentEducation?.specialization || "",
+      college: currentEducation?.college || "",
+      startYear: currentEducation?.duration.startYear || "",
+      endYear: currentEducation?.duration.endYear || "",
+      courseType: currentEducation?.courseType || "",
+      percentage: currentEducation?.percentage || "",
+      cgpa: currentEducation?.cgpa || "",
+      rollNumber: currentEducation?.rollNumber || "",
+      id: currentEducation?.id || uuidv4(),
+    },
+  });
+
+  const onSubmit = async (data: EducationFormData) => {
+    const { startYear, endYear, ...rest } = data;
+    const newData = { ...rest, duration: { startYear, endYear } };
+    const { id, ...newDataWithoutId } = newData;
+    const formatedData ={
+        [data.id]: newDataWithoutId
     }
+    const toastId = toast.loading("Loading...");
+    try {
+      if (!profileDetails?.education) {
+        const profileCompletionPercentage =
+          String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%", "")) + 10) + "%";
+        await updateProfileDetails({ education: formatedData, profileCompletionPercentage });
+      } else {
+        await updateProfileDetails({ education: formatedData });
+      }
+      setRefetch((prev) => !prev);
+      toast.success("Profile updated successfully!", { id: toastId });
+    } catch (error) {
+      const errorResponse = handleApiError(error);
+      console.error("Error:", errorResponse.errors);
+      toast.error(errorResponse.message, { id: toastId });
+    }
+  };
 
-    // Process form data here
-  }
-  return (  
-    <>
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <Check className="w-6 h-6 text-green-500" />
-          <h2 className="text-lg font-medium">Education</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="text-gray-500">
-            <Eye className="w-5 h-5" />
-          </button>
-          <button className="text-gray-500">
-            <HelpCircle className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
-      {/* <div className="mb-6">
-        <div className="flex items-center gap-2 text-gray-600">
-          <span>Education</span>
-          <span>{">"}</span>
-          <span>New Education</span>
-        </div>
-      </div> */}
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <FormField label="Qualification" required>
-          <div className="relative">
-            <select className="w-full p-3 border rounded-md appearance-none bg-white pr-10" {...register("qualification")}>
-              <option value="" disabled selected>
-                Select Qualification
-              </option>
-              <option>Bachelor's Degree</option>
-              <option>Master's Degree</option>
-              <option>Doctorate</option>
-              <option>Diploma</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ChevronDown className="w-5 h-5 text-gray-500" />
-            </div>
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      {/* Qualification */}
+      <FormField label="Qualification" required>
+        <div className="relative">
+          <select
+            className="w-full p-3 border rounded-md appearance-none bg-white pr-10"
+            {...register("qualification")}
+          >
+            <option value="" disabled>
+              Select Qualification
+            </option>
+            <option>Bachelor's Degree</option>
+            <option>Master's Degree</option>
+            <option>Doctorate</option>
+            <option>Diploma</option>
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-500" />
           </div>
-        </FormField>
+        </div>
+        {errors.qualification && <p className="text-red-500 text-sm">{errors.qualification.message}</p>}
+      </FormField>
 
-        <FormField label="Course" required>
-          <div className="relative">
-            <select className="w-full p-3 border rounded-md appearance-none bg-white pr-10" {...register("course")}>
-              <option value="" disabled selected>
-                Select Course
-              </option>
-              <option>B.Tech</option>
-              <option>BBA</option>
-              <option>BSc</option>
-              <option>BA</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ChevronDown className="w-5 h-5 text-gray-500" />
-            </div>
+      {/* Course */}
+      <FormField label="Course" required>
+        <div className="relative">
+          <select
+            className="w-full p-3 border rounded-md appearance-none bg-white pr-10"
+            {...register("course")}
+          >
+            <option value="" disabled>
+              Select Course
+            </option>
+            <option>B.Tech</option>
+            <option>BBA</option>
+            <option>BSc</option>
+            <option>BA</option>
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-500" />
           </div>
-        </FormField>
+        </div>
+        {errors.course && <p className="text-red-500 text-sm">{errors.course.message}</p>}
+      </FormField>
 
-        <FormField label="Specialization" required>
-          <div className="relative">
-            <select className="w-full p-3 border rounded-md appearance-none bg-white pr-10" {...register("specialization")}>
-              <option value="" disabled selected>
-                Select Specialization
-              </option>
-              <option>Computer Science</option>
-              <option>Information Technology</option>
-              <option>Electronics</option>
-              <option>Mechanical</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ChevronDown className="w-5 h-5 text-gray-500" />
-            </div>
+      {/* Specialization */}
+      <FormField label="Specialization" required>
+        <div className="relative">
+          <select
+            className="w-full p-3 border rounded-md appearance-none bg-white pr-10"
+            {...register("specialization")}
+          >
+            <option value="" disabled>
+              Select Specialization
+            </option>
+            <option>Computer Science</option>
+            <option>Information Technology</option>
+            <option>Electronics</option>
+            <option>Mechanical</option>
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-500" />
           </div>
-        </FormField>
+        </div>
+        {errors.specialization && <p className="text-red-500 text-sm">{errors.specialization.message}</p>}
+      </FormField>
 
-        <FormField label="College" required>
+      {/* College */}
+      <FormField label="College" required>
+        <input
+          placeholder="College"
+          className="w-full p-3 border rounded-md"
+          {...register("college")}
+        />
+        {errors.college && <p className="text-red-500 text-sm">{errors.college.message}</p>}
+      </FormField>
+
+      {/* Duration */}
+      <FormField label="Duration" required>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
-            placeholder="College"
+            type="month"
+            placeholder="Start Year"
             className="w-full p-3 border rounded-md"
-            {...register("college")}
+            {...register("startYear")}
+          />
+          <input
+            type="month"
+            placeholder="End Year"
+            className="w-full p-3 border rounded-md"
+            {...register("endYear")}
+          />
+        </div>
+        {(errors.startYear || errors.endYear) && (
+          <p className="text-red-500 text-sm">Start and End Year are required</p>
+        )}
+      </FormField>
+
+      {/* Course Type */}
+      <FormField label="Course type">
+        <div className="relative">
+          <select
+            className="w-full p-3 border rounded-md appearance-none bg-white pr-10"
+            {...register("courseType")}
+          >
+            <option value="" disabled>
+              Select Course Type
+            </option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Distance</option>
+            <option>Online</option>
+          </select>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-500" />
+          </div>
+        </div>
+      </FormField>
+
+      {/* Percentage & CGPA */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <FormField label="Percentage">
+          <input
+            placeholder="Percentage"
+            className="w-full p-3 border rounded-md"
+            {...register("percentage")}
           />
         </FormField>
-
-        <FormField label="Duration" required>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="month"
-              placeholder="Start Year"
-              className="w-full p-3 border rounded-md"
-              {...register("startYear")}
-            />
-            <input
-              type="month"
-              placeholder="End Year"
-              className="w-full p-3 border rounded-md"
-              {...register("endYear")}
-            />
-          </div>
+        <FormField label="CGPA">
+          <input
+            placeholder="CGPA"
+            className="w-full p-3 border rounded-md"
+            {...register("cgpa")}
+          />
         </FormField>
+      </div>
 
-        <FormField label="Course type">
-          <div className="relative">
-            <select className="w-full p-3 border rounded-md appearance-none bg-white pr-10" {...register("courseType")}>
-              <option value="" disabled selected>
-                Select Course Type
-              </option>
-              <option>Full-time</option>
-              <option>Part-time</option>
-              <option>Distance</option>
-              <option>Online</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ChevronDown className="w-5 h-5 text-gray-500" />
-            </div>
-          </div>
-        </FormField>
+      {/* Roll Number */}
+      <FormField label="Roll Number">
+        <input
+          placeholder="Roll number"
+          className="w-full p-3 border rounded-md"
+          {...register("rollNumber")}
+        />
+      </FormField>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField label="Percentage">
-            <input
-              placeholder="Percentage"
-              className="w-full p-3 border rounded-md"
-              {...register("percentage")}
-            />
-          </FormField>
-          <FormField label="CGPA">
-            <input
-              placeholder="CGPA"
-              className="w-full p-3 border rounded-md"
-              {...register("cgpa")}
-            />
-          </FormField>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField label="Roll Number">
-            <input
-              placeholder="Roll number"
-              className="w-full p-3 border rounded-md"
-              {...register("rollNumber")}
-            />
-          </FormField>
-        
-        </div>
-
-        <div className="mt-8 flex justify-end">
-        <button type="submit" className="px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-full flex items-center gap-2">
-          <Check className="w-5 h-5" />
+      {/* Action Buttons */}
+      <div className="flex justify-end gap-4 pt-4">
+        <button
+          type="button"
+          className="px-6 py-2 border border-gray-300 rounded-md flex items-center gap-2"
+        >
+          Discard
+        </button>
+        <button
+          type="submit"
+          className="px-6 py-2 bg-[#95323d] hover:bg-[#7c2a32] text-white rounded-md flex items-center gap-2"
+        >
+          <Check className="w-4 h-4" />
           Save
         </button>
       </div>
-      </form>
-    </>
+    </form>
   );
 }
+
 export const jobFormSchema = z.object({
   id: z.string(),
   designation: z.string().min(1, "Designation is required"),
@@ -1102,53 +1236,23 @@ export const jobFormSchema = z.object({
     .array(z.string())
     .optional(), // Or you can store them as a single string and split later
   description: z.string().optional(),
-  // If you want to handle file attachments as well,
-  // you could do something like:
-  // attachments: z.any().optional(),
 });
 
 export type JobFormValues = z.infer<typeof jobFormSchema>;
 import { Avatar,AvatarFallback } from "@/components/ui/avatar";
 import { Calendar,Building,MapPin,Pencil,EllipsisVertical,X,Trash2,Plus } from "lucide-react";
 function WorkExperienceContent(){
-  // const { profileDetails, loading, error } = useProfile();
-  const [workExperience, setWorkExperience] = useState([
-    {
-      id:"google-Accountant-4april-5april-delhi-012348813097409",
-      companyName: "google",
-      jobTitle: "Project Manager",
-      startDate: "4april",
-      endDate: "5april",
-      location: "delhi",
-      designation: "Project Manager",
-      employmentType: "Full-time",
-      currentlyWorking: false,
-      remote: false,
-      skills: ["Accounting", "Excel"],
-      description: "Worked as an accountant intern at Google.",
-      organisation: "Google",
-    },
-    {
-      id:"google-Accountant-4april-5april-delhi-012348813097409",
-      companyName: "google",
-      jobTitle: "Project Manager",
-      startDate: "4april",
-      endDate: "5april",
-      location: "delhi",
-      designation: "Project Manager",
-      employmentType: "Full-time",
-      currentlyWorking: false,
-      remote: false,
-      skills: ["Accounting", "Excel"],
-      description: "Worked as an accountant intern at Google.",
-      organisation: "Google",
-    },
-  ]);
+  const { profileDetails, loading, error } = useProfile();
   const [showEditExperience, setShowEditExperience] = useState(false);
-  const [currentExperience, setCurrentExperience] = useState<JobFormValues | null>(null);
+  const [currentExperience, setCurrentExperience] = useState<any | null>(null);
 
   const [openDiscardProgress, setOpenDiscardProgress] = useState(false);
-  
+  useEffect(() => {
+    if (!profileDetails?.workExperience) {
+      setShowEditExperience(true);
+    }
+  }
+, []);
   return(
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -1176,7 +1280,7 @@ function WorkExperienceContent(){
             showEditExperience && (
                 <>
                   <span>{">"}</span>
-                  <span>New Work Experience</span>
+                  <span>{currentExperience? "Edit" : "New"} Work Experience</span>
                 </>
             )
           }
@@ -1184,22 +1288,22 @@ function WorkExperienceContent(){
       </div>
       {!showEditExperience && (
         <div className="grid grid-cols-1 gap-6">
-        {workExperience.map((experience, index) => (
-          <div key={index} className="p-4 border rounded-md shadow-sm flex gap-5">
+        {profileDetails?.workExperience ? Object.entries(profileDetails?.workExperience).map(([id, data]) => (
+          <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
             <div className="">
               <Avatar className="rounded-md font-bold text-[#95323d] border-1">
-              <AvatarFallback className="rounded-none bg-white" >{experience.companyName.slice(0,2).toUpperCase()}</AvatarFallback>
+              <AvatarFallback className="rounded-none bg-white" >{data.organisation.slice(0,2).toUpperCase()}</AvatarFallback>
               </Avatar>
             </div>
             <div className="flex flex-col gap-1 w-full">
               <div className="flex w-full align-center gap-1 justify-between">
-                 <h3 className="text-lg font-medium">{experience.jobTitle}</h3>
+                 <h3 className="text-lg font-medium">{data.designation}</h3>
                  <div className="relative cursor-pointer">
                  <input id="dotcheckbox" type="checkbox" className="absolute inset-0 peer opacity-0 " />
                  <EllipsisVertical className="peer-checked:hidden" />
                  <X className="hidden peer-checked:block peer-checked:border-1 peer-checked:rounded-full peer-checked:bg-red-100 peer-checked:text-[#95323d]" />
                   <div id="editbox" className="peer-checked:flex-col text-start px-2 py-2 border-8 w-[160px] hidden peer-checked:absolute peer-checked:-translate-x-[90%] peer-checked:top-8 peer-checked:left-0 peer-checked:bg-white peer-checked:border peer-checked:border-gray-300 peer-checked:rounded-md peer-checked:flex peer-checked:items-center peer-checked:justify-center">
-                    <button onClick={()=>(setShowEditExperience(true),setCurrentExperience(experience))} className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
+                    <button onClick={()=>(setShowEditExperience(true),setCurrentExperience({id:id,...data}))} className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
                     <Pencil className="w-4" /> Edit 
                     </button>
                     <button className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
@@ -1210,12 +1314,16 @@ function WorkExperienceContent(){
 
 
                 </div>
-              <div className="flex align-center gap-1"><Building className="w-5" /><p className="text-gray-600 ml-2">{experience.companyName}</p></div>
-              <div className="flex align-center gap-1"><Calendar className="w-5"  /><p className="text-gray-500 ml-2">{experience.startDate} - {experience.endDate}</p></div>
-              <div className="flex align-center gap-1"><MapPin className="w-5"  /><p className="text-gray-500 ml-2">{experience.location}</p></div>
+              <div className="flex align-center gap-1"><Building className="w-5" /><p className="text-gray-600 ml-2">{data.organisation}</p></div>
+              <div className="flex align-center gap-1"><Calendar className="w-5"  /><p className="text-gray-500 ml-2">{data.startDate} - {data.endDate}</p></div>
+              <div className="flex align-center gap-1"><MapPin className="w-5"  /><p className="text-gray-500 ml-2">{data.location}</p></div>
             </div>
           </div>
-        ))}
+        )) : (
+          <div className="flex items-center justify-center text-gray-500 h-32">
+            <p>No work experience added yet.</p>
+          </div>
+        )}
       </div>
       )}
       {showEditExperience && (
@@ -1245,7 +1353,9 @@ function DiscardProgressModal({open,setOpen,setEditForm}:{open:any,setOpen:any,s
   )
 }
 function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValues | null )}) {
+  const { profileDetails,setRefetch } = useProfile();
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
@@ -1265,10 +1375,57 @@ function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValue
       // attachments: null
     },
   });
-  const onSubmit = (data: JobFormValues) => {
+  const onSubmit = async(formData: JobFormValues) => {
     // Handle form data here
-    console.log("Form Data:", data);
+    console.log(formData);
+    let id;
+    
+
+    if (!currentExperience) {
+      id = uuidv4(); // Generate a new ID if not provided
+    }
+    else{
+      id = currentExperience.id;
+      const formDataWithId={...formData,id};
+      if (isEqual(formDataWithId, currentExperience)) {
+        toast.error("No changes made to the form!");
+        return;
+      }
+    }
+
+
+    const newData={
+      workExperience:{
+        [id]:formData
+      }
+    }
+    const toastId = toast.loading('Loading...');
+    try{
+      if (!currentExperience) {
+          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
+          await updateProfileDetails({...newData,profileCompletionPercentage});
+          toast.success("Profile updated successfully!", {id: toastId});
+      }
+      else{
+  
+        await updateProfileDetails({ ...newData });
+        toast.success("Profile updated successfully!", {id: toastId});
+      }
+      setRefetch((prev) => !prev);
+    }catch(e){
+      const errorResponse = handleApiError(e);
+      console.error("Error:", errorResponse.errors);
+      toast.error(errorResponse.message ,{id: toastId})
+    }
+
+    
+
   };
+  useEffect(() => {
+    return () => {
+      console.log('unmounting WorkExperienceForm');
+    }
+  },[])
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <input
@@ -1404,14 +1561,11 @@ function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValue
              type="text"
              placeholder="Add a skill (comma-separated or one at a time)"
              className="w-full p-3 border rounded-md"
-             // If you want a single text input for skills:
              onChange={(e) => {
-               // A simple approach: split by comma
                const splitSkills = e.target.value
                  .split(",")
                  .map((skill) => skill.trim());
-               // Manually update the field in react-hook-form:
-               // You can also do dynamic fields if you prefer.
+              setValue("skills", splitSkills);
              }}
            />
          </FormField>

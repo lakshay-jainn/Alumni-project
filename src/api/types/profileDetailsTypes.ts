@@ -75,20 +75,36 @@ export interface profileDetailsResponse {
     about:string | null,
     skills:string[] | null,
     education:{
-        qualification:string,
-        course:string,
-        specialization:string,
-        college:string,
-        duration:{
-            startYear:string,
-            endYear:string,
-        },
-        courseType:string,
-        percentage:string,
-        cgpa:string,
-        rollNumber:string,
+        id:{
+            qualification:string,
+            course:string,
+            specialization:string,
+            college:string,
+            duration:{
+                startYear:string,
+                endYear:string,
+            },
+            courseType:string,
+            percentage:string,
+            cgpa:string,
+            rollNumber:string,
+        }
     },
-    workExperience:string | null,
+    workExperience:{
+        id:{
+            
+            designation:string,
+            organisation:string,
+            employmentType:string,
+            startDate:string,
+            endDate:string,
+            currentlyWorking:boolean,
+            location:string,
+            remote:boolean,
+            skills:string[],
+            description:string,
+        }
+    },
     accomplishments:string | null,
     personalDetails:string | null,
     socialLinks:string | null,
