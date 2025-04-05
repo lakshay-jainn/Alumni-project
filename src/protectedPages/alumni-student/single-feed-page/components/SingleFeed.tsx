@@ -1,5 +1,5 @@
 import useFetchSingleFeed from "@/api/hooks/useFetchSingleFeed";
-import { SinglePost } from "@/protectedPages/alumni-student/feeds-page/.components/SinglePost";
+import { SinglePost } from "@/protectedPages/alumni-student/feeds-page/components/SinglePost";
 import { InitialCommentsResponse } from "@/api/types/FeedsTypes";
 import Comments from "./Comments"
 import SkeletonCard from "@/components/ui/SkeletonCard";

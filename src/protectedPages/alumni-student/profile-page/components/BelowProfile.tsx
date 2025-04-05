@@ -2,8 +2,9 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Pencil, Plus, Upload } from "lucide-react"
-
+import { useProfile } from "../ProfileContext"
 export default function ResumeProfile({setActiveSection, setEditProfileModal}:{setActiveSection: React.Dispatch<React.SetStateAction<"basic" | "resume" | "about" | "skills" | "education" | "work" | "accomplishments" | "personal" | "social">>, setEditProfileModal: (value: boolean) => void}) {
+  const { profileDetails,loading,error } = useProfile()
   return (
     <div className="mx-auto p-4 bg-white">
       {/* About Section */}
@@ -14,7 +15,20 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             <Pencil size={16} />
           </button>
         </div>
-        <p className="text-sm text-gray-600">»»»!œ∑´®†¥¨ˆøπ"'åß∂ƒ©˙∆˚¬…æ</p>
+        {!profileDetails?.about ? (
+          <>
+          <p className="text-xs text-gray-600 mb-3">
+          Tell others about yourself and what makes you unique. This is your chance to shine!
+          </p>
+          <Button onClick={()=>(setActiveSection('about'),setEditProfileModal(true))} variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+          Add About
+          </Button>
+          </>
+        ):(
+          <p className="text-sm text-gray-600">{profileDetails?.about}</p>
+        )}
+        
+        
       </div>
 
       {/* Resume Section */}
@@ -58,11 +72,30 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             <Pencil size={16} />
           </button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline" className="rounded-full bg-gray-100 hover:bg-gray-100 text-gray-800 border-gray-300">
-            Python
-          </Badge>
+        {
+          profileDetails?.skills?.length === 0 ? (
+            <>
+            <p className="text-xs text-gray-600 mb-3">
+              Showcase your skills and let the world know what you can do!
+            </p>
+            <Button onClick={()=>(setActiveSection('skills'),setEditProfileModal(true))} variant="outline" size="sm" className="text-blue-600 text-xs border-blue-600">
+              Add Skills
+            </Button>
+            </>
+          ):(
+            <div className="flex flex-wrap gap-2">
+              {
+                profileDetails?.skills?.map((skill, index) => (
+                  <Badge key={index} variant="outline" className="rounded-full bg-gray-100 hover:bg-gray-100 text-gray-800 border-gray-300">
+                    {skill}
+                  </Badge>
+                ))
+              }
+          
         </div>
+          )
+        }
+        
       </div>
 
       {/* Work Experience Section */}

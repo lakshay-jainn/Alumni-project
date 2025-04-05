@@ -1,7 +1,7 @@
 
 // import "./admin.css"
-import { MainNav } from "./.components/main-nav"
-import { UserNav } from "./.components/user-nav"
+import { MainNav } from "./components/main-nav"
+import { UserNav } from "./components/user-nav"
 import { Outlet } from "react-router-dom"
 export default function Admin_Page() {
   return (

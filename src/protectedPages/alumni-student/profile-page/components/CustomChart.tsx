@@ -1,12 +1,13 @@
 
 import { Pie, PieChart } from "recharts"
 
-const chartData = [
-  { browser: "chrome", visitors: 10, fill: "#DCEEFC" },
-  { browser: "safari", visitors: 20, fill: "#0072E5" },
-]
 
-export function ChartComponent() {
+export function ChartComponent({percentage}: { percentage: (string | null | undefined) }) {
+  const percentageValue = percentage ? parseInt(percentage.replace("%", "")) : 0;
+  const chartData = [
+    { browser: "chrome", visitors: 100 - percentageValue, fill: "#DCEEFC" },
+    { browser: "safari", visitors:percentageValue, fill: "#0072E5" },
+  ]
   return (
   
    

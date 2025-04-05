@@ -3,9 +3,9 @@ import {Dialog,DialogTrigger,DialogContent,DialogTitle,DialogDescription} from '
 import {CirclePlus} from 'lucide-react'
 
 import { useState } from "react";
-import CreatePost from "./.components/CreatePost";
+import CreatePost from "./components/CreatePost";
 
-import FeedsWithCommunities from "./.components/FeedsWithCommunities";
+import FeedsWithCommunities from "./components/FeedsWithCommunities";
 function FeedsPage(){
     // const [sidebarModal,setSidebarModal] = useState(false);
     const [createPostModal,setCreatePostModal] = useState(false);
