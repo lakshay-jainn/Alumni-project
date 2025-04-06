@@ -42,7 +42,7 @@ const Sidebar = () => {
     },
     { 
       id: 'events', 
-      label: 'Events', 
+      label: 'Inbox', 
       icon: 'calendar', 
       path: '/events',
       badge: null 
