@@ -48,12 +48,19 @@ const Sidebar = () => {
       path: '/connections',
       badge: 3,
     },
-    { 
-      id: 'events', 
-      label: 'Events', 
-      icon: 'calendar', 
-      path: '/events',
-      badge: null 
+    {
+      id: 'alumni',
+      label: 'Alumni',
+      icon: Search,
+      path: '/alumni-search',
+      badge: null,
+    },
+    {
+      id: 'inbox',
+      label: 'Inbox',
+      icon: Mail,
+      path: '/inbox',
+      badge: null,
     },
     {
       id: 'messages',
