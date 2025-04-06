@@ -44,8 +44,8 @@ const NavBar = () => {
                     </div>
 
                     <div className="hidden md:flex gap-4">
-                        {/* <NavLink icon={<BadgeInfo />} text="About" />
-                        <NavLink icon={<Contact />} text="Contact Us" /> */}
+                        <NavLink icon={<BadgeInfo />} text="About" />
+                        <NavLink icon={<Contact />} text="Contact Us" />
                         <NavLink icon={<LogIn />} to="/auth/login" text="Login" />
                     </div>
 
@@ -61,8 +61,8 @@ const NavBar = () => {
 
                 {isMenuOpen && (
                     <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2 border-t border-indigo-100 shadow-md animate-slideDown">
-                        {/* <NavLink icon={<BadgeInfo />} text="About" />
-                        <NavLink icon={<Contact />} text="Contact Us" /> */}
+                        <NavLink icon={<BadgeInfo />} text="About" />
+                        <NavLink icon={<Contact />} text="Contact Us" />
                         <NavLink icon={<LogIn />} to="/auth/login" text="Login" />
                     </div>
                 )}
