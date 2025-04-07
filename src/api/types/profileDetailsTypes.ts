@@ -108,4 +108,12 @@ export interface profileDetailsResponse {
     accomplishments:string | null,
     personalDetails:string | null,
     socialLinks:string | null,
+    batch:string | null,
+    user:{
+        id:string,
+        username:string,
+        profileImage:string,
+    }
 }
+
+    
