@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import useGlobalAuth from "@/Auth/useGlobalAuth"
+
 import { createPost } from "@/api/services/feedsService"
 import { uploadImg } from "@/api/services/imageService"
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,7 @@ import { ImagePlus,CircleX } from "lucide-react";
 import { toast } from "sonner";
 import { postUploadPayload } from "@/api/types/profileDetailsTypes"
 import { handleApiError } from "@/api/utils/apiUtils"
-import { checkImageToxicity } from "@/api/services/imageService"
+
 const profileFormSchema = z
   .object({
     image: z.instanceof(File).optional(),
@@ -83,7 +83,7 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
       // some properties of upload functionality
       
       const {
-        acceptedFiles,
+        // These are the props you need to pass to your dropzone component:
         getRootProps,
         getInputProps,
         isDragActive,

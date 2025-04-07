@@ -10,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import useGlobalAuth from "@/Auth/useGlobalAuth"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 export function UserNav() {
   const { Logout } = useGlobalAuth()
-  const navigate = useNavigate()
+
 
   const handleLogout = () => {
     Logout()

@@ -9,7 +9,7 @@ import useFetchAcceptedRequests from "@/api/hooks/useFetchAcceptedRequests"
 import { AlumniRequest } from "@/api/types/adminTypes"
 export function RecentRequests() {
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  // const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [selectedRequest, setSelectedRequest] = useState<AlumniRequest | null>(null)
   const {acceptedRequests, loading, error} = useFetchAcceptedRequests()!
   const handleAction = (action:string, request:AlumniRequest) => {
@@ -28,7 +28,7 @@ export function RecentRequests() {
           <div className="flex items-center gap-4">
             <Avatar>
               <AvatarImage src={request.user.profileImage} alt={request.name} />
-              <AvatarFallback>{request.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+              <AvatarFallback>{request.name && request.name.substring(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
               <p className="text-sm font-medium leading-none">{request.name}</p>
@@ -58,7 +58,7 @@ export function RecentRequests() {
                 <Avatar className="h-20 w-20">
                 
                   <AvatarImage src={selectedRequest.user.profileImage} alt={selectedRequest.name} />
-                  <AvatarFallback>{selectedRequest.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarFallback>{selectedRequest.name && selectedRequest.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <h3 className="text-lg font-semibold">{selectedRequest.name}</h3>
                 <Badge

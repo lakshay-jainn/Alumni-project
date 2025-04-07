@@ -11,7 +11,8 @@ function ProfilePageWithoutContext(){
     const [activeSelection,setActiveSelection] = useState<"basic" | "resume" | "about" | "skills" | "education" | "work" | "accomplishments" | "personal" | "social">("basic")
     useEffect(()=>{
         if(!loading && !error && profileDetails){
-            if (profileDetails.basic.firstName == undefined || profileDetails.basic.lastName == undefined) {
+            console.log(profileDetails.profileCompletionPercentage);
+            if (profileDetails.basic.firstName == undefined || profileDetails.basic.lastName == undefined || profileDetails.profileCompletionPercentage === "0") {
                 
                 setEditProfileModal(true);
         
@@ -35,7 +36,7 @@ function ProfilePageWithoutContext(){
                         <div className='border-1 bottom-0 absolute -translate-[50%] left-[50%] main-text-red-color border-[#95323d] px-1 text-[12px] bg-white p-0 z-50'>{percentageValue}</div>
                     </div>
                     <div className='flex flex-col justify-center '>
-                        <h1 className='font-bold text-xl'>{profileDetails?.basic.firstName + " " + profileDetails?.basic.lastName}</h1>
+                        <h1 className='font-bold text-xl'>{profileDetails?.basic.firstName && profileDetails.basic.firstName } {profileDetails?.basic.lastName && profileDetails.basic.lastName}</h1>
                         <p className='text-gray-500'>@{profileDetails?.username}</p>
                     </div>
                  </div>

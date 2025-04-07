@@ -25,7 +25,7 @@ const AddCommentElement =  memo(({ form, handleAddComment  }: { form:  UseFormRe
             <Form {...form}>
                   <form className='w-full flex flex-col gap-5' onSubmit={form.handleSubmit(onSubmit)}>
                   
-                    
+                    <div className="flex gap-2 items-center w-full">
                     <FormField
                     control={form.control}
                   
@@ -37,7 +37,7 @@ const AddCommentElement =  memo(({ form, handleAddComment  }: { form:  UseFormRe
                         <Input
                         
                       placeholder="Add a comment..."
-                      className="w-full"
+                      className="w-full rounded-2xl outline-none focus:outline-none"
                       {...field}
                       value={field.value || ''}
                       
@@ -48,16 +48,17 @@ const AddCommentElement =  memo(({ form, handleAddComment  }: { form:  UseFormRe
                       </FormItem>
                     )}
                   />
-                    <div className="flex gap-2">
-                    <Button className="w-1/2 bg-linear-to-r from-red-400 to-orange-500 rounded-full" size="icon" type="submit" onClick={() => handleClick("Comment")}>
+               
+                    <Button className="basis-36 bg-red-800 rounded-2xl hover:bg-red-900" size="icon" type="submit" onClick={() => handleClick("Comment")}>
                     Comment
                       <Send className="h-4 w-4" />
                     </Button>
-                    <Button className="w-1/2 rounded-full bg-linear-to-r from-[#28A745] to-[#17A2B8]" size="icon" type="submit" onClick={() => handleClick("Whisper")}>
+                    </div>
+                    {/* <Button className="w-1/2 rounded-full bg-linear-to-r from-[#28A745] to-[#17A2B8]" size="icon" type="submit" onClick={() => handleClick("Whisper")}>
                     Whisper
                       <Send className="h-4 w-4" />
-                    </Button>
-                    </div>
+                    </Button> */}
+               
 
                     
                   </form>

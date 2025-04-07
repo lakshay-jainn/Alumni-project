@@ -1,6 +1,5 @@
 import { Dialog,DialogContent } from "@/components/ui/dialog";
 import ProfileEditor from "./profileEditor";
-import { profileDetailsResponse } from "@/api/types/profileDetailsTypes";
 export default function EditProfileModal({editProfileModal,setEditProfileModal,activeSelection}: {editProfileModal:boolean,setEditProfileModal: React.Dispatch<React.SetStateAction<boolean>>,activeSelection:"basic" | "resume" | "about" | "skills" | "education" | "work" | "accomplishments" | "personal" | "social"}) {
   return (
     <Dialog open={editProfileModal} onOpenChange={setEditProfileModal}>

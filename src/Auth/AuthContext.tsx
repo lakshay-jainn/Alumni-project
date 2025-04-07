@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { setLogout } from "@/api/axios/AuthBridge"
 import {jwtDecode} from 'jwt-decode';
-import { useNavigate } from "react-router-dom";
+
 // Define the type for the context value
 type Role = "ALUMNI" | "ADMIN" | "STUDENT";
 type AuthContextType = {

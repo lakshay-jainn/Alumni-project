@@ -3,7 +3,6 @@ import { SinglePost } from "@/protectedPages/alumni-student/feeds-page/component
 import { InitialCommentsResponse } from "@/api/types/FeedsTypes";
 import Comments from "./Comments"
 import SkeletonCard from "@/components/ui/SkeletonCard";
-import { useState } from "react";
 
 function SingleFeed({postId} : {postId : (string | undefined)}){
     const [singleFeed,loading,error]=useFetchSingleFeed({postId});
@@ -28,7 +27,7 @@ function SingleFeed({postId} : {postId : (string | undefined)}){
           author: comment.user.username, 
           avatar: comment.user.profileImage,
           content: comment.comment,
-          timestamp: new Date(comment.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), 
+          timestamp: comment.createdAt, 
           likes: comment.likesCount,
           isLiked: comment.isLiked,
           type:'comment'
@@ -57,7 +56,7 @@ function SingleFeed({postId} : {postId : (string | undefined)}){
           return( 
             <div className="p-5 flex flex-col gap-5 w-full">
           <SinglePost key={post.id} {...post} />
-          <Comments initialWhisperComments={post.whisperComments} initialComments={post.comments} post={post}/>
+          <Comments initialComments={post.comments} post={post}/>
           </div>
           )
 

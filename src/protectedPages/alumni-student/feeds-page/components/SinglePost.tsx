@@ -10,7 +10,7 @@ import {toast} from 'sonner'
 
 
 
-import useGlobalAuth from "@/Auth/useGlobalAuth"
+
 
 
 
@@ -191,7 +191,7 @@ export function SinglePost({
                       aria-label={isLiked ? "Unlike" : "Like"}
                       aria-pressed={isLiked}
                     >
-                      <Heart style={{height:"2rem",width:"2rem"}} strokeWidth={1} className={` ${isLiked ? "animate-smooth-bounce fill-red-500 text-red-500 " : ""}`} />
+                      <Heart style={{height:"2rem",width:"2rem"}} strokeWidth={1} className={` ${isLiked ? "animate-smooth-bounce fill-red-800 text-red-800 " : ""}`} />
                       <span className="text-lg font-semibold  ">{likes}</span>
                     </Button>
             

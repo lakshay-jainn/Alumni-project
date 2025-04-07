@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useState } from "react"
+
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,12 +12,13 @@ import { useNavigate } from "react-router-dom"
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
+
 })
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
-  const [isAlumni, setIsAlumni] = useState(true)
+
   const { Login } = useGlobalAuth()
   const navigate = useNavigate()
   const {
@@ -42,7 +43,6 @@ export default function LoginPage() {
         body: JSON.stringify({
           email: data.email,
           password: data.password,
-          isAlumni: isAlumni,
         }),
       })
 
@@ -67,19 +67,19 @@ export default function LoginPage() {
         {/* Title section */}
         <div className="relative h-24 overflow-hidden">
           <div
-            className={`absolute w-full px-6 py-8 text-center text-3xl font-semibold transition-all duration-500 ease-in-out ${isAlumni ? "translate-x-0" : "-translate-x-full"}`}
+            className={`absolute w-full py-12 text-center text-3xl font-semibold transition-all duration-500 ease-in-out`}
           >
-            Alumni Login
+            Login
           </div>
-          <div
-            className={`absolute w-full px-6 py-8 text-center text-3xl font-semibold transition-all duration-500 ease-in-out ${isAlumni ? "translate-x-full" : "translate-x-0"}`}
+          {/* <div
+            className={`absolute w-full py-12 text-center text-3xl font-semibold transition-all duration-500 ease-in-out ${isAlumni ? "translate-x-full" : "translate-x-0"}`}
           >
-            Student Login
-          </div>
+            Login
+          </div> */}
         </div>
 
         {/* Toggle controls */}
-        <div className="relative mx-6 mb-4 mt-2 overflow-hidden rounded-2xl border border-gray-200">
+        {/* <div className="relative mx-6 mb-4 mt-2 overflow-hidden rounded-2xl border border-gray-200">
           <div className="relative z-10 flex h-[50px] w-full">
             <button
               onClick={() => setIsAlumni(true)}
@@ -100,7 +100,7 @@ export default function LoginPage() {
               left: isAlumni ? "0%" : "50%",
             }}
           ></div>
-        </div>
+        </div> */}
 
         {/* Form section */}
         <div className="px-6 pb-6">
@@ -109,7 +109,7 @@ export default function LoginPage() {
               <Input
                 {...register("email")}
                 placeholder="Email Address"
-                className="h-[50px] rounded-2xl border-gray-300 text-base"
+                className="h-[50px] rounded-2xl border-gray-300 text-base mt-5"
               />
               {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
             </div>

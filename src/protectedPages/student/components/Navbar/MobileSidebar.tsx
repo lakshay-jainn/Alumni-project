@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   X,
   Home,
   Users,
-  Mail,
-  MessageCircle,
+
+  
   Rss,
-  Briefcase,
+  
   Search,
   LogOut} from 'lucide-react';
 
@@ -47,10 +47,10 @@ const MobileSidebar = ({ isOpen, onClose, onLogout }: MobileSidebarProps) => {
     { id: 'dashboard', label: 'Dashboard', icon: Home, path: '/dashboard' },
     { id: 'connections', label: 'Connections', icon: Users, path: '/connections' },
     { id: 'alumni', label: 'Alumni', icon: Search, path: '/alumni-search' },
-    { id: 'inbox', label: 'Inbox', icon: Mail, path: '/inbox' },
-    { id: 'messages', label: 'Messages', icon: MessageCircle, path: '/messages' },
+    // { id: 'inbox', label: 'Inbox', icon: Mail, path: '/inbox' },
+    // { id: 'messages', label: 'Messages', icon: MessageCircle, path: '/messages' },
     { id: 'feeds', label: 'Feeds', icon: Rss, path: '/feeds' },
-    { id: 'job-board', label: 'Job Board', icon: Briefcase, path: '/jobs' },
+    // { id: 'job-board', label: 'Job Board', icon: Briefcase, path: '/jobs' },
   ];
 
   return (

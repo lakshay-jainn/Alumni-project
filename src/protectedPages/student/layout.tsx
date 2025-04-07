@@ -9,7 +9,7 @@ function StudentPage() {
   const navigate = useNavigate();
   const {Logout} = useGlobalAuth();
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
-  
+  console.log(isMobileView);
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth < 768);

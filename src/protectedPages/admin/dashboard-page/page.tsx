@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Overview } from "./.components/overview"
-import { RecentRequests } from "./.components/recent-requests"
-import { DashboardHeader } from "./.components/dashboard-header"
+
+import { RecentRequests } from "./components/recent-requests"
+import { DashboardHeader } from "./components/dashboard-header"
 import useFetchCounts from "@/api/hooks/useFetchCounts"
 export default function Admin_DashboardPage() {
-  const {CountData, loading, error} = useFetchCounts()!;
+  const {CountData, loading} = useFetchCounts()!;
   
   return (
     <div className="flex flex-col gap-6">

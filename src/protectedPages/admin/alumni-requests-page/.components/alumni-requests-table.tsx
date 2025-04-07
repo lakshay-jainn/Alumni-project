@@ -27,7 +27,7 @@ import { AlumniRequest } from "@/api/types/adminTypes"
 
 export function AlumniRequestsTable() {
   const [refetchTable,setRefetchTable] = useState(false)
-  const {pendingRequests, loading, error} = useFetchPendingRequests(refetchTable)!
+  const {pendingRequests} = useFetchPendingRequests(refetchTable)!
   const [selectedRequest, setSelectedRequest] = useState<null | AlumniRequest>(null)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
