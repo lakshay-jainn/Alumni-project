@@ -4,19 +4,16 @@ import {
   Check,
   Clock,
   Eye,
-  FileText,
   HelpCircle,
   ChevronDown,
 } from "lucide-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImagePlus } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./profileEditor.module.css"
-import { profileDetailsResponse } from "@/api/types/profileDetailsTypes";
 import { updateProfileDetails } from "@/api/services/profileService";
 import { useProfile } from "@/protectedPages/alumni-student/profile-page/ProfileContext";
 import { handleApiError } from "@/api/utils/apiUtils";
@@ -136,6 +133,7 @@ export default function ProfileEditor({
                   activeSection === "basic" ? (
                     <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
                       <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+                      
                     </div>
                   ) : (
                     <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
@@ -147,18 +145,23 @@ export default function ProfileEditor({
                 active={activeSection === "basic"}
                 onClick={() => setActiveSection("basic")}
               />
-              <NavItem
+              {/* <NavItem
                 icon={<Clock className="w-5 h-5 text-gray-400" />}
                 label="Resume"
                 highlight={activeSection === "resume"}
                 active={activeSection === "resume"}
                 onClick={() => setActiveSection("resume")}
-              />
+              /> */}
               <NavItem
                 icon={
-                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center bg-green-500">
-                    <Check className="w-3 h-3 text-white" />
-                  </div>
+                  activeSection === "about" ? (
+                    <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+                      
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
+                  )
                 }
                 label="About"
                 required
@@ -168,9 +171,14 @@ export default function ProfileEditor({
               />
               <NavItem
                 icon={
-                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center bg-green-500">
-                    <Check className="w-3 h-3 text-white" />
-                  </div>
+                  activeSection === "skills" ? (
+                    <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+                      
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
+                  )
                 }
                 highlight={activeSection === "skills"}
                 label="Skills"
@@ -180,9 +188,14 @@ export default function ProfileEditor({
               />
               <NavItem
                 icon={
-                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center bg-green-500">
-                    <Check className="w-3 h-3 text-white" />
-                  </div>
+                  activeSection === "education" ? (
+                    <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+                      
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
+                  )
                 }
                 label="Education"
                 required
@@ -191,33 +204,42 @@ export default function ProfileEditor({
                 onClick={() => setActiveSection("education")}
               />
               <NavItem
-                icon={<Clock className="w-5 h-5 text-gray-400" />}
+                icon={
+                  activeSection === "work" ? (
+                    <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+                      
+                    </div>
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
+                  )
+                }
                 label="Work Experience"
                 active={activeSection === "work"}
                 highlight={activeSection === "work"}
                 onClick={() => setActiveSection("work")}
               />
-              <NavItem
+              {/* <NavItem
                 icon={<Clock className="w-5 h-5 text-gray-400" />}
                 label="Accomplishments & Initiatives"
                 active={activeSection === "accomplishments"}
                 highlight={activeSection === "accomplishments"}
                 onClick={() => setActiveSection("accomplishments")}
-              />
-              <NavItem
+              /> */}
+              {/* <NavItem
                 icon={<Clock className="w-5 h-5 text-gray-400" />}
                 label="Personal Details"
                 active={activeSection === "personal"}
                 highlight={activeSection === "personal"}
                 onClick={() => setActiveSection("personal")}
-              />
-              <NavItem
+              /> */}
+              {/* <NavItem
                 icon={<Clock className="w-5 h-5 text-gray-400" />}
                 label="Social Links"
                 active={activeSection === "social"}
                 highlight={activeSection === "social"}
                 onClick={() => setActiveSection("social")}
-              />
+              /> */}
             </ul>
           </nav>
         </div>
@@ -301,7 +323,7 @@ type BasicDetailsFormData = z.infer<typeof basicDetailsSchema>;
 import {toast} from "sonner"
 function BasicDetailsContent() {
   // For handling the profile image preview and dropzone
-  const { profileDetails, loading, error,setRefetch } = useProfile();
+  const { profileDetails,setRefetch } = useProfile();
   const [imageUpdateOpen, setImgUpdateOpen] = useState(false);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(profileDetails!.profileImage || null);
 
@@ -321,8 +343,8 @@ function BasicDetailsContent() {
       mobile: profileDetails!.basic.mobile || "",
       gender: profileDetails!.basic.gender || "",
       userType: profileDetails!.basic.userType || "",
-      course: profileDetails!.basic.course || "BS (Bachelor of Science)",
-      courseSpecialization: profileDetails!.basic.courseSpecialization || "Hansraj College",
+      course: profileDetails!.basic.course || "",
+      courseSpecialization: profileDetails!.basic.courseSpecialization || "",
     },
   });
 
@@ -338,10 +360,10 @@ function BasicDetailsContent() {
     if (Object.keys(newData).length > 0) {
       const toastId = toast.loading('Loading...');
       console.log(profileDetails?.basic)
-      const { userType, ...profileWithoutUserType } = profileDetails!.basic;
+      const { userType,firstName,lastName, ...profileWithoutUserType } = profileDetails!.basic;
       try{
         if (Object.keys(profileWithoutUserType).length === 0) {
-          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
+          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 20) + "%";
           await updateProfileDetails({basic:newData,profileCompletionPercentage});
         }else{
           await updateProfileDetails({basic:newData});
@@ -712,7 +734,7 @@ const AboutSchema = z.object({
 type AboutFormData = z.infer<typeof AboutSchema>;
 
 function AboutContent(){
-  const { profileDetails, loading, error ,setRefetch} = useProfile();
+  const { profileDetails ,setRefetch} = useProfile();
   const {
     register,
     handleSubmit,
@@ -728,7 +750,7 @@ function AboutContent(){
       const toastId = toast.loading('Loading...');
       try{
         if (!profileDetails?.about){
-          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
+          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 20) + "%";
           await updateProfileDetails({about:data.about,profileCompletionPercentage});
         }else{
           await updateProfileDetails({about:data.about});
@@ -753,7 +775,9 @@ function AboutContent(){
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Check className="w-6 h-6 text-green-500" />
+        <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+          </div>
           <h2 className="text-lg font-medium">About</h2>
         </div>
         <div className="flex items-center gap-2">
@@ -788,7 +812,7 @@ function AboutContent(){
 }
 import { isEqual } from "lodash";
 function SkillsContent(){
-  const { profileDetails, loading, error,setRefetch } = useProfile();
+  const { profileDetails,setRefetch } = useProfile();
   const inputRef = useRef<HTMLInputElement>(null);
   const [skills, setSkills] = useState<string[]>(profileDetails?.skills || []);
   const onSubmit = async() => {
@@ -796,7 +820,7 @@ function SkillsContent(){
       const toastId = toast.loading('Loading...');
       try{
         if (profileDetails?.skills?.length === 0) {
-          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
+          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 20) + "%";
           await updateProfileDetails({skills:skills,profileCompletionPercentage});
         }else{
           await updateProfileDetails({skills:skills});
@@ -830,7 +854,9 @@ function SkillsContent(){
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Check className="w-6 h-6 text-green-500" />
+          <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+            </div>
           <h2 className="text-lg font-medium">Skills</h2>
         </div>
         <div className="flex items-center gap-2">
@@ -869,6 +895,7 @@ function SkillsContent(){
     </div>
   )
 }
+import { GraduationCap } from "lucide-react";
 const EducationSchema = z.object({
   id: z.string(),
   qualification: z.string().nonempty("Qualification is required"),
@@ -901,7 +928,9 @@ function EducationContent() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Check className="w-6 h-6 text-green-500" />
+        <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+          </div>
           <h2 className="text-lg font-medium">Education</h2>
         </div>
         <div className="flex items-center gap-2">
@@ -971,24 +1000,9 @@ function EducationContent() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                <span className="font-medium">Course:</span>
-                <p className="text-gray-600">{data.course}</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="font-medium">Specialization:</span>
-                <p className="text-gray-600">{data.specialization}</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="font-medium">College:</span>
-                <p className="text-gray-600">{data.college}</p>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="font-medium">Duration:</span>
-                <p className="text-gray-600">
-                  {data.duration.startYear} - {data.duration.endYear}
-                </p>
-              </div>
+              <div className="flex align-center gap-1"><GraduationCap className="w-5" /><p className="text-gray-600 ml-2">{data.course} {data.specialization}</p></div>
+              <div className="flex align-center gap-1"><Building className="w-5" /><p className="text-gray-600 ml-2">{data.college}</p></div>
+              <div className="flex align-center gap-1"><Calendar className="w-5"  /><p className="text-gray-500 ml-2">{data.duration.startYear} - {data.duration.endYear}</p></div>
             </div>
           </div>
         )) : (
@@ -1038,7 +1052,7 @@ function EducationForm({ currentEducation }: { currentEducation: any | null }) {
     try {
       if (!profileDetails?.education) {
         const profileCompletionPercentage =
-          String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%", "")) + 10) + "%";
+          String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%", "")) + 20) + "%";
         await updateProfileDetails({ education: formatedData, profileCompletionPercentage });
       } else {
         await updateProfileDetails({ education: formatedData });
@@ -1242,7 +1256,7 @@ export type JobFormValues = z.infer<typeof jobFormSchema>;
 import { Avatar,AvatarFallback } from "@/components/ui/avatar";
 import { Calendar,Building,MapPin,Pencil,EllipsisVertical,X,Trash2,Plus } from "lucide-react";
 function WorkExperienceContent(){
-  const { profileDetails, loading, error } = useProfile();
+  const { profileDetails } = useProfile();
   const [showEditExperience, setShowEditExperience] = useState(false);
   const [currentExperience, setCurrentExperience] = useState<any | null>(null);
 
@@ -1257,7 +1271,9 @@ function WorkExperienceContent(){
     <div>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <Check className="w-6 h-6 text-green-500" />
+          <div className="w-5 h-5 rounded-full border-2 border-[#95323d] flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-[#95323d]"></div>
+          </div>
           <h2 className="text-lg font-medium">Work Experience</h2>
         </div>
         <div className="flex items-center gap-2">
@@ -1335,7 +1351,7 @@ function WorkExperienceContent(){
   
 }
 import {Dialog,DialogContent} from "@/components/ui/dialog";
-import { profile } from "console";
+
 function DiscardProgressModal({open,setOpen,setEditForm}:{open:any,setOpen:any,setEditForm:any}){
   
   return (
@@ -1403,7 +1419,7 @@ function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValue
     const toastId = toast.loading('Loading...');
     try{
       if (!profileDetails?.workExperience) {
-          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 10) + "%";
+          const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 20) + "%";
           await updateProfileDetails({...newData,profileCompletionPercentage});
           toast.success("Profile updated successfully!", {id: toastId});
       }

@@ -4,13 +4,11 @@ import { useState,useEffect , useCallback} from "react";
 import { PostProps } from "./SinglePost";
 import { SinglePost } from "./SinglePost";
 import { FetchFeeds } from "@/api/services/feedsService";
-import useGlobalAuth from "@/Auth/useGlobalAuth";
 import { debounce } from 'lodash'
 import SkeletonCard from "@/components/ui/SkeletonCard";
 
 
 export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
-  const {isLoggedIn}=useGlobalAuth();
   const [feeds,setFeeds,loading,error]=useFetchFeeds({fetchAgain});
   const [feedsExpanded,setFeedsExpanded]=useState(false);
   const [skipFeeds,setSkipFeeds]=useState(0);
@@ -112,16 +110,14 @@ export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
             name:feed.user.username ,
             avatar:feed.user.profileImage,
           },
-          timestamp:new Date(feed.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+          timestamp:feed.createdAt,
           image:feed.content!=='' ? feed.content : undefined,
           caption: feed.caption ? feed.caption : '',
           likes:feed.likesCount,
           isLiked:feed.isLiked,
           commentsCount:feed.commentCount,
- 
         }       
-        
-        console.log(post)
+        console.log(feed);
         return(<SinglePost key={post.id} {...post} />)
   }
   )}

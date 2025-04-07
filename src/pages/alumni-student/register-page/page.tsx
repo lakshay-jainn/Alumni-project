@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import {toast} from 'sonner';
 // Define the registration schema with Zod
 const registerSchema = z.object({
+  firstName:z.string(),
+  lastName:z.string().optional(),
   username: z.string().min(3, "Username must be at least 3 characters"),
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -49,6 +51,8 @@ export default function RegisterPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          firstName:data.firstName,
+          lastName:data.lastName || "",
           username: data.username,
           email: data.email,
           password: data.password,
@@ -116,10 +120,24 @@ export default function RegisterPage() {
         <div className="px-6 pb-6">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-5">
+            <div className="flex flex-wrap gap-5">
+                <Input
+                  {...register("firstName")}
+                  placeholder="First Name"
+                  className="h-[50px] flex-1 rounded-2xl border-gray-300 text-base"
+                />
+                {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>}
+                <Input
+                  {...register("lastName")}
+                  placeholder="Last Name"
+                  className="h-[50px] flex-1 rounded-2xl border-gray-300 text-base"
+                />
+                {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>}
+              </div>
               <Input
                 {...register("username")}
                 placeholder="Username"
-                className="h-[50px] rounded-2xl border-gray-300 text-base"
+                className="h-[50px] rounded-2xl border-gray-300 text-base mt-5"
               />
               {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username.message}</p>}
             </div>

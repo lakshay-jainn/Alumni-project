@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 import {
   Home,
   Users,
-  Mail,
-  MessageCircle,
+
+  
   Rss,
-  Briefcase,
+
+  Calendar,
   Search,
 } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState('');
-
+  console.log(activeItem);
   useEffect(() => {
     const currentPath = location.pathname;
     const matchingItem = menuItems.find(
@@ -25,13 +26,13 @@ const Sidebar = () => {
     }
   }, [location.pathname]);
 
-  const colors = {
-    primary: '#95323d',
-    primaryLight: '#c04757',
-    primaryDark: '#7c2a32',
-    gray600: '#718096',
-    textSecondary: '#4a5568',
-  };
+  // const colors = {
+  //   primary: '#95323d',
+  //   primaryLight: '#c04757',
+  //   primaryDark: '#7c2a32',
+  //   gray600: '#718096',
+  //   textSecondary: '#4a5568',
+  // };
 
   const menuItems = [
     {
@@ -48,20 +49,24 @@ const Sidebar = () => {
       path: '/connections',
       badge: 3,
     },
+    { id: 'alumni', 
+      label: 'Alumni', 
+      icon: Search, 
+      path: '/alumni-search' },
     { 
       id: 'events', 
       label: 'Events', 
-      icon: 'calendar', 
+      icon: Calendar, 
       path: '/events',
       badge: null 
     },
-    {
-      id: 'messages',
-      label: 'Messages',
-      icon: MessageCircle,
-      path: '/messages',
-      badge: 2,
-    },
+    // {
+    //   id: 'messages',
+    //   label: 'Messages',
+    //   icon: MessageCircle,
+    //   path: '/messages',
+    //   badge: 2,
+    // },
     {
       id: 'feeds',
       label: 'Feeds',
@@ -69,13 +74,13 @@ const Sidebar = () => {
       path: '/feeds',
       badge: null,
     },
-    {
-      id: 'job-board',
-      label: 'Job Board',
-      icon: Briefcase,
-      path: '/jobs',
-      badge: null,
-    },
+    // {
+    //   id: 'job-board',
+    //   label: 'Job Board',
+    //   icon: Briefcase,
+    //   path: '/jobs',
+    //   badge: null,
+    // },
   ];
 
   return (

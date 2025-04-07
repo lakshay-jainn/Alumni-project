@@ -1,10 +1,12 @@
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Pencil, Plus, Upload } from "lucide-react"
+import { Pencil, Plus } from "lucide-react"
 import { useProfile } from "../ProfileContext"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { GraduationCap, Building, Calendar, MapPin } from "lucide-react"  
 export default function ResumeProfile({setActiveSection, setEditProfileModal}:{setActiveSection: React.Dispatch<React.SetStateAction<"basic" | "resume" | "about" | "skills" | "education" | "work" | "accomplishments" | "personal" | "social">>, setEditProfileModal: (value: boolean) => void}) {
-  const { profileDetails,loading,error } = useProfile()
+  const { profileDetails } = useProfile()
   return (
     <div className="mx-auto p-4 bg-white">
       {/* About Section */}
@@ -32,7 +34,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
       </div>
 
       {/* Resume Section */}
-      <div className="border-b py-4">
+      {/* <div className="border-b py-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-medium text-[#95323d]">Resume</h2>
         </div>
@@ -53,16 +55,16 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             </Button>
           </div>
           <div className="ml-2">
-            {/* <img
+            <img
               src="/placeholder.svg?height=60&width=60"
               alt="Resume icon"
               width={60}
               height={60}
               className="opacity-70"
-            /> */}
+            />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Skills Section */}
       <div className="border-b py-4">
@@ -106,21 +108,42 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             <Pencil size={16} />
           </button>
         </div>
-        <p className="text-xs text-gray-600 mb-3">
-          Narrate your professional journey and fast-track your way to new career heights!
-        </p>
-        <Button onClick={()=>(setActiveSection('work'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
-          Add Work Experience
-        </Button>
-        <div className="flex justify-end mt-2">
-          {/* <img
-            src="/placeholder.svg?height=40&width=40"
-            alt="Work icon"
-            width={40}
-            height={40}
-            className="opacity-70"
-          /> */}
+        {
+          !profileDetails?.workExperience ? (
+            <>
+            <p className="text-xs text-gray-600 mb-3">
+              Narrate your professional journey and fast-track your way to new career heights!
+            </p>
+            <Button onClick={()=>(setActiveSection('work'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
+              Add Work Experience
+            </Button>
+            </>
+          ):(
+            <div className="flex flex-wrap gap-2">
+              {
+                Object.entries(profileDetails!.workExperience).map(([id, data]) => (
+                  <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
+                  <div className="">
+                    <Avatar className="rounded-md font-bold text-[#95323d] border-1">
+                    <AvatarFallback className="rounded-none bg-white" >{data.organisation.slice(0,2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <div className="flex w-full align-center gap-1 justify-between">
+                       <h3 className="text-lg font-medium">{data.designation}</h3>
+ 
+                      </div>
+                    <div className="flex align-center gap-1"><Building className="w-5" /><p className="text-gray-600 ml-2">{data.organisation}</p></div>
+                    <div className="flex align-center gap-1"><Calendar className="w-5"  /><p className="text-gray-500 ml-2">{data.startDate} - {data.endDate}</p></div>
+                    <div className="flex align-center gap-1"><MapPin className="w-5"  /><p className="text-gray-500 ml-2">{data.location}</p></div>
+                  </div>
+                </div>
+                ))
+              }
+          
         </div>
+          )
+        }
       </div>
 
       {/* Education Section */}
@@ -136,7 +159,43 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             </button>
           </div>
         </div>
-        <div className="flex items-start gap-3">
+        {
+          !profileDetails?.education ? (
+            <>
+            <p className="text-xs text-gray-600 mb-3">
+              Showcase your educational journey and let your achievements shine!
+            </p>
+            <Button onClick={()=>(setActiveSection('education'),setEditProfileModal(true))} variant="outline" size="sm" className="text-[#95323d] text-xs border-[#95323d]">
+              Add Education
+            </Button>
+            </>
+          ):(
+            <div className="flex flex-wrap gap-2">
+              {
+                Object.entries(profileDetails!.education).map(([id, data]) => (
+                  <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
+                  <div className="">
+                    <Avatar className="rounded-md font-bold text-[#95323d] border-1">
+                    <AvatarFallback className="rounded-none bg-white" >{data.college.slice(0,2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <div className="flex w-full align-center gap-1 justify-between">
+                       <h3 className="text-lg font-medium">{data.qualification} </h3>
+                      </div>
+                    <div className="flex align-center gap-1"><GraduationCap className="w-5" /><p className="text-gray-600 ml-2">{data.course} {data.specialization}</p></div>
+                    <div className="flex align-center gap-1"><Building className="w-5" /><p className="text-gray-600 ml-2">{data.college}</p></div>
+
+                    <div className="flex align-center gap-1"><Calendar className="w-5"  /><p className="text-gray-500 ml-2">{data.duration.startYear} - {data.duration.endYear}</p></div>
+                  </div>
+                </div>
+                ))
+              }
+          
+        </div>
+          )
+        }
+        {/* <div className="flex items-start gap-3">
           <div className="w-8 h-8 bg-gray-200 flex items-center justify-center rounded-md text-xs font-bold">HA</div>
           <div className="flex-1">
             <p className="font-medium text-sm">Harvard College</p>
@@ -159,11 +218,11 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Responsibilities Section */}
-      <div className="border-b py-4">
+      {/* <div className="border-b py-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-medium text-gray-800">Responsibilities</h2>
           <button className="text-gray-500">
@@ -177,18 +236,18 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           Add Responsibility
         </Button>
         <div className="flex justify-end mt-2">
-          {/* <img
+          <img
             src="/placeholder.svg?height=40&width=40"
             alt="Responsibility icon"
             width={40}
             height={40}
             className="opacity-70"
-          /> */}
+          />
         </div>
-      </div>
+      </div> */}
 
       {/* Certificate Section */}
-      <div className="border-b py-4">
+      {/* <div className="border-b py-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-medium text-gray-800">Certificate</h2>
           <div className="flex items-center gap-2">
@@ -216,10 +275,10 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             <p className="text-xs text-gray-600">St. Stephen's College, Delhi University</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Projects Section */}
-      <div className="border-b py-4">
+      {/* <div className="border-b py-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-medium text-gray-800">Projects</h2>
           <button className="text-gray-500">
@@ -233,18 +292,18 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           Add Project
         </Button>
         <div className="flex justify-end mt-2">
-          {/* <img
+          <img
             src="/placeholder.svg?height=40&width=40"
             alt="Project icon"
             width={40}
             height={40}
             className="opacity-70"
-          /> */}
+          />
         </div>
-      </div>
+      </div> */}
 
       {/* Achievements Section */}
-      <div className="border-b py-4">
+      {/* <div className="border-b py-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-medium text-gray-800">Achievements</h2>
           <button className="text-gray-500">
@@ -258,18 +317,18 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           Add Achievement
         </Button>
         <div className="flex justify-end mt-2">
-          {/* <img
+          <img
             src="/placeholder.svg?height=40&width=40"
             alt="Achievement icon"
             width={40}
             height={40}
             className="opacity-70"
-          /> */}
+          />
         </div>
-      </div>
+      </div> */}
 
       {/* Social Links Section */}
-      <div className="py-4">
+      {/* <div className="py-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-medium text-gray-800">Social Links</h2>
           <button className="text-gray-500">
@@ -296,7 +355,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

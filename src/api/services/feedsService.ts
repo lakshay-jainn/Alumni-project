@@ -3,7 +3,7 @@ import axiosClient from "../axios/axiosClient";
 
 export async function AddComment(data:any){
 
-    const response = await axiosClient.post('/posts/create-comment',data)
+    const response = await axiosClient.post('/posts/comment',data)
     
     return response.data
 }
@@ -14,9 +14,15 @@ export async function LikePost(data : any){
 
       return response.data;
 }
+export async function LikeComment(data : any){
 
-export async function FetchComments(data : any ){
-    const response = await axiosClient.post('/posts/comments',data)
+    const response = await axiosClient.post('/posts/like-comment',data)
+
+      return response.data;
+}
+
+export async function FetchComments(url : any ){
+    const response = await axiosClient.get(url)
     return response.data
 }
 export async function createPost(data : any){

@@ -1,6 +1,6 @@
-import NavBar from "./.components/NavBar";
-import CarouselPage from "./.components/Crousel";
-import Footer from "./.components/Footer";
+import NavBar from "./components/NavBar";
+import CarouselPage from "./components/Crousel";
+import Footer from "./components/Footer";
 import { Link } from "react-router-dom";
 
 function HomePage() {

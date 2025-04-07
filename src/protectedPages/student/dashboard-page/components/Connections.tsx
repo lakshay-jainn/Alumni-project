@@ -1,15 +1,15 @@
-import { Users, UserPlus, Briefcase } from "lucide-react"
+import { Users, UserPlus } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
-export function ConnectionPage() {
+export function ConnectionPage({connections=0,yourNetworks = {postLength: 0, followerLength:0,followingLength:0}}: {connections: (number | undefined), yourNetworks: ({ postLength: number, followerLength: number, followingLength: number }) | undefined}) {
+  const { postLength, followerLength, followingLength } = yourNetworks;
   const navigate = useNavigate();
   const goToConnections = () => navigate('/connections');
-  const goToJobs = () => navigate('/jobs');
-  const connections = 69;
-  const followers = 45;
-  const following = 19;
-  const posts = 5;
-  const jobs = 12;
+  // const goToJobs = () => navigate('/jobs');
+  const followers = followerLength || 0;
+  const following = followingLength || 0;
+  const posts = postLength || 0;
+
 
   return (
     <div className="mb-6 flex flex-wrap w-full gap-6">
@@ -56,7 +56,7 @@ export function ConnectionPage() {
       </div>
 
       {/* Jobs */}
-      <div className="flex-1 min-w-[240px] bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      {/* <div className="flex-1 min-w-[240px] bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
         <h2 className="text-lg font-semibold">Job Opportunities</h2>
         <p className="text-sm text-gray-500 mb-3">Matching your profile</p>
         <div className="flex items-center flex-col gap-6 justify-between">
@@ -73,7 +73,7 @@ export function ConnectionPage() {
             View All
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 };
