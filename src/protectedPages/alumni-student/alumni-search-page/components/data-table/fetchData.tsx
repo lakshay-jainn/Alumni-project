@@ -12,6 +12,7 @@ export async function getData( ): Promise<Payment[]> {
       if (res.status===200){
         return data
 
+
     
     } }catch (e) {
       throw new Error(". Please try again")
