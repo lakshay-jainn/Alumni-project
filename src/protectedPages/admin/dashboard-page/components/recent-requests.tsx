@@ -27,14 +27,14 @@ export function RecentRequests() {
         <div key={request.userId} className="flex items-center justify-between border-b pb-4">
           <div className="flex items-center gap-4">
             <Avatar>
-              <AvatarImage src={request.user.profileImage} alt={request.name} />
-              <AvatarFallback>{request.name && request.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+              <AvatarImage src={request.user.profileImage} alt={request.basic.firstName} />
+              <AvatarFallback>{request.basic.firstName && request.basic.firstName.substring(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium leading-none">{request.name}</p>
-              <p className="text-sm text-muted-foreground">{request.user.email}</p>
+              <p className="text-sm font-medium leading-none">{request.basic.firstName+" "+ (request.basic.lastName || "")}</p>
+              <p className="text-sm text-muted-foreground">{request.email}</p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline">{request.enrolmentNumber}</Badge>
+                <Badge variant="outline">{request.enrollmentNumber}</Badge>
                 <Badge variant="secondary">Alumni</Badge>
               </div>
             </div>
@@ -57,10 +57,10 @@ export function RecentRequests() {
               <div className="flex flex-col items-center gap-2 mb-4">
                 <Avatar className="h-20 w-20">
                 
-                  <AvatarImage src={selectedRequest.user.profileImage} alt={selectedRequest.name} />
-                  <AvatarFallback>{selectedRequest.name && selectedRequest.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarImage src={selectedRequest.user.profileImage} alt={selectedRequest.basic.firstName} />
+                  <AvatarFallback>{selectedRequest.basic.firstName && selectedRequest.basic.firstName.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <h3 className="text-lg font-semibold">{selectedRequest.name}</h3>
+                <h3 className="text-lg font-semibold">{selectedRequest.basic.firstName + " " +(selectedRequest.basic.lastName || "")}</h3>
                 <Badge
                     variant={
                       selectedRequest.status === "ACCEPTED"
@@ -76,18 +76,18 @@ export function RecentRequests() {
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Email:</div>
-                <div className="col-span-2">{selectedRequest.user.email}</div>
+                <div className="col-span-2">{selectedRequest.email}</div>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Enrollment No:</div>
-                <div className="col-span-2">{selectedRequest.enrolmentNumber}</div>
+                <div className="col-span-2">{selectedRequest.enrollmentNumber}</div>
               </div>
-
+{/* 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Date of Birth:</div>
                 <div className="col-span-2">{selectedRequest.DOB}</div>
-              </div>
+              </div> */}
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Graduation Year:</div>
