@@ -22,8 +22,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CheckIcon, MoreHorizontalIcon, XIcon } from "lucide-react"
 import  useFetchPendingRequests  from "@/api/hooks/useFetchPendingRequests"
-import { ApproveAlumni, ApproveStudent } from "@/api/services/adminService"
+import { Approve } from "@/api/services/adminService"
 import { AlumniRequest } from "@/api/types/adminTypes"
+import { Action } from "sonner"
 
 export function AlumniRequestsTable() {
   const [refetchTable,setRefetchTable] = useState(false)
@@ -32,6 +33,8 @@ export function AlumniRequestsTable() {
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [actionType, setActionType] = useState("")
+
+  console.log("36",pendingRequests)
 
   const handleAction = (action:string, request:AlumniRequest) => {
     if (action === "view") {
@@ -46,12 +49,10 @@ export function AlumniRequestsTable() {
 
   const confirmAction = async() => {
     try {
-        if (selectedRequest!.type === "alumni"){
-        await ApproveAlumni({userId:selectedRequest!.userId, action: actionType})
-        }
-        else{
-          await ApproveStudent({userId:selectedRequest!.userId, action: actionType})
-        }
+      await Approve({
+          action: actionType,
+          userId : selectedRequest?.userId,
+      })
       
       } catch (error) {
       console.error("Error:", error)
@@ -82,18 +83,18 @@ export function AlumniRequestsTable() {
               <TableCell className="font-medium">
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={request.user.profileImage} alt={request.name} />
-                    <AvatarFallback>{request.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarImage src={request.user.profileImage} alt={request.basic.firstName} />
+                    <AvatarFallback>{request.basic.firstName && request.basic.firstName.substring(0, 2).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   
                 </div>
               </TableCell>
-              <TableCell>{request.name}sfgsfdg</TableCell>
-              <TableCell>{request.email}sdfgsdfg</TableCell>
-              <TableCell>{request.enrolmentNumber}sdfgfsdg</TableCell>
-              <TableCell>{request.batch}sdfgfsdg</TableCell>
+              <TableCell>{request.basic.firstName + "" + (request.basic.lastName || "") }</TableCell>
+              <TableCell>{request.email}</TableCell>
+              <TableCell>{request.enrollmentNumber}</TableCell>
+              <TableCell>{request.batch}</TableCell>
               <TableCell>
-                {request.type}
+                {request.user.role}
               </TableCell>
               <TableCell>
                 <Badge
@@ -163,10 +164,10 @@ export function AlumniRequestsTable() {
               <div className="flex flex-col items-center gap-2 mb-4">
                 <Avatar className="h-20 w-20">
                 
-                  <AvatarImage src={`/placeholder.svg?height=80&width=80`} alt={selectedRequest.name} />
-                  <AvatarFallback>{selectedRequest.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarImage src={`/placeholder.svg?height=80&width=80`} alt={selectedRequest.basic.firstName} />
+                  <AvatarFallback>{selectedRequest.basic.firstName && selectedRequest.basic.firstName.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <h3 className="text-lg font-semibold">{selectedRequest.name}</h3>
+                <h3 className="text-lg font-semibold">{selectedRequest.basic.firstName+" "+(selectedRequest.basic.lastName || "")}</h3>
                 <Badge
                   variant={
                     selectedRequest.status === "ACCEPTED"
@@ -188,13 +189,13 @@ export function AlumniRequestsTable() {
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Enrollment No:</div>
-                <div className="col-span-2">{selectedRequest.enrolmentNumber}</div>
+                <div className="col-span-2">{selectedRequest.enrollmentNumber}</div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 text-sm">
+              {/* <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Date of Birth:</div>
-                <div className="col-span-2">{selectedRequest.DOB}</div>
-              </div>
+                <div className="col-span-2">{selectedRequest.basic.}</div>
+              </div> */}
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Graduation Year:</div>

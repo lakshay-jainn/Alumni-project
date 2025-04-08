@@ -1,18 +1,18 @@
 export interface AlumniRequest {
-    userId: string
-    name: string
-    email: string
-    enrolmentNumber: string
-    DOB: string
-    batch: string
-    type: string
-    status: string
-    user: {
-        id: string
-        email: string
-        name: string
-        profileImage: string
-        type: string
-        createdAt: string
+    enrollmentNumber: string,
+    status: string,
+    userId : string,
+    email:string,
+    profileImage:string,
+    basic:{
+        lastName:string,
+        firstName:string,
+    },
+    batch:string | null,
+    user:{
+        id:string,
+        username:string,
+        role: string,
+        profileImage:string,
     }
-  }
+}
