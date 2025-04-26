@@ -38,6 +38,24 @@ export function MainNav() {
       >
         Add Member
       </Link>
+      <Link
+        to="/admin/feeds"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          // pathname === "/add-member" ? "text-primary" : "text-muted-foreground",
+        )}
+      >
+        Feeds
+      </Link>
+      <Link
+        to="/admin/create-community"
+        className={cn(
+          "text-sm font-medium transition-colors hover:text-primary",
+          // pathname === "/add-member" ? "text-primary" : "text-muted-foreground",
+        )}
+      >
+        Create Community
+      </Link>
     </nav>
   )
 }

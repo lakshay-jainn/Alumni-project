@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { SigninAPI } from "@/api/services/authService"
 import {toast} from 'sonner'
 import useGlobalAuth from "@/Auth/useGlobalAuth"
+import { handleApiError } from "@/api/utils/apiUtils"
 // Define the form schema with Zod
 const loginFormSchema = z.object({
   email: z
@@ -53,6 +54,8 @@ export function LoginForm() {
       toast.success("Login successful!")
       
     } catch (err) {
+      const error=handleApiError(err)
+      console.error(error.message);
       // setError("An error occurred during login")
       
     } finally {

@@ -109,7 +109,7 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           </button>
         </div>
         {
-          !profileDetails?.workExperience ? (
+          !profileDetails?.workExperience || profileDetails?.workExperience?.length===0 ? (
             <>
             <p className="text-xs text-gray-600 mb-3">
               Narrate your professional journey and fast-track your way to new career heights!
@@ -121,8 +121,8 @@ export default function ResumeProfile({setActiveSection, setEditProfileModal}:{s
           ):(
             <div className="flex flex-wrap gap-2">
               {
-                Object.entries(profileDetails!.workExperience).map(([id, data]) => (
-                  <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
+                profileDetails!.workExperience.map((data) => (
+                  <div key={data.workId} className="p-4 border rounded-md shadow-sm flex gap-5">
                   <div className="">
                     <Avatar className="rounded-md font-bold text-[#95323d] border-1">
                     <AvatarFallback className="rounded-none bg-white" >{data.organisation.slice(0,2).toUpperCase()}</AvatarFallback>

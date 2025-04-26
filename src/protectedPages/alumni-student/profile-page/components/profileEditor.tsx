@@ -1262,7 +1262,7 @@ function WorkExperienceContent(){
 
   const [openDiscardProgress, setOpenDiscardProgress] = useState(false);
   useEffect(() => {
-    if (!profileDetails?.workExperience) {
+    if (!profileDetails?.workExperience || profileDetails?.workExperience?.length===0) {
       setShowEditExperience(true);
     }
   }
@@ -1304,8 +1304,8 @@ function WorkExperienceContent(){
       </div>
       {!showEditExperience && (
         <div className="grid grid-cols-1 gap-6">
-        {profileDetails?.workExperience ? Object.entries(profileDetails?.workExperience).map(([id, data]) => (
-          <div key={id} className="p-4 border rounded-md shadow-sm flex gap-5">
+        {profileDetails?.workExperience && profileDetails?.workExperience.length>0 ? profileDetails?.workExperience.map((data) => (
+          <div key={data.workId} className="p-4 border rounded-md shadow-sm flex gap-5">
             <div className="">
               <Avatar className="rounded-md font-bold text-[#95323d] border-1">
               <AvatarFallback className="rounded-none bg-white" >{data.organisation.slice(0,2).toUpperCase()}</AvatarFallback>
@@ -1319,7 +1319,7 @@ function WorkExperienceContent(){
                  <EllipsisVertical className="peer-checked:hidden" />
                  <X className="hidden peer-checked:block peer-checked:border-1 peer-checked:rounded-full peer-checked:bg-red-100 peer-checked:text-[#95323d]" />
                   <div id="editbox" className="peer-checked:flex-col text-start px-2 py-2 border-8 w-[160px] hidden peer-checked:absolute peer-checked:-translate-x-[90%] peer-checked:top-8 peer-checked:left-0 peer-checked:bg-white peer-checked:border peer-checked:border-gray-300 peer-checked:rounded-md peer-checked:flex peer-checked:items-center peer-checked:justify-center">
-                    <button onClick={()=>(setShowEditExperience(true),setCurrentExperience({id:id,...data}))} className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
+                    <button onClick={()=>(setShowEditExperience(true),setCurrentExperience({id:data.workId,...data}))} className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
                     <Pencil className="w-4" /> Edit 
                     </button>
                     <button className="flex justify-start w-full gap-3 items-center hover:cursor-pointer hover:bg-gray-100 hover:rounded-lg px-1 py-[5px]">
@@ -1418,7 +1418,7 @@ function WorkExperienceForm({currentExperience}:{currentExperience:(JobFormValue
     }
     const toastId = toast.loading('Loading...');
     try{
-      if (!profileDetails?.workExperience) {
+      if (!profileDetails?.workExperience || profileDetails?.workExperience.length === 0) {
           const profileCompletionPercentage = String(parseInt(profileDetails!.profileCompletionPercentage!.replace("%","")) + 20) + "%";
           await updateProfileDetails({...newData,profileCompletionPercentage});
           toast.success("Profile updated successfully!", {id: toastId});

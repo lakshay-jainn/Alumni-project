@@ -15,6 +15,7 @@ export default function AlumniProfilePage() {
   const {alumniId} = useParams()
   console.log(alumniId);
   const {aluminus,loading,error} = useFetchAlumniProfile(alumniId)
+  console.log(aluminus);
   const [messageText, setMessageText] = useState("")
   if (loading) {
     return <AlumniProfileLoading />
@@ -47,7 +48,9 @@ export default function AlumniProfilePage() {
     )
   }
   if (aluminus){
+  
   const currentWork = Object.entries(aluminus.workExperience)[Object.entries(aluminus.workExperience).length-1][1]
+  console.log(currentWork);
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-6">
@@ -145,7 +148,7 @@ export default function AlumniProfilePage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{aluminus.about}</p>
-
+                  
                   <div className="mt-6">
                     <h3 className="text-lg font-semibold mb-2">Skills</h3>
                     <div className="flex flex-wrap gap-2">
@@ -166,9 +169,9 @@ export default function AlumniProfilePage() {
                   <CardTitle>Experience</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
-                    {Object.entries(aluminus.workExperience).map(([id, exp]) => (
-                      <div key={id} className="border-l-2 border-[#a52a2a] pl-4 pb-2">
+                  <div className="space-y-6 max-h-[400px] overflow-y-auto">
+                    {aluminus.workExperience.map((exp) => (
+                      <div key={exp.workId} className="border-l-2 border-[#a52a2a] pl-4 pb-2">
                         <h3 className="text-lg font-semibold">{exp.designation}</h3>
                         <div className="flex items-center text-muted-foreground">
                           <Building className="h-4 w-4 mr-1" />
@@ -192,7 +195,7 @@ export default function AlumniProfilePage() {
                   <CardTitle>Education</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
+                  <div className="space-y-6 max-h-[400px] overflow-y-auto">
                     {aluminus.education && Object.entries(aluminus.education).map(([id,edu]) => (
                       <div key={id} className="border-l-2 border-[#a52a2a] pl-4 pb-2">
                         <h3 className="text-lg font-semibold">{edu.course} {edu.specialization}</h3>

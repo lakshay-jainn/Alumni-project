@@ -90,7 +90,7 @@ export function AlumniRequestsTable() {
                 </div>
               </TableCell>
               <TableCell>{request.basic.firstName + "" + (request.basic.lastName || "") }</TableCell>
-              <TableCell>{request.email}</TableCell>
+              <TableCell>{request.user.email}</TableCell>
               <TableCell>{request.enrollmentNumber}</TableCell>
               <TableCell>{request.batch}</TableCell>
               <TableCell>
@@ -184,7 +184,7 @@ export function AlumniRequestsTable() {
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Email:</div>
-                <div className="col-span-2">{selectedRequest.email}</div>
+                <div className="col-span-2">{selectedRequest.user.email}</div>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-sm">

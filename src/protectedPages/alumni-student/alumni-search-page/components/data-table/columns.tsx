@@ -1,19 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table"
 import AlumniNavigate from "../AlumniNavigate"
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  name: string
-  jobtitle: string
-  company: string
-  course: string
-  batch: string
-  img:string
-  
-}
+import { AlumniSearchResponse } from "@/api/types/alumniSearchTypes"
 
-export const columns: ColumnDef<Payment>[] = [
+
+export const columns: ColumnDef<AlumniSearchResponse>[] = [
   {
     accessorKey: "img",
     header: "",

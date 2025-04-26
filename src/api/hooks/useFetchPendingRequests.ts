@@ -24,6 +24,7 @@ export default function useFetchPendingRequests(refetchTable:boolean) {
     }
     fetchPendingRequests()
 },[refetchTable])
+    console.log(pendingRequests);
     return {pendingRequests, loading, error}
 }
 

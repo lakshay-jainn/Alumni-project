@@ -91,8 +91,8 @@ export interface profileDetailsResponse {
         }
     },
     workExperience:{
-        id:{
-            
+            workId: string
+            userId: string,
             designation:string,
             organisation:string,
             employmentType:string,
@@ -103,8 +103,7 @@ export interface profileDetailsResponse {
             remote:boolean,
             skills:string[],
             description:string,
-        }
-    },
+        }[],
     accomplishments:string | null,
     personalDetails:string | null,
     socialLinks:string | null,

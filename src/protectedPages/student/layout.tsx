@@ -56,7 +56,7 @@ function StudentPage() {
 
         {/* Content area */}
         <main className="flex-1">
-          <div className="h-[calc(100vh-4.5rem)] overflow-y-auto">
+          <div className="h-[calc(100vh-4.5rem)] overflow-y-auto scrollable-div-placeholder">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex justify-center">
                 <Outlet />

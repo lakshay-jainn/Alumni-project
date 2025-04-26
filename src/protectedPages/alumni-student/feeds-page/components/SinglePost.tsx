@@ -7,9 +7,10 @@ import { Card,  CardHeader } from "@/components/ui/card"
 import { Heart,MessageSquareText } from "lucide-react"
 import { LikePost } from "@/api/services/feedsService"
 import {toast} from 'sonner'
+import useGlobalAuth from "@/Auth/useGlobalAuth"
+import { Trash2 } from "lucide-react"
 
-
-
+import DeletePost from "./deletePostModal"
 
 
 
@@ -55,13 +56,14 @@ export function SinglePost({
   isLiked: initialIsLiked,
   commentsCount: initialCommentsCount
 }: PostProps) {
+  const {role} = useGlobalAuth()
   const location = useLocation()
   const navigate=useNavigate()
   const [likes, setLikes] = useState(initialLikes)
   const [isLiked, setIsLiked] = useState(initialIsLiked)
   const [SuccessfullIsLike, setSuccessfullIsLike] = useState(initialIsLiked)
   const [pendingLike, setPendingLike] = useState<boolean | null>(null)
-  
+  const [openDeleteModal,setOpenDeleteModal] = useState(false)
   // const lastTouchTimeRef = useRef<number>(0);
   const isTextOnly = !image
 
@@ -99,11 +101,20 @@ export function SinglePost({
 
 
   const PostClick=()=>{
-    if (location.pathname === 'feed/'+id) {
+    const currentPath = location.pathname;
+    if (currentPath.includes('feed/'+id) ) {
       return;
     }
-    navigate(`/feed/${id}`)
+    if (currentPath.startsWith("/admin/feeds")) {
+      navigate(`/admin/feed/${id}`, { replace: true });
+    } else if (currentPath.startsWith("/feeds")) {
+      navigate(`/feed/${id}`, { replace: true });
+    }
+  
 
+  }
+  const handleDelete = ()=>{
+    setOpenDeleteModal(true)
   }
   // const handleDoubleClick = useCallback(() => {
   //   toggleLike();
@@ -123,6 +134,10 @@ export function SinglePost({
 
   return (
     <>
+    {
+      role==="ADMIN" && <DeletePost postId={id} open={openDeleteModal} setOpen={setOpenDeleteModal}/>
+    }
+    
     {/*max-w-[1095px]*/}
     {/* onDoubleClick={handleDoubleClick} onTouchEnd={handleTouchEnd} */}
     {/* w-full mx-auto */}
@@ -141,12 +156,18 @@ export function SinglePost({
        
 
         <div className="ml-auto flex items-center">
+
         <p className="">{timestamp.slice(0,10)}</p>
         {/* {showAllComments && !isTextOnly && (
           <Button variant="ghost" size="icon" onClick={toggleComments} className="ml-auto lg:hidden">
             <ChevronLeft className="h-5 w-5" />
           </Button>
         )} */}
+                  {
+            role === "ADMIN" && (
+              <button onClick={handleDelete} className="rounded-xl bg-red-400 px-3 py-1 text-white ml-3"><Trash2 className="inline"/> <span className="inline-block h-full">Delete</span></button>
+            )
+          }
         </div>
       </CardHeader>
       {/* h-full */}

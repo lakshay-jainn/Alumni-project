@@ -10,6 +10,7 @@ export interface AlumniRequest {
     },
     batch:string | null,
     user:{
+        email:string,
         id:string,
         username:string,
         role: string,

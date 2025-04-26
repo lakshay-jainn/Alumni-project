@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,memo} from 'react';
 import {
   Home,
   Users,
@@ -11,7 +11,7 @@ import {
   Search,
 } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = memo(() => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState('');
   console.log(activeItem);
@@ -47,19 +47,20 @@ const Sidebar = () => {
       label: 'Connections',
       icon: Users,
       path: '/connections',
-      badge: 3,
+      badge: null,
     },
     { id: 'alumni', 
       label: 'Alumni', 
       icon: Search, 
-      path: '/alumni-search' },
-    { 
-      id: 'events', 
-      label: 'Events', 
-      icon: Calendar, 
-      path: '/events',
-      badge: null 
-    },
+      path: '/alumni-search',
+      badge: null, },
+    // { 
+    //   id: 'events', 
+    //   label: 'Events', 
+    //   icon: Calendar, 
+    //   path: '/events',
+    //   badge: null 
+    // },
     // {
     //   id: 'messages',
     //   label: 'Messages',
@@ -125,6 +126,6 @@ const Sidebar = () => {
       </nav>
     </div>
   );
-};
+});
 
 export default Sidebar;

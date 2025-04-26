@@ -64,9 +64,9 @@ export default function RegisterPage() {
       
       if (response.ok) {
         const token = responseData.token;
-        Login(token);
-        navigate("/dashboard");
-        toast.success("You have been registered successfully");
+        // Login(token);
+        // navigate("/dashboard");
+        toast.success("Your request has been sent. You can access the portal, Once the Admin approves");
       } else {
         throw new Error(responseData.message || "Registration failed");
       }
