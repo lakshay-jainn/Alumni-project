@@ -107,7 +107,7 @@ export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
         const post: PostProps={
           id:feed.id,
           author:{
-            name:feed.user.username ,
+            name:feed.user.profile.basic.firstName + " " + (feed.user.profile.basic.lastName && feed.user.profile.basic.lastName ) ,
             avatar:feed.user.profileImage,
           },
           timestamp:feed.createdAt,

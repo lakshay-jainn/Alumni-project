@@ -37,7 +37,7 @@ function SingleFeed({postId} : {postId : (string | undefined)}){
          const post ={
             id:singleFeed.id,
             author:{
-              name:singleFeed.user.username ,
+              name:singleFeed.user.profile.basic.firstName + " " + (singleFeed.user.profile.basic.lastName && singleFeed.user.profile.basic.lastName ) ,
               avatar:singleFeed.user.profileImage,
     
             },

@@ -14,9 +14,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card } from "@/components/ui/card"
-import { getPendingRequests } from "@/api/services/connectionService"
+import { getPendingRequests,acceptRejectRequest, getFollowersFollowing, sendConnectionReq } from "@/api/services/connectionService"
 type User = {
-  id: number
+  id: string
+  userId:string
   name: string
   username: string
   avatar: string
@@ -25,10 +26,16 @@ type User = {
 type UserListProps = {
   users: User[]
   actionLabel: string
-  onAction?: (userId: number) => void
+  onAction?: (id: string) => void
+  onReject?: (id: string) => void
+  onFollowBack? : (id:string,userId: string) => void
+  following?: User[] 
 }
 import { useEffect } from "react"
-const UserList = ({ users, actionLabel, onAction }: UserListProps) => (
+import { handleApiError } from "@/api/utils/apiUtils"
+import { toast } from "sonner"
+
+const UserList = ({ users, actionLabel, onAction,onReject,onFollowBack,following }: UserListProps) => (
   <ScrollArea className="h-[300px] w-full rounded-md">
     <div className="space-y-3 pr-2">
       {users.map((user) => (
@@ -36,10 +43,10 @@ const UserList = ({ users, actionLabel, onAction }: UserListProps) => (
           key={user.id} 
           className="p-3 sm:p-4 hover:bg-[#95323d]/5 transition-all duration-300 transform hover:scale-[1.01] group"
         >
-          <div className="flex items-center justify-between space-x-2 sm:space-x-4">
-            <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
-              <Avatar className="h-9 w-9 sm:h-11 sm:w-11 border-2 border-[#95323d]/10 group-hover:border-[#95323d]/20 transition-colors">
-                <AvatarImage src={user.avatar} alt={user.name} />
+          <div className="flex flex-wrap flex-1 gap-2 items-center justify-center xs:justify-between">
+            <div className="flex flex-wrap items-center  min-w-0 justify-center gap-2">
+              <Avatar className="h-9 w-9 sm:h-11 sm:w-11 border-2  border-[#95323d]/10 group-hover:border-[#95323d]/20 transition-colors">
+                <AvatarImage  src={user.avatar} alt={user.name} />
                 <AvatarFallback className="text-sm font-medium bg-[#95323d] text-white">
                   {user.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
@@ -49,12 +56,28 @@ const UserList = ({ users, actionLabel, onAction }: UserListProps) => (
                 <p className="text-xs text-[#95323d]/80 truncate">@{user.username}</p>
               </div>
             </div>
+
+            <div className="flex flex-col gap-2 flex-wrap justify-center">
+               {
+                
+              (actionLabel == "Accept") &&(following?.filter((fllw)=>fllw.username==user.username).length==0) && (
+              <Button
+              variant="ghost"
+              size="sm"
+              className={`min-w-[80px] sm:min-w-[90px] text-xs sm:text-sm font-medium text-[#95323d]
+                    border-gray-500  border-1 hover:bg-[#95323d]/5 hover:text-[#95323d]"
+              } transition-all duration-200 hover:scale-105`}
+              onClick = {()=>onFollowBack?.(user.id,user.userId)}
+              >Accept & Follow back</Button>  
+              )
+            }
+              <div className="flex gap-2 flex-wrap justify-center">
             <Button
               variant={actionLabel === "Requested" ? "ghost" : "outline"}
               size="sm"
               className={`min-w-[80px] sm:min-w-[90px] text-xs sm:text-sm font-medium ${
                 actionLabel === "Accept" 
-                  ? "bg-[#95323d] text-white hover:bg-[#95323d]/90 shadow-sm hover:shadow-[#95323d]/30" 
+                  ? "bg-[#95323d] text-white hover:bg-[#95323d]/90 shadow-sm hover:shadow-[#95323d]/30 hover:text-white" 
                   : actionLabel === "Requested"
                     ? "text-[#95323d]/60"
                     : "border-[#95323d] text-[#95323d] hover:bg-[#95323d]/5"
@@ -63,6 +86,23 @@ const UserList = ({ users, actionLabel, onAction }: UserListProps) => (
             >
               {actionLabel}
             </Button>
+            {
+              actionLabel == "Accept" && (
+              <Button
+              variant="ghost"
+              size="sm"
+              className={`min-w-[80px] sm:min-w-[90px] text-xs sm:text-sm font-medium text-[#95323d]
+                    border-gray-500  border-1 hover:bg-[#95323d]/5 hover:text-[#95323d]"
+              } transition-all duration-200 hover:scale-105`}
+              onClick = {()=>onReject?.(user.id)}
+              >Reject</Button>  
+              )
+            }
+            </div>
+            
+             
+            
+            </div>
           </div>
         </Card>
       ))}
@@ -75,45 +115,85 @@ export function SocialConnections() {
   const [requestTab, setRequestTab] = useState("recieved")
   
   // Mock state for handling follow actions
-  const [followers, setFollowers] = useState<User[]>([
-    { id: 1, name: "Alice Johnson", username: "alice_j", avatar: "/avatars/01.png" },
-    { id: 2, name: "Bob Smith", username: "bob_smith", avatar: "/avatars/02.png" },
-    { id: 7, name: "Grace Wilson", username: "grace_w", avatar: "/avatars/07.png" },
-    { id: 8, name: "Henry Taylor", username: "henry_t", avatar: "/avatars/08.png" },
-  ])
+  const [followers, setFollowers] = useState<User[]>([])
 
-  const [following, setFollowing] = useState<User[]>([
-    { id: 3, name: "Carol Williams", username: "carol_w", avatar: "/avatars/03.png" },
-    { id: 4, name: "David Brown", username: "david_b", avatar: "/avatars/04.png" },
-    { id: 9, name: "Isabel Martinez", username: "isabel_m", avatar: "/avatars/09.png" },
-  ])
+  const [following, setFollowing] = useState<User[]>([])
 
-  const [followRequests, setFollowRequests] = useState<User[]>([
-    { id: 5, name: "Eve Davis", username: "eve_d", avatar: "/avatars/05.png" },
-    { id: 6, name: "Frank Miller", username: "frank_m", avatar: "/avatars/06.png" },
-    { id: 10, name: "Jack Anderson", username: "jack_a", avatar: "/avatars/10.png" },
-  ])
+  const [followRequests, setFollowRequests] = useState<User[]>([])
 
-  const [sentRequests, setSentRequests] = useState<User[]>([
-    { id: 11, name: "Karen Lee", username: "karen_l", avatar: "/avatars/11.png" },
-    { id: 12, name: "Leo Garcia", username: "leo_g", avatar: "/avatars/12.png" },
-  ])
+  const [sentRequests, setSentRequests] = useState<User[]>([])
 
   // Handle different actions based on context
-  const handleUserAction = (userId: number, context: string) => {
+  const handleUserAction = async(Id: string, context: string) => {
     switch(context) {
       case 'followers':
-        setFollowers(followers.filter(user => user.id !== userId))
+        const tempFollowersTab = followers;
+        try{
+          setFollowers(followers.filter(user => user.id !== Id))
+          await acceptRejectRequest(Id,"REJECTED");
+        }catch(error){
+          setFollowers(tempFollowersTab)
+          const errorMsg = handleApiError(error);
+          toast.error(errorMsg.message);
+
+        }
         break
       case 'following':
-        setFollowing(following.filter(user => user.id !== userId))
+          const tempFollowingTab = following;
+        try{
+          setFollowing(following.filter(user => user.id !== Id))
+          await acceptRejectRequest(Id,"REJECTED");
+        }catch(error){
+          setFollowing(tempFollowingTab)
+          const errorMsg = handleApiError(error);
+          toast.error(errorMsg.message);
+
+        }
         break
+        
       case 'accept-request':
-        setFollowRequests(followRequests.filter(user => user.id !== userId))
-        setFollowers(prev => [...prev, followRequests.find(user => user.id === userId)!])
+        const tempFollowReqAcceptTab = followRequests;
+        const tempFollowersAcceptTab = followers;
+        try{
+          setFollowRequests(followRequests.filter(user => user.id !== Id))
+          setFollowers(prev => [...prev, followRequests.find(user => user.id === Id)!])
+          await acceptRejectRequest(Id,"ACCEPTED");
+        }catch(error){
+          setFollowRequests(tempFollowReqAcceptTab)
+          setFollowers(tempFollowersAcceptTab)
+          const errorMsg = handleApiError(error);
+          toast.error(errorMsg.message);
+          }
+
+        break
+      case 'follow-back':
+        const tempReq = sentRequests;
+        try{
+          setSentRequests([...followRequests.filter((follw)=>follw.userId==Id),...tempReq])
+          const res = await sendConnectionReq(Id)
+        }
+        catch(error){
+          setSentRequests(tempReq)
+          const errorMsg = handleApiError(error)
+          toast.error(errorMsg.message)
+           
+              }
+
+        break
+      case 'reject-request':
+        const tempFollowRequests = followRequests;
+        try{
+          setFollowRequests(followRequests.filter(user => user.id !== Id))
+          await acceptRejectRequest(Id,"REJECTED");
+        }catch(error){
+          setFollowRequests(tempFollowRequests)
+          const errorMsg = handleApiError(error);
+          toast.error(errorMsg.message);
+
+        }
         break
       case 'sent-requests':
-        setSentRequests(sentRequests.filter(user => user.id !== userId))
+        // setSentRequests(sentRequests.filter(user => user.id !== connectionId))
         break
       default:
         break
@@ -124,15 +204,66 @@ export function SocialConnections() {
 
 
   useEffect(()=>{
-    if (activeTab === "requests"){
-      getPendingRequests().then((res) => {
-        setFollowRequests(res.incoming.map((user: any) => ({
-          id: user.id,
-          name: user.name,
-          username: user.username,
-          avatar: user.avatar,
-        })))})}}
-        ,[activeTab])
+    const fetchSocials = async() =>{
+      try{
+         const res = await getPendingRequests();
+         const pending = res.pendingRequest ?? [];
+
+         const incoming = pending.incoming.map((user:any)=>({
+          id:user.id,
+          userId:user.senderId,
+          name:user.sender.username,
+          username: user.sender.username,
+          avatar: user.sender.profileImage,
+         })) ?? [];
+         const outgoing = pending.outgoing.map((user:any)=>({
+          id:user.id,
+          userId:user.receiverId,
+          name:user.receiver.username,
+          username:user.receiver.username,
+          avatar: user.receiver.profileImage,
+         })) ?? [];
+
+         setFollowRequests(incoming);
+         setSentRequests(outgoing);
+         
+
+      }catch(error){
+        const errorMsg = handleApiError(error);
+        toast.error(errorMsg.message);
+      }
+
+      try{
+         const res = await getFollowersFollowing();
+
+         const followers = res.followers.map((user:any)=>({
+          id:user.id,
+          userId:user.senderId,
+          name:user.sender.username,
+          username: user.sender.username,
+          avatar: user.sender.profileImage,
+         })) ?? [];
+         const following = res.following.map((user:any)=>({
+          id:user.id,
+          userId:user.receiverId,
+          name:user.receiver.username,
+          username:user.receiver.username,
+          avatar: user.receiver.profileImage,
+         })) ?? [];
+
+         setFollowers(followers);
+         setFollowing(following);
+         
+
+      }catch(error){
+        const errorMsg = handleApiError(error);
+        toast.error(errorMsg.message);
+      }
+
+    }
+      
+    fetchSocials();
+    },[])
   return (
     <div className="w-full max-w-2xl mx-auto p-4 sm:p-6">
       <Card className="p-4 sm:p-6 bg-white shadow-xl rounded-xl border-0">
@@ -203,6 +334,9 @@ export function SocialConnections() {
                     users={followRequests} 
                     actionLabel="Accept" 
                     onAction={(id) => handleUserAction(id, 'accept-request')}
+                    onReject={(id) => handleUserAction(id, 'reject-request')}
+                    onFollowBack={(id,userId)=> {handleUserAction(id, 'accept-request');handleUserAction(userId,'follow-back')}}
+                    following={following}
                   />
                 </TabsContent>
 

@@ -1,22 +1,47 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
-import { ArrowLeft, Mail, Linkedin, Twitter, Globe, MapPin, Building, GraduationCap, Calendar } from "lucide-react"
+import { ArrowLeft, MapPin, Building, GraduationCap, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import useFetchAlumniProfile from "@/api/hooks/useFetchAlumniProfile";
 import AlumniProfileLoading from "./components/loading"
+import { sendConnectionReq } from "@/api/services/connectionService";
+import { handleApiError } from "@/api/utils/apiUtils";
+import { toast } from "sonner";
 // This would typically come from an API or database
 
 
 export default function AlumniProfilePage() {
 
   const {alumniId} = useParams()
-  console.log(alumniId);
   const {aluminus,loading,error} = useFetchAlumniProfile(alumniId)
-  console.log(aluminus);
   const [messageText, setMessageText] = useState("")
+  const [connectBtn,setConnectBtn] = useState("CONNECT")
+
+  useEffect(()=>{
+    if (!loading && !error){
+      setConnectBtn(aluminus!.connectionStatus!);
+    }
+    
+  },[aluminus])
+  const sendConnectionRequest = async (recieverId:string) => {
+    if (connectBtn == "CONNECT"){
+      setConnectBtn("PENDING");
+      try{
+        const res = await sendConnectionReq(recieverId);
+      }catch(error : any){
+        const errorMsg = handleApiError(error)
+        toast.error(errorMsg.message)
+        setConnectBtn("CONNECT")
+      }
+    }else{
+      if (connectBtn == "PENDING") toast.error("you have already sent a request");
+      if (connectBtn == "CONNECTED") toast.error("you are already connected");
+    }
+  }
+
   if (loading) {
     return <AlumniProfileLoading />
   }
@@ -125,7 +150,7 @@ export default function AlumniProfilePage() {
                   </Button>
                 </div> */}
 
-                <Button className="w-full mt-4 bg-[#a52a2a] hover:bg-[#8b2323]">Connect</Button>
+                <Button onClick={()=>sendConnectionRequest(alumniId!)} className="w-full mt-4 bg-[#a52a2a] hover:bg-[#8b2323]">{connectBtn}</Button>
               </div>
             </CardContent>
           </Card>

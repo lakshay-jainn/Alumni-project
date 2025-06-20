@@ -112,7 +112,8 @@ export interface profileDetailsResponse {
         id:string,
         username:string,
         profileImage:string,
-    }
+    },
+    connectionStatus?:string
 }
 
     

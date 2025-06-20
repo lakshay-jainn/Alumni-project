@@ -29,4 +29,13 @@ export interface Event {
     eventData: string | null;
     createdAt: string;
 }
-
+export interface NotifResponse{
+    id: string,
+    name: string,
+    action: string,
+    description: string,
+    url?: string,
+    isRead: boolean,
+    logo: string,
+    createdAt:string
+}
