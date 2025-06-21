@@ -8,8 +8,8 @@ import { debounce } from 'lodash'
 import SkeletonCard from "@/components/ui/SkeletonCard";
 
 
-export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
-  const [feeds,setFeeds,loading,error]=useFetchFeeds({fetchAgain});
+export default function Feeds({fetchAgain,communities}:{fetchAgain:boolean,communities:string[]}) {
+  const [feeds,setFeeds,loading,error]=useFetchFeeds({fetchAgain,communities});
   const [feedsExpanded,setFeedsExpanded]=useState(false);
   const [skipFeeds,setSkipFeeds]=useState(0);
   const [scrollLoading,setScrollLoading]=useState(false);
@@ -44,7 +44,16 @@ export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
           
               setSkipFeeds((prev)=> prev+15)
               let url;
-              url=`/posts?skip=${skipFeeds+15}&take=15`
+              
+              if (!communities.includes("Connections")) {
+                    url=`/posts?skip=${skipFeeds+15}&take=15&communities=${communities}`
+                }
+                else {
+                    let justCommunities = communities.filter((comm) => comm!="Connections")
+                    url=`/posts?skip=${skipFeeds+15}&take=15&communities=${justCommunities}&onlyConnections=true`
+                  
+                }
+            
               const responseData=await FetchFeeds(url);
               const PostsFromDb=responseData.posts;
               console.log('posts from db',PostsFromDb)
@@ -116,6 +125,7 @@ export default function Feeds({fetchAgain}:{fetchAgain:boolean}) {
           likes:feed.likesCount,
           isLiked:feed.isLiked,
           commentsCount:feed.commentCount,
+          community:feed.Community
         }       
         console.log(feed);
         return(<SinglePost key={post.id} {...post} />)

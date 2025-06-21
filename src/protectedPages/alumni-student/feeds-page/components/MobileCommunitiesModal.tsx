@@ -2,7 +2,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 import Communities from './Communities';
 import { useState } from 'react';
 import {ListFilter} from 'lucide-react'
-function MobileCommunitiesModal(){
+function MobileCommunitiesModal({children}:{children:React.ReactNode}){
     const [communitiesModal,setCommunitiesModal] = useState(false);
     return(
     <Dialog open={communitiesModal} onOpenChange={setCommunitiesModal}>
@@ -13,9 +13,9 @@ function MobileCommunitiesModal(){
         </DialogTrigger>
         <DialogContent className="rounded-2xl">
         <DialogDescription></DialogDescription>
-            <DialogTitle className='text-2xl'>Communities
+            <DialogTitle className='text-2xl'>
             </DialogTitle>
-            <Communities />
+            {children}
         </DialogContent>
     
     </Dialog>

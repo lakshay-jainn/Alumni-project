@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import axiosClient from "../axios/axiosClient";
 import {InitialFeedsResponse } from "@/api/types/FeedsTypes"
 import { handleApiError } from "../utils/apiUtils";
-export default function useFetchFeeds({fetchAgain}:{fetchAgain:boolean}) {
+export default function useFetchFeeds({fetchAgain,communities}:{fetchAgain:boolean,communities:string[]}) {
     const [feeds,setFeeds] = useState<Partial<InitialFeedsResponse> | null>(null)
     const [loading,setLoading]= useState<boolean>(true)
     const [error,setError] = useState <boolean | any>(false)
@@ -12,8 +12,13 @@ export default function useFetchFeeds({fetchAgain}:{fetchAgain:boolean}) {
         const fetchFeeds = async() =>{
             try{
                 let response;
-                response=await axiosClient.get('/posts')
-                
+                if (!communities.includes("Connections")) {
+                     response=await axiosClient.get(`/posts?communities=${communities}`)
+                }
+                else {
+                    let justCommunities = communities.filter((comm) => comm!="Connections")
+                    response = await axiosClient.get(`/posts?communities=${justCommunities}&onlyConnections=true`)
+                }
             
                 const data=response.data;
 

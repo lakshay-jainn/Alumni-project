@@ -13,7 +13,7 @@ function FeedsPage(){
     return (
         <main className={`relative w-full my-2 `}>
         <section className="w-full"> 
-            <div className="flex-1 max-w-[35rem] mx-auto">
+            <div className="flex-1  mx-auto">
                 
                     <FeedsWithCommunities fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                 
@@ -24,11 +24,11 @@ function FeedsPage(){
                 <div className="justify-center w-full flex items-center border-t-2 py-2">
                 <Dialog open={createPostModal} onOpenChange={setCreatePostModal}>
                         <DialogTrigger asChild>
-                            <button onClick={()=>setCreatePostModal(true)} className="bg-linear-to-r from-red-400 to-orange-400 h-fit rounded-full p-3">
+                            <button onClick={()=>setCreatePostModal(true)} className="bg-linear-to-r from-red-800 to-red-800 h-fit rounded-full p-3">
                                 <CirclePlus className="w-6 h-6 text-white" />
                             </button>
                         </DialogTrigger>
-                        <DialogContent className="rounded-2xl">
+                        <DialogContent className="rounded-2xl max-h-[95vh] overflow-y-auto">
                         <DialogDescription></DialogDescription>
                             <DialogTitle>
                             </DialogTitle>

@@ -207,7 +207,7 @@ export function SocialConnections() {
     const fetchSocials = async() =>{
       try{
          const res = await getPendingRequests();
-         const pending = res.pendingRequest ?? [];
+         const pending = res.pendingRequest;
 
          const incoming = pending.incoming.map((user:any)=>({
           id:user.id,
@@ -229,13 +229,14 @@ export function SocialConnections() {
          
 
       }catch(error){
+        console.log(error,"nooo");
         const errorMsg = handleApiError(error);
         toast.error(errorMsg.message);
       }
 
       try{
          const res = await getFollowersFollowing();
-
+         
          const followers = res.followers.map((user:any)=>({
           id:user.id,
           userId:user.senderId,
@@ -243,7 +244,7 @@ export function SocialConnections() {
           username: user.sender.username,
           avatar: user.sender.profileImage,
          })) ?? [];
-         const following = res.following.map((user:any)=>({
+         const following = res.followings.map((user:any)=>({
           id:user.id,
           userId:user.receiverId,
           name:user.receiver.username,
@@ -256,6 +257,7 @@ export function SocialConnections() {
          
 
       }catch(error){
+        console.log(error);
         const errorMsg = handleApiError(error);
         toast.error(errorMsg.message);
       }

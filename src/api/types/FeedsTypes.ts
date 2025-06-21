@@ -8,6 +8,10 @@ export interface InitialFeedsResponse{
     comments:any,
     createdAt:string,
     commentCount:number,
+    Community:{
+        name:string,
+        description:string
+    }
 
 }
 

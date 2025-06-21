@@ -47,6 +47,7 @@ function SingleFeed({postId} : {postId : (string | undefined)}){
             likes:singleFeed.likesCount,
             commentsCount:singleFeed.commentCount,
             isLiked:singleFeed.isLiked,
+            community:singleFeed.Community,
             comments:comments.filter((comment:any)=>comment.type==='comment') || [],
             whisperComments:comments.filter((comment:any)=>comment.type==='whisper') || []
           }       

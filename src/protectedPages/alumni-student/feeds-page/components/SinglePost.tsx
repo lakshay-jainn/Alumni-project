@@ -38,6 +38,10 @@ export interface PostProps {
   caption: string
   likes: number
   isLiked: boolean
+  community:{
+    name:string,
+    description:string
+  }
   comments?: Comment[]
 }
 
@@ -54,7 +58,8 @@ export function SinglePost({
   caption,
   likes: initialLikes,
   isLiked: initialIsLiked,
-  commentsCount: initialCommentsCount
+  commentsCount: initialCommentsCount,
+  community
 }: PostProps) {
   const {role} = useGlobalAuth()
   const location = useLocation()
@@ -155,10 +160,11 @@ export function SinglePost({
         </div>
        
 
-        <div className="ml-auto flex items-center">
-
-        <p className="">{timestamp.slice(0,10)}</p>
-        {/* {showAllComments && !isTextOnly && (
+        <div className="ml-auto flex items-center gap-2">
+           <p className="">{timestamp.slice(0,10)}</p>
+        <span className="rounded-2xl border-1 py-1 px-2 text-white bg-red-800">{community.name}</span>
+       
+        {/* {showAllCommen  ts && !isTextOnly && (
           <Button variant="ghost" size="icon" onClick={toggleComments} className="ml-auto lg:hidden">
             <ChevronLeft className="h-5 w-5" />
           </Button>

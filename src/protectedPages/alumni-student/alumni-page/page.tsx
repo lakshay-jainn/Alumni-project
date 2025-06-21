@@ -18,27 +18,28 @@ export default function AlumniProfilePage() {
   const {alumniId} = useParams()
   const {aluminus,loading,error} = useFetchAlumniProfile(alumniId)
   const [messageText, setMessageText] = useState("")
-  const [connectBtn,setConnectBtn] = useState("CONNECT")
+  const [connectBtn,setConnectBtn] = useState("FOLLOW")
 
   useEffect(()=>{
     if (!loading && !error){
-      setConnectBtn(aluminus!.connectionStatus!);
+      if (aluminus!.connectionStatus! == "ACCEPTED") setConnectBtn("FOLLOWING")
+      else setConnectBtn("FOLLOW")
     }
     
   },[aluminus])
   const sendConnectionRequest = async (recieverId:string) => {
-    if (connectBtn == "CONNECT"){
+    if (connectBtn == "FOLLOW"){
       setConnectBtn("PENDING");
       try{
         const res = await sendConnectionReq(recieverId);
       }catch(error : any){
         const errorMsg = handleApiError(error)
         toast.error(errorMsg.message)
-        setConnectBtn("CONNECT")
+        setConnectBtn("FOLLOW")
       }
     }else{
       if (connectBtn == "PENDING") toast.error("you have already sent a request");
-      if (connectBtn == "CONNECTED") toast.error("you are already connected");
+      if (connectBtn == "FOLLOWING") toast.error("you are already following");
     }
   }
 

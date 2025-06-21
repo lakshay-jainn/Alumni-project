@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import {  useForm } from "react-hook-form"
 import { z } from "zod"
-import { useState,useCallback,useRef } from "react"
+import { useState,useCallback,useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -12,20 +12,22 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
-import { createPost } from "@/api/services/feedsService"
+import { createPost, FetchCommunities } from "@/api/services/feedsService"
 import { uploadImg } from "@/api/services/imageService"
 import { Input } from "@/components/ui/input"
 import { useDropzone } from "react-dropzone";
-import { ImagePlus,CircleX } from "lucide-react";
+import { ImagePlus,CircleX,UsersRound } from "lucide-react";
 import { toast } from "sonner";
 import { postUploadPayload } from "@/api/types/profileDetailsTypes"
 import { handleApiError } from "@/api/utils/apiUtils"
+
 
 const profileFormSchema = z
   .object({
     image: z.instanceof(File).optional(),
     // Mark text as optional here and handle its validation later
     name: z.string().optional(),
+    community:z.string(),
   })
   .superRefine((data : any, ctx : any) => {
     // Check if neither image is provided nor text meets the minimum length
@@ -41,17 +43,35 @@ const profileFormSchema = z
   //now i am assigning the defined restrictions above to a type
   type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-  
+
 export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} : {setCreatePostModal?:(value:boolean)=>void,setFetchAgain:(value: (newValue : boolean)=>boolean )=>void}){
     const [preview, setPreview] = useState<string | ArrayBuffer | null>('');
     const inputFileRef = useRef<HTMLInputElement | null>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [communities,setCommunities] = useState([]);
+    const [openChoser,setOpenChooser] = useState(false);
+    const [selectedCommunity,setSelectedCommunity] = useState();
     const adjustHeight = () => {
       if (textareaRef.current) {
           textareaRef.current.style.height = "auto"; // Reset height to auto before measuring
           textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set to content height
       }
   };
+  const communityFetcher = async() =>{
+    try{
+      const res = await FetchCommunities();
+      setCommunities(res)
+    }
+    catch(error){
+      const errorMsg = handleApiError(error);
+      toast.error(errorMsg.message);
+      
+    }
+
+  }  
+  useEffect(()=>{
+    communityFetcher();
+  },[])
 
 
     const form = useForm<ProfileFormValues>({
@@ -59,6 +79,7 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
         defaultValues: {
           name: "",
           image: new File([""], "filename"),
+
         },
         mode: "onSubmit",
       });
@@ -112,7 +133,7 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
       }
 
     async function onSubmit(data : ProfileFormValues) {
-
+            
             const updatedFields: postUploadPayload = {};
             if (data.image && data.image.size !== 0){
               // try{
@@ -148,6 +169,8 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
             if (data.name) {
               updatedFields.caption = data.name;
             }
+           
+            updatedFields.communityId = data.community;
           
             // Send the updated fields to the backend
             try {
@@ -156,6 +179,8 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
               setCreatePostModal(false);
               setFetchAgain((prev : boolean) => !prev);
               form.reset();
+              setOpenChooser(false)
+              setSelectedCommunity(undefined)
               setPreview(null);
 
             } catch (error) {
@@ -165,10 +190,20 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
               
             }
           }
-        
+    const CommunityChooser = ({communities=[]}) =>{
+    return (
+      <div className="w-full cursor-auto rounded-xl border-2 flex justify-center items-center">
+        <div className="p-5 bg-white text-black flex flex-wrap gap-2 justify-center">
+          {communities.map((community:any)=>(
+            <button onClick={()=>{form.setValue("community",community.id);setSelectedCommunity(community.name)}} key={community.id} className={`p-2 rounded-2xl border-2 cursor-pointer hover:bg-red-800 hover:text-white hover:scale-110 transition-transform duration-300 ${community.name == selectedCommunity && "scale-110 bg-red-800 text-white"}`}>{community.name}</button>
+          ))}
+        </div>
+      </div>
+    );
+  }
     return(
         
-
+        <>
         <section className="rounded-2xl w-full mx-auto px-5 py-3 mb-5 border-2 bg-white">
 
             <Form {...form}>
@@ -218,13 +253,14 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
                     />
 
                     <div className="flex justify-between items-center  mt-2">
+                    <div className="flex gap-4 items-center">
                     <FormField
                     control={form.control}
                     name="image"
                     render={() => (
                             <FormItem className="">
                                 <FormControl>
-                                <div {...getRootProps()} className="cursor-pointer  w-fit">
+                                <div {...getRootProps()} className="cursor-pointer  w-fit hover:bg-red-800 hover:text-white hover:scale-110 transition-transform duration-300 rounded-2xl p-2 border-2">
                                     <ImagePlus />
                                     <Input ref={inputFileRef} {...getInputProps()} type="file" />
 
@@ -240,6 +276,27 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
                             </FormItem>
                             )}
                     />
+                  <FormField
+                    control={form.control}
+                    name="community"
+                    render={() => (
+                            <FormItem className="flex gap-5 items-center">
+
+                                <FormControl>
+                                  <div className="flex items-center gap-2">
+                                  <button className="flex items-center gap-2 cursor-pointer  w-fit border-2 rounded-2xl p-2 hover:bg-red-800 hover:text-white hover:scale-110 transition-transform duration-300" onClick={()=>setOpenChooser((prev)=>!prev)}><UsersRound className="inline" />Choose a tag</button>
+                                  <FormMessage>
+                               
+                                  </FormMessage>
+                                  
+                                </div>
+                                </FormControl>
+                                
+                            </FormItem>
+                            )}
+                    />
+                    </div>
+                    
                     <Button disabled={form.formState.isSubmitting} className="bg-red-800 hover:bg-[#7c2a32] rounded-full" type="submit">Post</Button>
                     </div>
                     
@@ -251,8 +308,11 @@ export default function CreatePost({setCreatePostModal = ()=>{},setFetchAgain} :
                     
                 </form>
             </Form>
-
+        
         </section>
+        {openChoser && <CommunityChooser communities={communities} />}
+
+        </>
     )
 }
 
