@@ -4,7 +4,7 @@ import axiosClient from "@/api/axios/axiosClient.ts";
 
 export async function getData(skip: number = 0 , take: number = 30) {
 
-  const BACKEND_URL = `/alumni?skip=${skip}&${take}`;
+  const BACKEND_URL = `/alumni?skip=${skip}&take=${take}`;
     try {
       const res= await axiosClient.get(BACKEND_URL);
       const data=res.data
