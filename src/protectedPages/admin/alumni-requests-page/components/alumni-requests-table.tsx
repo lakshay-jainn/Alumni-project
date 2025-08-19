@@ -70,7 +70,7 @@ export function AlumniRequestsTable() {
             <TableHead className="">Profile</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Enrollment No.</TableHead>
+            <TableHead>Roll No.</TableHead>
             <TableHead>Graduation Year</TableHead>
             <TableHead className="">Alumni/Student</TableHead>
             <TableHead>Status</TableHead>
@@ -91,7 +91,7 @@ export function AlumniRequestsTable() {
               </TableCell>
               <TableCell>{request.basic.firstName + "" + (request.basic.lastName || "") }</TableCell>
               <TableCell>{request.user.email}</TableCell>
-              <TableCell>{request.enrollmentNumber}</TableCell>
+              <TableCell>{request.user.rollNumber}</TableCell>
               <TableCell>{request.batch}</TableCell>
               <TableCell>
                 {request.user.role}
@@ -188,8 +188,8 @@ export function AlumniRequestsTable() {
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-sm">
-                <div className="font-medium">Enrollment No:</div>
-                <div className="col-span-2">{selectedRequest.enrollmentNumber}</div>
+                <div className="font-medium">Roll No:</div>
+                <div className="col-span-2">{selectedRequest.user.rollNumber}</div>
               </div>
 
               {/* <div className="grid grid-cols-3 gap-2 text-sm">

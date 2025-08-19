@@ -34,7 +34,7 @@ export function RecentRequests() {
               <p className="text-sm font-medium leading-none">{request.basic.firstName+" "+ (request.basic.lastName || "")}</p>
               <p className="text-sm text-muted-foreground">{request.email}</p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline">{request.enrollmentNumber}</Badge>
+                <Badge variant="outline">{request.user.rollNumber}</Badge>
                 <Badge variant="secondary">Alumni</Badge>
               </div>
             </div>
@@ -76,12 +76,12 @@ export function RecentRequests() {
 
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">Email:</div>
-                <div className="col-span-2">{selectedRequest.email}</div>
+                <div className="col-span-2">{selectedRequest.user.email}</div>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-sm">
-                <div className="font-medium">Enrollment No:</div>
-                <div className="col-span-2">{selectedRequest.enrollmentNumber}</div>
+                <div className="font-medium">College Roll No:</div>
+                <div className="col-span-2">{selectedRequest.user.rollNumber}</div>
               </div>
 {/* 
               <div className="grid grid-cols-3 gap-2 text-sm">

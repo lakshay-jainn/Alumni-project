@@ -19,8 +19,8 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  enrollmentNumber: z.string().min(5, {
-    message: "Enrollment number must be at least 5 characters.",
+  rollNumber: z.string().min(5, {
+    message: "Roll number must be at least 5 characters.",
   }),
   dateOfBirth: z.string().min(1, {
     message: "Date of birth is required.",
@@ -40,7 +40,7 @@ export function AddMemberForm() {
     defaultValues: {
       name: "",
       email: "",
-      enrollmentNumber: "",
+      rollNumber: "",
       dateOfBirth: "",
       role: "alumni",
       graduationYear: "",
@@ -51,7 +51,7 @@ export function AddMemberForm() {
   async function onSubmit(newMember:any) {
   
     try{
-      await SignupAPI({username:newMember.enrollmentNumber, email:newMember.email, password:newMember.enrollmentNumber, isAlumni:newMember.role === "alumni"});
+      await SignupAPI({username:newMember.rollNumber, email:newMember.email, password:newMember.rollNumber, isAlumni:newMember.role === "alumni"});
       toast.success("User added successfully")
     }
     catch(e){
@@ -104,12 +104,12 @@ export function AddMemberForm() {
 
               <FormField
                 control={form.control}
-                name="enrollmentNumber"
+                name="rollNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Enrollment Number</FormLabel>
+                    <FormLabel>Roll Number</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter enrollment number" {...field} />
+                      <Input placeholder="Enter roll number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,7 +217,7 @@ export function AddMemberForm() {
                   <Label htmlFor="csv-upload">Upload CSV</Label>
                   <Input id="csv-upload" type="file" accept=".csv" />
                   <p className="text-sm text-muted-foreground">
-                    CSV should have columns: name, email, enrollment_number, date_of_birth, role
+                    CSV should have columns: name, email, roll_number, date_of_birth, role
                   </p>
                 </div>
               </CardContent>

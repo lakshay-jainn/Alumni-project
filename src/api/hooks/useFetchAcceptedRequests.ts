@@ -20,6 +20,7 @@ export default function useFetchAcceptedRequests() {
         setAcceptedRequests(response.data)
       }catch(error){
         const errorMessage = handleApiError(error);
+        console.log(errorMessage);
         if (errorMessage.message === "Unauthorized") {
           setError("Unauthorized access. Please log in again.");
         }

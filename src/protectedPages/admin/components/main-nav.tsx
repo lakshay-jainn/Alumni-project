@@ -8,9 +8,9 @@ export function MainNav() {
 
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
-      <Link to="/" className="text-xl font-bold">
+      <h1 className="text-xl font-bold">
         Alumni Connect
-      </Link>
+      </h1>
       <Link
         to="/admin"
         className={cn(

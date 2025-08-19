@@ -1,4 +1,5 @@
 export interface AlumniRequest {
+  
     enrollmentNumber: string,
     status: string,
     userId : string,
@@ -10,6 +11,7 @@ export interface AlumniRequest {
     },
     batch:string | null,
     user:{
+        rollNumber:string,
         email:string,
         id:string,
         username:string,
