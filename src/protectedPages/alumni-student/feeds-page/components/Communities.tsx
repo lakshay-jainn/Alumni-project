@@ -25,6 +25,8 @@ const Communities = memo(({setSelectedCommunities,selectedCommunities}:{setSelec
         <>
         <h1 className="px-3 font-bold text-3xl">Filters</h1>
         <div className="flex flex-col gap-2  max-h-[70vh] overflow-y-auto p-5">
+            <SingleCommunity  id={"connection-tab"} name={"Connections"} description={"Your Connections"}  setSelectedCommunities={setSelectedCommunities} selectedCommunities={selectedCommunities}/>
+
             {communities.map((community : InitialCommunitiesResponse)=>(
                 <SingleCommunity key={community.id}  {...community} setSelectedCommunities={setSelectedCommunities} selectedCommunities={selectedCommunities}/>
             ))}

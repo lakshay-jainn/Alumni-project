@@ -18,7 +18,9 @@ export function RecentRequests() {
       setViewDialogOpen(true)
     }
   }
-
+  const Capitalize = (totalString : string) => {
+    return totalString[0].toUpperCase() + totalString.slice(1).toLowerCase()
+  }
   if (loading) return <div>Loading...</div>
   if (error) return <div>{error}</div>
   return (
@@ -35,7 +37,7 @@ export function RecentRequests() {
               <p className="text-sm text-muted-foreground">{request.email}</p>
               <div className="flex items-center gap-2 mt-1">
                 <Badge variant="outline">{request.user.rollNumber}</Badge>
-                <Badge variant="secondary">Alumni</Badge>
+                <Badge variant="secondary">{Capitalize(request.user.role)}</Badge>
               </div>
             </div>
           </div>
@@ -50,7 +52,7 @@ export function RecentRequests() {
         <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Alumni Request Details</DialogTitle>
+              <DialogTitle>{Capitalize(selectedRequest.user.role)} Request Details</DialogTitle>
               <DialogDescription>Complete information about the alumni request</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">

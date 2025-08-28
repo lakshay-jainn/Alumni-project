@@ -324,6 +324,7 @@ import {toast} from "sonner"
 function BasicDetailsContent() {
   // For handling the profile image preview and dropzone
   const { profileDetails,setRefetch } = useProfile();
+  console.log(profileDetails);
   const [imageUpdateOpen, setImgUpdateOpen] = useState(false);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(profileDetails!.profileImage || null);
 

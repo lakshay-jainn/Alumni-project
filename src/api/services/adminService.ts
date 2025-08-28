@@ -10,3 +10,8 @@ export async function CreateCommunity(name:any,description:any){
     const response = await adminAxiosClient.post("/admin/create-community",{name,description})
     return response.data
 }
+
+export async function createBulkUser(form: any ){
+    const response = await adminAxiosClient.post("/admin/create-bulk-users",form)
+    return response.data
+}

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from 'sonner'
 import { handleApiError } from "@/api/utils/apiUtils"
 import { SignupAPI } from "@/api/services/authService"
+import { createBulkUser } from "@/api/services/adminService"
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -29,11 +30,15 @@ const formSchema = z.object({
     message: "Please select a role.",
   }),
   graduationYear: z.string().optional(),
-  department: z.string().optional(),
+  department: z.string().optional(), 
+
+  csvFile: z.instanceof(File).optional()
 })
 
 export function AddMemberForm() {
   const [role, setRole] = useState("alumni")
+  const [activeTab, setActiveTab] = useState("individual")
+  const [csvFile,setCsvFile] = useState()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -45,11 +50,15 @@ export function AddMemberForm() {
       role: "alumni",
       graduationYear: "",
       department: "",
+      csvFile: new File([], "empty.csv", { type: "text/csv" }),
     },
   })
-
-  async function onSubmit(newMember:any) {
-  
+  const loadDaFile = (event : any) =>{
+    setCsvFile(event.target.files[0])
+  }
+  const onSubmit = async (newMember:any) => {
+    
+    if (activeTab == "individual"){
     try{
       await SignupAPI({username:newMember.rollNumber, email:newMember.email, password:newMember.rollNumber, isAlumni:newMember.role === "alumni"});
       toast.success("User added successfully")
@@ -59,15 +68,28 @@ export function AddMemberForm() {
       console.log(error.message)
       toast.error(error.message);
     }
-      
-
+  } 
     form.reset()
+  }
+  const onBulkUpload = async(event : any) => {
+    event.preventDefault();
+    console.log("nigga bro i will kill you");
+    try{
+      const formData = new FormData();
+      formData.append("csvFile",csvFile!)
+      const data = await createBulkUser(formData);
+      toast.success(data.message)
+    }
+    catch(error){
+      const errorMsg = handleApiError(error);
+      toast.error(errorMsg.message);
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <Tabs defaultValue="individual" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} defaultValue="individual" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="individual">Individual</TabsTrigger>
             <TabsTrigger value="bulk">Bulk Upload</TabsTrigger>
@@ -207,25 +229,29 @@ export function AddMemberForm() {
           </TabsContent>
 
           <TabsContent value="bulk">
-            <Card className="bg-white">
-              <CardHeader>
-                <CardTitle>Bulk Upload</CardTitle>
-                <CardDescription>Upload a CSV file with member details</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="csv-upload">Upload CSV</Label>
-                  <Input id="csv-upload" type="file" accept=".csv" />
-                  <p className="text-sm text-muted-foreground">
-                    CSV should have columns: name, email, roll_number, date_of_birth, role
-                  </p>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline">Download Template</Button>
-                <Button>Upload</Button>
-              </CardFooter>
-            </Card>
+
+ 
+              <Card className="bg-white">
+                <CardHeader>
+                  <CardTitle>Bulk Upload</CardTitle>
+                  <CardDescription>Upload a CSV file with member details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="csv-upload">Upload CSV</Label>
+                    <Input id="csv-upload" name = "csvFile" type="file" accept=".csv" onChange={loadDaFile} />
+                    <p className="text-sm text-muted-foreground">
+                      CSV should have columns: name, email, roll_number, date_of_birth, role
+                    </p>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button variant="outline">Download Template</Button>
+                  <Button  onClick={onBulkUpload}>Upload</Button>
+                </CardFooter>
+              </Card>
+
           </TabsContent>
         </Tabs>
       </form>
